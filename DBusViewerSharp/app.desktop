@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=DBusViewerSharp
+Exec=dbusviewersharp
+Terminal=false
+Categories=Development;

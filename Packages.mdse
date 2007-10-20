@@ -1,0 +1,12 @@
+<CombineEntry name="Packages" fileversion="2.0" ctype="PackagingProject">
+  <Packages>
+    <Package name="Tarball">
+      <Builder rootEntry="DBusViewerSharp.mds" TargetDirectory="/home/jeremie/Projects/DbusViewerSharp/DBusViewerSharp/DBusViewerSharp" DefaultConfiguration="Debug" GenerateAutotools="False" ctype="TarballDeployTarget">
+        <ChildEntries>
+          <Entry>DBusViewerSharp/DBusViewerSharp.mdp</Entry>
+          <Entry>XmlAutoBinding/XmlAutoBinding.mdp</Entry>
+        </ChildEntries>
+      </Builder>
+    </Package>
+  </Packages>
+</CombineEntry>

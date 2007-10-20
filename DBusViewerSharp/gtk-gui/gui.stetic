@@ -1,0 +1,377 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<stetic-interface>
+  <configuration>
+    <images-root-path>..</images-root-path>
+    <target-gtk-version>2.10.2</target-gtk-version>
+  </configuration>
+  <widget class="Gtk.Window" id="MainWindow" design-size="528 490">
+    <action-group name="Default">
+      <action id="File">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">_File</property>
+        <property name="ShortLabel" translatable="yes">_File</property>
+      </action>
+      <action id="SelectBus">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Select Bus</property>
+        <property name="ShortLabel" translatable="yes">Select Bus</property>
+      </action>
+      <action id="SessionBus">
+        <property name="Type">Radio</property>
+        <property name="Label" translatable="yes">Session Bus</property>
+        <property name="ShortLabel" translatable="yes">Session Bus</property>
+        <property name="DrawAsRadio">False</property>
+        <property name="Active">False</property>
+        <property name="Value">0</property>
+        <property name="Group">group1</property>
+        <signal name="Activated" handler="OnSessionBusActivated" />
+      </action>
+      <action id="SystemBus">
+        <property name="Type">Radio</property>
+        <property name="Label" translatable="yes">System Bus</property>
+        <property name="ShortLabel" translatable="yes">System Bus</property>
+        <property name="DrawAsRadio">False</property>
+        <property name="Active">False</property>
+        <property name="Value">0</property>
+        <property name="Group">group1</property>
+        <signal name="Activated" handler="OnSystemBusActivated" />
+      </action>
+      <action id="quit">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">_Quitter</property>
+        <property name="ShortLabel" translatable="yes">_Quitter</property>
+        <property name="StockId">gtk-quit</property>
+        <signal name="Activated" handler="OnDeleteEvent" />
+      </action>
+      <action id="quit1">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">_Quitter</property>
+        <property name="ShortLabel" translatable="yes">_Quitter</property>
+        <property name="StockId">gtk-quit</property>
+        <signal name="Activated" handler="OnDeleteEvent" />
+      </action>
+    </action-group>
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">DBusViewerSharp</property>
+    <property name="Icon">resource:icon.png</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <property name="AllowShrink">True</property>
+    <property name="DefaultWidth">800</property>
+    <property name="DefaultHeight">600</property>
+    <child>
+      <widget class="Gtk.VBox" id="vbox1">
+        <property name="MemberName" />
+        <property name="ShowScrollbars">False</property>
+        <property name="Spacing">6</property>
+        <child>
+          <widget class="Gtk.MenuBar" id="menubar1">
+            <property name="MemberName" />
+            <property name="ShowScrollbars">False</property>
+            <node name="menubar1" type="Menubar">
+              <node type="Menu" action="File">
+                <node type="Menu" action="SelectBus">
+                  <node type="Menuitem" action="SessionBus" />
+                  <node type="Menuitem" action="SystemBus" />
+                </node>
+                <node type="Menuitem" action="quit1" />
+              </node>
+            </node>
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.HBox" id="hbox1">
+            <property name="MemberName" />
+            <property name="ShowScrollbars">False</property>
+            <property name="Spacing">6</property>
+            <property name="BorderWidth">5</property>
+            <child>
+              <widget class="Gtk.Label" id="label1">
+                <property name="MemberName" />
+                <property name="ShowScrollbars">False</property>
+                <property name="LabelProp" translatable="yes">Bus name : </property>
+              </widget>
+              <packing>
+                <property name="Position">0</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.ComboBox" id="busCb">
+                <property name="MemberName" />
+                <property name="ShowScrollbars">False</property>
+                <property name="IsTextCombo">True</property>
+                <property name="Items" translatable="yes" />
+              </widget>
+              <packing>
+                <property name="Position">1</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Alignment" id="alignment4">
+                <property name="MemberName" />
+                <property name="ShowScrollbars">False</property>
+                <property name="LeftPadding">62</property>
+                <property name="RightPadding">208</property>
+                <child>
+                  <widget class="Gtk.HBox" id="spinnerBox">
+                    <property name="MemberName" />
+                    <property name="ShowScrollbars">False</property>
+                    <property name="Spacing">6</property>
+                    <child>
+                      <widget class="Gtk.Alignment" id="spinnerAlign">
+                        <property name="MemberName" />
+                        <property name="ShowScrollbars">False</property>
+                        <child>
+                          <placeholder />
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="Position">0</property>
+                        <property name="AutoSize">True</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Alignment" id="alignment6">
+                        <property name="MemberName" />
+                        <property name="ShowScrollbars">False</property>
+                        <child>
+                          <widget class="Gtk.Label" id="label4">
+                            <property name="MemberName" />
+                            <property name="ShowScrollbars">False</property>
+                            <property name="LabelProp" translatable="yes">Parsing ...</property>
+                          </widget>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="Position">1</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
+                      </packing>
+                    </child>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="Position">2</property>
+                <property name="AutoSize">True</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">1</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+            <property name="Padding">1</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.VPaned" id="vpaned2">
+            <property name="MemberName" />
+            <property name="CanFocus">True</property>
+            <property name="ShowScrollbars">False</property>
+            <property name="Position">347</property>
+            <child>
+              <widget class="Gtk.ScrolledWindow" id="scrolledwindow1">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="VscrollbarPolicy">Automatic</property>
+                <property name="HscrollbarPolicy">Never</property>
+                <property name="ShadowType">In</property>
+                <property name="BorderWidth">3</property>
+                <child>
+                  <widget class="Gtk.TreeView" id="tv">
+                    <property name="MemberName" />
+                    <property name="CanFocus">True</property>
+                    <property name="ShowScrollbars">False</property>
+                    <property name="HeadersVisible">False</property>
+                    <property name="HeadersClickable">True</property>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="Resize">False</property>
+                <property name="Shrink">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Expander" id="expander1">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="ShowScrollbars">False</property>
+                <property name="Expanded">True</property>
+                <property name="Spacing">2</property>
+                <property name="BorderWidth">6</property>
+                <child>
+                  <widget class="Gtk.VBox" id="vbox2">
+                    <property name="MemberName" />
+                    <property name="ShowScrollbars">False</property>
+                    <property name="Spacing">6</property>
+                    <property name="BorderWidth">6</property>
+                    <child>
+                      <widget class="Gtk.Alignment" id="alignment1">
+                        <property name="MemberName" />
+                        <property name="ShowScrollbars">False</property>
+                        <property name="LeftPadding">44</property>
+                        <property name="TopPadding">7</property>
+                        <property name="BottomPadding">8</property>
+                        <child>
+                          <widget class="Gtk.HBox" id="hbox2">
+                            <property name="MemberName" />
+                            <property name="ShowScrollbars">False</property>
+                            <property name="Spacing">6</property>
+                            <child>
+                              <widget class="Gtk.Image" id="symbolImage">
+                                <property name="MemberName" />
+                                <property name="ShowScrollbars">False</property>
+                              </widget>
+                              <packing>
+                                <property name="Position">0</property>
+                                <property name="AutoSize">True</property>
+                                <property name="Expand">False</property>
+                                <property name="Fill">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="Gtk.Alignment" id="alignment2">
+                                <property name="MemberName" />
+                                <property name="ShowScrollbars">False</property>
+                                <property name="Xalign">0,4</property>
+                                <property name="LeftPadding">10</property>
+                                <child>
+                                  <widget class="Gtk.Label" id="specstyleDecl">
+                                    <property name="MemberName" />
+                                    <property name="ShowScrollbars">False</property>
+                                    <property name="LabelProp" translatable="yes" />
+                                    <property name="UseMarkup">True</property>
+                                  </widget>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="Position">1</property>
+                                <property name="AutoSize">True</property>
+                                <property name="Expand">False</property>
+                                <property name="Fill">False</property>
+                              </packing>
+                            </child>
+                          </widget>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="Position">0</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Alignment" id="alignment3">
+                        <property name="MemberName" />
+                        <property name="ShowScrollbars">False</property>
+                        <property name="LeftPadding">7</property>
+                        <property name="TopPadding">4</property>
+                        <property name="BottomPadding">7</property>
+                        <child>
+                          <widget class="Gtk.HBox" id="hbox3">
+                            <property name="MemberName" />
+                            <property name="ShowScrollbars">False</property>
+                            <property name="Spacing">6</property>
+                            <child>
+                              <widget class="Gtk.Label" id="label3">
+                                <property name="MemberName" />
+                                <property name="ShowScrollbars">False</property>
+                                <property name="LabelProp" translatable="yes">C# Style : </property>
+                              </widget>
+                              <packing>
+                                <property name="Position">0</property>
+                                <property name="AutoSize">True</property>
+                                <property name="Expand">False</property>
+                                <property name="Fill">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="Gtk.Label" id="cstyleDecl">
+                                <property name="MemberName" />
+                                <property name="ShowScrollbars">False</property>
+                                <property name="LabelProp" translatable="yes" />
+                              </widget>
+                              <packing>
+                                <property name="Position">1</property>
+                                <property name="AutoSize">True</property>
+                                <property name="Expand">False</property>
+                                <property name="Fill">False</property>
+                              </packing>
+                            </child>
+                          </widget>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="Position">1</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
+                      </packing>
+                    </child>
+                  </widget>
+                </child>
+                <child>
+                  <widget class="Gtk.HBox" id="hbox4">
+                    <property name="MemberName" />
+                    <property name="ShowScrollbars">False</property>
+                    <property name="Spacing">1</property>
+                    <child>
+                      <widget class="Gtk.Label" id="label2">
+                        <property name="MemberName" />
+                        <property name="ShowScrollbars">False</property>
+                        <property name="LabelProp" translatable="yes">&lt;b&gt;Informations on : &lt;/b&gt;</property>
+                        <property name="UseMarkup">True</property>
+                      </widget>
+                      <packing>
+                        <property name="Position">0</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Label" id="informationLabel">
+                        <property name="MemberName" />
+                        <property name="ShowScrollbars">False</property>
+                        <property name="LabelProp" translatable="yes" />
+                      </widget>
+                      <packing>
+                        <property name="Position">1</property>
+                        <property name="AutoSize">True</property>
+                        <property name="Expand">False</property>
+                        <property name="Fill">False</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="type">label_item</property>
+                  </packing>
+                </child>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">2</property>
+            <property name="AutoSize">True</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+</stetic-interface>

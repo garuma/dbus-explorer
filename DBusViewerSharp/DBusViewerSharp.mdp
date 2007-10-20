@@ -1,0 +1,59 @@
+<Project name="DBusViewerSharp" fileversion="2.0" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="DotNetProjectConfiguration">
+      <Output directory="bin/Debug" assembly="DBusViewerSharp" />
+      <Build debugmode="True" target="Exe" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+    </Configuration>
+    <Configuration name="Release" ctype="DotNetProjectConfiguration">
+      <Output directory="bin/Release" assembly="DBusViewerSharp" />
+      <Build debugmode="False" target="Exe" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+    </Configuration>
+  </Configurations>
+  <Contents>
+    <File name="gtk-gui/gui.stetic" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="gtk-gui/generated.cs" subtype="Code" buildaction="Compile" />
+    <File name="MainWindow.cs" subtype="Code" buildaction="Compile" />
+    <File name="gtk-gui/MainWindow.cs" subtype="Code" buildaction="Compile" />
+    <File name="Main.cs" subtype="Code" buildaction="Compile" />
+    <File name="AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
+    <File name="app.desktop" subtype="Code" buildaction="FileCopy" DeployService.TargetDirectoryId="Linux.DesktopApplications" />
+    <File name="DBusExplorator.cs" subtype="Code" buildaction="Compile" />
+    <File name="../data/event.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="../data/method.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="../data/property.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="Representation" subtype="Directory" buildaction="Compile" />
+    <File name="../data/empty.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="../data/icon.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="Parser" subtype="Directory" buildaction="Compile" />
+    <File name="Parser/Mapper.cs" subtype="Code" buildaction="Compile" />
+    <File name="Parser/Parser.cs" subtype="Code" buildaction="Compile" />
+    <File name="InvocationLayer" subtype="Directory" buildaction="Compile" />
+    <File name="InvocationLayer/MethodInvokator.cs" subtype="Code" buildaction="Nothing" />
+    <File name="ImageAnimation.cs" subtype="Code" buildaction="Compile" />
+    <File name="../data/process-working.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="Representation/ArgEntry.cs" subtype="Code" buildaction="Compile" />
+    <File name="Representation/ElementRepresentation.cs" subtype="Code" buildaction="Compile" />
+    <File name="Representation/ElementsEntry.cs" subtype="Code" buildaction="Compile" />
+    <File name="Representation/IEntry.cs" subtype="Code" buildaction="Compile" />
+    <File name="Representation/MethodEntry.cs" subtype="Code" buildaction="Compile" />
+    <File name="Representation/PropertyEntry.cs" subtype="Code" buildaction="Compile" />
+    <File name="Representation/SignalEntry.cs" subtype="Code" buildaction="Compile" />
+  </Contents>
+  <References>
+    <ProjectReference type="Gac" localcopy="True" refto="gtk-sharp, Version=2.10.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="gdk-sharp, Version=2.10.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="glib-sharp, Version=2.10.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="glade-sharp, Version=2.10.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="pango-sharp, Version=2.10.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Gac" localcopy="True" refto="Mono.Posix, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
+    <ProjectReference type="Gac" localcopy="True" refto="System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Assembly" localcopy="True" refto="../deps/NDesk.DBus.dll" />
+    <ProjectReference type="Assembly" localcopy="True" refto="../deps/NDesk.DBus.GLib.dll" />
+  </References>
+  <GtkDesignInfo gtkVersion="2.10.2" />
+</Project>

@@ -1,0 +1,59 @@
+msgid ""
+msgstr ""
+"X-Generator: MonoDevelop.Gettext \n"
+"Language-Team: \n"
+"PO-Revision-Date: 2007-10-16 20:04:33+0200\n"
+"POT-Creation-Date: \n"
+"Project-Id-Version: \n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: \n"
+"Content-Type: text/plain; charset=utf-8\n"
+
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:85
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:86
+msgid "_File"
+msgstr ""
+
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:99
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:100
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:102
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:103
+msgid "_Quitter"
+msgstr ""
+
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:108
+msgid "DBusViewerSharp"
+msgstr ""
+
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:135
+msgid "Bus name : "
+msgstr ""
+
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:275
+msgid "C# Style : "
+msgstr ""
+
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:303
+msgid "<b>Informations on : </b>"
+msgstr ""
+
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:88
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:89
+msgid "Select Bus"
+msgstr ""
+
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:91
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:93
+msgid "Session Bus"
+msgstr ""
+
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:95
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:97
+msgid "System Bus"
+msgstr ""
+
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:170
+msgid "Parsing ..."
+msgstr ""
+
