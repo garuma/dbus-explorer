@@ -1,14 +1,12 @@
-// Parser.cs created with MonoDevelop
-// User: jeremie at 13:45 10/10/2007
-//
-// To change standard headers go to Edit->Preferences->Coding->Standard Headers
-//
+// Parser.cs
+// Copyright (c) 2007 Jérémie Laval <jeremie.laval@gmail.com>
+// See COPYING file for license information.
 
 using System;
 
 namespace DBusViewerSharp
 {
-	// Yeah I know. Very stupid and basic
+	// Yeah I know. Very stupid.
 	public static class Parser
 	{
 		public static string ParseDBusTypeExpression(string expression)

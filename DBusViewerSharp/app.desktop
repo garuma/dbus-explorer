@@ -5,3 +5,6 @@ Name=DBusViewerSharp
 Exec=dbusviewersharp
 Terminal=false
 Categories=Development;
+GenericName=DBusViewerSharp
+Comment=A tool to visualize the exposed API of DBus services
+Icon=dbusviewersharp

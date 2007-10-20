@@ -1,8 +1,6 @@
-// ElementsEntry.cs created with MonoDevelop
-// User: jeremie at 13:38 06/10/2007
-//
-// To change standard headers go to Edit->Preferences->Coding->Standard Headers
-//
+// ElementsEntry.cs
+// Copyright (c) 2007 Jérémie Laval <jeremie.laval@gmail.com>
+// See COPYING file for license information.
 
 using System;
 

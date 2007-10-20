@@ -1,8 +1,6 @@
-// Mapper.cs created with MonoDevelop
-// User: jeremie at 13:42 10/10/2007
-//
-// To change standard headers go to Edit->Preferences->Coding->Standard Headers
-//
+// Mapper.cs
+// Copyright (c) 2007 Jérémie Laval <jeremie.laval@gmail.com>
+// See COPYING file for license information.
 
 using System;
 using System.Collections.Generic;

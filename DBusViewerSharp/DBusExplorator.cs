@@ -1,8 +1,6 @@
-// DBusExplorator.cs created with MonoDevelop
-// User: jeremie at 21:01 04/10/2007
-//
-// To change standard headers go to Edit->Preferences->Coding->Standard Headers
-//
+// DBusExplorator.cs
+// Copyright (c) 2007 Jérémie Laval <jeremie.laval@gmail.com>
+// See COPYING file for license information.
 
 using System;
 using System.Text;
@@ -26,12 +24,12 @@ namespace DBusViewerSharp
 		public DBusExplorator()
 		{
 			ibus = Bus.Session.GetObject<IBus>(DBusName, DBusPath);
+			bus = Bus.Session;
 			updater =  GetElementsFromBus;
 		}
 		
 		public string[] AvalaibleBusNames {
 			get {
-				//Debug.WriteLineIf(bus.ListNames().Length == 0, "ListNames is empty !");
 				return ibus.ListNames();
 			}
 		}
@@ -51,9 +49,8 @@ namespace DBusViewerSharp
 		
 		public ElementsEntry[] GetElementsFromBus(string busName)
 		{
-			//Console.WriteLine("GetElementFromBus is beginning the recursion");
 			Introspectable intr = 
-				Bus.Session.GetObject<Introspectable>(busName, ObjectPath.Root);
+				bus.GetObject<Introspectable>(busName, ObjectPath.Root);
 			
 			return ParseIntrospectable(intr, busName);
 		}
@@ -65,24 +62,20 @@ namespace DBusViewerSharp
 		
 		ElementsEntry[] ParseIntrospectable(Introspectable intr, string busName, string currentPath)
 		{
-			//Console.WriteLine("Parsing Introspectable on {0} bus and {1} path", busName, currentPath);
-			
 			List<ElementsEntry> elements = new List<ElementsEntry>();
 			XPathDocument doc = new XPathDocument(new System.IO.StringReader(intr.Introspect()));
 			XPathNavigator navigator = doc.CreateNavigator();
 			
 			XPathNodeIterator interfaceList = navigator.Select("node/interface");
-			//Console.WriteLine("\tIn this Introspectable we have {0} interfaces", interfaceList.Count);
 			foreach (XPathNavigator node in interfaceList) {
 				elements.Add(MakeElementsEntryFromNode(node, currentPath));
 			}
 			
 			XPathNodeIterator nodeList = navigator.Select("node/node");
-			//Console.WriteLine("\tIn this Introspectable we have {0} nodes", nodeList.Count);
 			foreach (XPathNavigator node in nodeList) {
 				string newPath = JoinPath(currentPath, node.GetAttribute("name", string.Empty));
 				ObjectPath objPath = new ObjectPath(newPath);
-				Introspectable intro = Bus.Session.GetObject<Introspectable>(busName, objPath);
+				Introspectable intro = bus.GetObject<Introspectable>(busName, objPath);
 				elements.AddRange(ParseIntrospectable(intro, busName, newPath));
 			}
 			return elements.ToArray();
