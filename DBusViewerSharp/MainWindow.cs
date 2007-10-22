@@ -13,9 +13,10 @@ using DBusViewerSharp;
 public partial class MainWindow: Gtk.Window
 {	
 	DBusViewerSharp.DBusExplorator explorator;
+	
 	TreeStore model = new TreeStore(typeof(string), typeof(Gdk.Pixbuf));
 	
-	Dictionary<string, ElementRepresentation> currentData = new Dictionary<string,ElementRepresentation>(); 
+	Dictionary<string, IElement> currentData = new Dictionary<string,IElement>(); 
 	
 	static Gdk.Pixbuf empty = Gdk.Pixbuf.LoadFromResource("empty.png");
 	ImageAnimation spinner;
@@ -28,7 +29,6 @@ public partial class MainWindow: Gtk.Window
 		Build ();
 		this.DeleteEvent += OnDeleteEvent;
 		this.tv.CursorChanged += OnRowSelected;
-		this.busCb.Changed += OnBusComboChanged;
 		
 		// Spinner
 		spinner = new ImageAnimation(
@@ -45,11 +45,18 @@ public partial class MainWindow: Gtk.Window
 	
 	void FeedBusComboBox(string[] buses)
 	{
+		ComboBox cb = ComboBox.NewText();
+		
 		foreach (string s in buses) {
 			if (string.IsNullOrEmpty(s))
 				continue;
-			busCb.AppendText(s);
+			cb.AppendText(s);
 		}
+		busCbCont.Remove(busCb);
+		busCb = cb;
+		busCbCont.Add(busCb);
+		busCb.Changed += OnBusComboChanged;
+		busCbCont.ShowAll();
 	}
 	
 	void InitTreeView()
@@ -70,11 +77,11 @@ public partial class MainWindow: Gtk.Window
 		spinner.Active = true;
 		
 		explorator.BeginGetElementsFromBus(busName, delegate (IAsyncResult result) {
-			ElementsEntry[] elements = explorator.EndGetElementsFromBus(result);
+			PathContainer[] elements = explorator.EndGetElementsFromBus(result);
 			Application.Invoke(delegate {
-				foreach (ElementsEntry element in elements) {
+				foreach (PathContainer path in elements) {
 					//Console.WriteLine("Adding ElementsEntry");
-					AddElement(element);
+					AddPath(path);
 				}
 				
 				spinnerBox.HideAll();
@@ -83,34 +90,48 @@ public partial class MainWindow: Gtk.Window
 		});
 	}
 	
-	void AddElement (ElementsEntry element)
+	void AddPath(PathContainer path)
+	{
+		if (path == null)
+			return;
+		if (path.Interfaces.Length == 0)
+			return;
+		    
+		TreeIter parent = model.AppendValues(path.Path, empty);
+		foreach (Interface @interface in path.Interfaces) {
+			AddInterface (parent, @interface);
+		}
+	}
+	
+	void AddInterface (TreeIter parent, Interface element)
 	{
 		if (element == null)
 			return;
 		
-		TreeIter parent = model.AppendValues(element.Path, empty);
-		//Console.WriteLine("Added ElementsEntry with path : " + element.Path);
-		AddChildSymbols(parent, element);
+		TreeIter child = model.AppendValues(parent, element.Name, empty);
+		
+		AddChildSymbols(child, element);
 	}
 	
-	void AddChildSymbols (TreeIter parent, ElementsEntry element)
+	void AddChildSymbols (TreeIter parent, Interface element)
 	{
-		foreach (IEntry entry in element.Symbols) {
+		foreach (IElement entry in element.Symbols) {
 			ElementRepresentation representation = entry.Visual;
 			
 			model.AppendValues(parent, entry.Name, representation.Image);
 			try {
-				currentData.Add(entry.Name, representation);
+				currentData.Add(entry.Name, entry);
 			} catch {}	
 		}
 	}
 	
 	void FillBottom (string key)
 	{
-		ElementRepresentation representation;
-		if (!currentData.TryGetValue(key, out representation))
+		IElement element;
+		if (!currentData.TryGetValue(key, out element))
 			return;
 		
+		ElementRepresentation representation = element.Visual;
 		informationLabel.Text = key;
 		symbolImage.Pixbuf = representation.Image;
 		specstyleDecl.Markup = "<b><tt>" + representation.SpecDesc + "</tt></b>";
@@ -139,9 +160,15 @@ public partial class MainWindow: Gtk.Window
 
 	protected virtual void OnSessionBusActivated (object sender, System.EventArgs e)
 	{
+		model.Clear();
+		this.explorator = new DBusExplorator();
+		FeedBusComboBox(this.explorator.AvalaibleBusNames);
 	}
 
 	protected virtual void OnSystemBusActivated (object sender, System.EventArgs e)
 	{
+		model.Clear();
+		this.explorator = new DBusExplorator(NDesk.DBus.Bus.System);
+		FeedBusComboBox(this.explorator.AvalaibleBusNames);
 	}
 }

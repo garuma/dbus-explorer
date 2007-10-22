@@ -7,26 +7,26 @@ using System;
 namespace DBusViewerSharp
 {
 	// Represent the interface node
-	public class ElementsEntry
+	public class Interface
 	{
-		string path;
-		IEntry[] symbols;
+		string name;
+		IElement[] symbols;
 		
-		public string Path {
+		public string Name {
 			get {
-				return path;
+				return name;
 			}
 		}
 
-		public IEntry[] Symbols {
+		public IElement[] Symbols {
 			get {
 				return symbols;
 			}
 		}
 		
-		public ElementsEntry(string path, IEntry[] symbols)
+		public Interface(string name, IElement[] symbols)
 		{
-			this.path = path;
+			this.name = name;
 			this.symbols = symbols;
 		}
 	}

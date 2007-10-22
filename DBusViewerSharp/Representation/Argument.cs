@@ -1,4 +1,4 @@
-// ArgEntry.cs
+// Argument.cs
 // Copyright (c) 2007 Jérémie Laval <jeremie.laval@gmail.com>
 // See COPYING file for license information.
 
@@ -6,7 +6,7 @@ using System;
 
 namespace DBusViewerSharp
 {
-	public struct ArgEntry
+	public struct Argument
 	{
 		string name;
 		string type;
@@ -23,7 +23,7 @@ namespace DBusViewerSharp
 			}
 		}
 		
-		public ArgEntry(string type, string name)
+		public Argument(string type, string name)
 		{
 			this.name = name;
 			this.type = type;

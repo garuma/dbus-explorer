@@ -45,14 +45,25 @@
       </action>
       <action id="quit1">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes">_Quitter</property>
+        <property name="Label" translatable="yes">_Quit</property>
         <property name="ShortLabel" translatable="yes">_Quitter</property>
         <property name="StockId">gtk-quit</property>
         <signal name="Activated" handler="OnDeleteEvent" />
       </action>
+      <action id="Help">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Help</property>
+        <property name="ShortLabel" translatable="yes">Help</property>
+      </action>
+      <action id="about">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">_About</property>
+        <property name="ShortLabel" translatable="yes">_About</property>
+        <property name="StockId">gtk-about</property>
+      </action>
     </action-group>
     <property name="MemberName" />
-    <property name="Title" translatable="yes">DBusViewerSharp</property>
+    <property name="Title" translatable="yes">D-Bus Explorer</property>
     <property name="Icon">resource:icon.png</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="AllowShrink">True</property>
@@ -74,6 +85,9 @@
                   <node type="Menuitem" action="SystemBus" />
                 </node>
                 <node type="Menuitem" action="quit1" />
+              </node>
+              <node type="Menu" action="Help">
+                <node type="Menuitem" action="about" />
               </node>
             </node>
           </widget>
@@ -104,11 +118,17 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.ComboBox" id="busCb">
+              <widget class="Gtk.Alignment" id="busCbCont">
                 <property name="MemberName" />
                 <property name="ShowScrollbars">False</property>
-                <property name="IsTextCombo">True</property>
-                <property name="Items" translatable="yes" />
+                <child>
+                  <widget class="Gtk.ComboBox" id="busCb">
+                    <property name="MemberName" />
+                    <property name="ShowScrollbars">False</property>
+                    <property name="IsTextCombo">True</property>
+                    <property name="Items" translatable="yes" />
+                  </widget>
+                </child>
               </widget>
               <packing>
                 <property name="Position">1</property>

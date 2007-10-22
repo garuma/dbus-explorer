@@ -32,19 +32,12 @@ namespace DBusViewerSharp
 				return cStyle;
 			}
 		}
-
-		/*public string AdditionalFlags {
-			get {
-				return additionalFlags;
-			}
-		}*/
 		
 		public ElementRepresentation(Gdk.Pixbuf image, string specDesc, string cStyle)
 		{
 			this.image = image;
 			this.specDesc = specDesc;
 			this.cStyle = cStyle;
-			//this.additionalFlags = additionalFlags;
 		}
 	}
 }

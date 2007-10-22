@@ -17,14 +17,19 @@ namespace DBusViewerSharp
 	{
 		static readonly string DBusName = "org.freedesktop.DBus";
 		static readonly ObjectPath DBusPath = new ObjectPath ("/org/freedesktop/DBus");
+		static readonly string rootPath = "/";
 		
 		IBus ibus;
 		Bus bus;
 		
-		public DBusExplorator()
+		public DBusExplorator(): this(Bus.Session)
 		{
-			ibus = Bus.Session.GetObject<IBus>(DBusName, DBusPath);
-			bus = Bus.Session;
+		}
+		
+		public DBusExplorator(Bus bus)
+		{
+			this.bus = bus;
+			ibus = this.bus.GetObject<IBus>(DBusName, DBusPath);
 			updater =  GetElementsFromBus;
 		}
 		
@@ -34,7 +39,13 @@ namespace DBusViewerSharp
 			}
 		}
 		
-		delegate ElementsEntry[] UpdateDelegate(string busName);
+		public Bus BusUsed {
+			get {
+				return bus;
+			}
+		}
+		
+		delegate PathContainer[] UpdateDelegate(string busName);
 		UpdateDelegate updater;
 		
 		public IAsyncResult BeginGetElementsFromBus(string busName, AsyncCallback callback)
@@ -42,66 +53,63 @@ namespace DBusViewerSharp
 			return updater.BeginInvoke(busName, callback, null);
 		}
 		
-		public ElementsEntry[] EndGetElementsFromBus(IAsyncResult result)
+		public PathContainer[] EndGetElementsFromBus(IAsyncResult result)
 		{
 			return updater.EndInvoke(result);
 		}
 		
-		public ElementsEntry[] GetElementsFromBus(string busName)
+		delegate Introspectable IntrospectableGetter(string path);
+		
+		public PathContainer[] GetElementsFromBus(string busName)
 		{
-			Introspectable intr = 
-				bus.GetObject<Introspectable>(busName, ObjectPath.Root);
+			IntrospectableGetter getter = delegate (string path) {
+				return bus.GetObject<Introspectable>(busName, new ObjectPath(path));
+			};
 			
-			return ParseIntrospectable(intr, busName);
+			List<PathContainer> paths = new List<PathContainer>();
+			
+			ParseIntrospectable(rootPath, getter, paths);
+			
+			return paths.ToArray();
 		}
 		
-		ElementsEntry[] ParseIntrospectable(Introspectable intr, string busName)
+		void ParseIntrospectable(string currentPath, IntrospectableGetter getter,
+		                                    List<PathContainer> paths)
 		{
-			return ParseIntrospectable(intr, busName, "/");	
-		}
-		
-		ElementsEntry[] ParseIntrospectable(Introspectable intr, string busName, string currentPath)
-		{
-			List<ElementsEntry> elements = new List<ElementsEntry>();
-			XPathDocument doc = new XPathDocument(new System.IO.StringReader(intr.Introspect()));
+			Introspectable intr = getter(currentPath);
+			
+			List<Interface> interfaces = new List<Interface>();
+			
+			string intrData = intr.Introspect();
+			XPathDocument doc = new XPathDocument(new System.IO.StringReader(intrData));
 			XPathNavigator navigator = doc.CreateNavigator();
 			
 			XPathNodeIterator interfaceList = navigator.Select("node/interface");
 			foreach (XPathNavigator node in interfaceList) {
-				elements.Add(MakeElementsEntryFromNode(node, currentPath));
+				interfaces.Add(MakeInterfaceFromNode(node, node.GetAttribute("name", string.Empty)));
 			}
+			
+			paths.Add(new PathContainer(currentPath, interfaces.ToArray()));
 			
 			XPathNodeIterator nodeList = navigator.Select("node/node");
 			foreach (XPathNavigator node in nodeList) {
 				string newPath = JoinPath(currentPath, node.GetAttribute("name", string.Empty));
-				ObjectPath objPath = new ObjectPath(newPath);
-				Introspectable intro = bus.GetObject<Introspectable>(busName, objPath);
-				elements.AddRange(ParseIntrospectable(intro, busName, newPath));
+				ParseIntrospectable(newPath, getter, paths);
 			}
-			return elements.ToArray();
 		}
 		
-		string JoinPath(string path1, string path2)
-		{
-			string path = path1.EndsWith("/") ? path1 : path1 + "/";
-			path += path2;
-			return path;
-		}
-		
-		ElementsEntry MakeElementsEntryFromNode(XPathNavigator node, string path)
+		Interface MakeInterfaceFromNode(XPathNavigator node, string name)
 		{	
-			List<IEntry> entries = new List<IEntry>();
+			List<IElement> entries = new List<IElement>();
 			
 			foreach (XPathNavigator method in node.Select("method")) {
-				entries.Add(ParseMethods(method));
+				entries.Add(ParseMethod(method));
 			}
 			
-			path = string.IsNullOrEmpty(path) ? "/" : path;
-			
-			return new ElementsEntry(path, entries.ToArray());
+			return new Interface(name, entries.ToArray());
 		}
 				                            
-	    IEntry ParseMethods(XPathNavigator method)
+	    IElement ParseMethod(XPathNavigator method)
 		{
 			if (method == null)
 				return null;
@@ -112,18 +120,25 @@ namespace DBusViewerSharp
 			string returnArg = returnNode == null ? string.Empty : returnNode.GetAttribute("type", string.Empty);
 			
 			XPathNodeIterator argNodeList = method.Select("arg[@direction='in']");
-			ArgEntry[] args = null;
+			Argument[] args = null;
 			
 			if (argNodeList.Count > 0) {
-				args = new ArgEntry[argNodeList.Count];
+				args = new Argument[argNodeList.Count];
 				int i = 0;
 				foreach (XPathNavigator arg in argNodeList) {
 					string paramName = arg.GetAttribute("name", string.Empty);
-					args[i++] = new ArgEntry(arg.GetAttribute("type", string.Empty), paramName);
+					args[i++] = new Argument(arg.GetAttribute("type", string.Empty), paramName);
 				}
 			}
 				                       
-		    return new MethodEntry(name, returnArg, args);
+		    return ElementFactory.FromMethodDefinition(returnArg, name, args);
+		}
+		
+		string JoinPath(string path1, string path2)
+		{
+			string path = path1.EndsWith("/") ? path1 : path1 + "/";
+			path += path2;
+			return path;
 		}
 	}
 }

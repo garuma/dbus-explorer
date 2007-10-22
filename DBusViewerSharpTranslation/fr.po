@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "X-Generator: MonoDevelop.Gettext \n"
 "Language-Team: \n"
-"PO-Revision-Date: 2007-10-20 11:53:51+0200\n"
+"PO-Revision-Date: 2007-10-21 18:58:13+0200\n"
 "POT-Creation-Date: \n"
 "Project-Id-Version: \n"
 "MIME-Version: 1.0\n"
@@ -10,50 +10,50 @@ msgstr ""
 "Last-Translator: \n"
 "Content-Type: text/plain; charset=utf-8\n"
 
-#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:85
-#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:86
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:87
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:88
 msgid "_File"
 msgstr "_Fichier"
 
-#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:99
-#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:100
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:101
 #: ../DBusViewerSharp/gtk-gui/MainWindow.cs:102
-#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:103
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:104
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:105
 msgid "_Quitter"
 msgstr ""
 
-#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:108
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:110
 msgid "DBusViewerSharp"
 msgstr ""
 
-#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:135
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:137
 msgid "Bus name : "
 msgstr "Nom du Bus"
 
-#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:275
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:281
 msgid "C# Style : "
 msgstr "Forme C# : "
 
-#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:303
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:309
 msgid "<b>Informations on : </b>"
 msgstr "<b>Informations sur : </b>"
 
-#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:88
-#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:89
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:90
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:91
 msgid "Select Bus"
 msgstr "Sélectionner le Bus"
 
-#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:91
 #: ../DBusViewerSharp/gtk-gui/MainWindow.cs:93
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:95
 msgid "Session Bus"
 msgstr "Bus de session"
 
-#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:95
 #: ../DBusViewerSharp/gtk-gui/MainWindow.cs:97
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:99
 msgid "System Bus"
 msgstr "Bus système"
 
-#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:170
+#: ../DBusViewerSharp/gtk-gui/MainWindow.cs:176
 msgid "Parsing ..."
 msgstr "Traitement ..."
 
