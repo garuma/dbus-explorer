@@ -16,7 +16,7 @@ namespace DBusViewerSharp
 				return expression;
 			// Assume it's a base type and thus directly return the corresponding type
 			if (expression.Length == 1)
-				return Mapper.DTypeToType((DType)(byte)expression[0]);
+				return Mapper.DTypeToType((DType)(byte)expression[0]).Name;
 			
 			List<DType> expressionList = new List<DType>();
 			
@@ -60,8 +60,6 @@ namespace DBusViewerSharp
 		
 		static string ParseStructDefinition(List<DType> exprs)
 		{
-			Console.WriteLine("Parsing struct");
-			
 			string temp = "struct { ";
 			int count;
 			int start = exprs[0] == DType.StructBegin ? 1 : 0;
@@ -71,7 +69,9 @@ namespace DBusViewerSharp
 					break;
 			}
 			
-			foreach (string s in StrFromExprList(exprs.GetRange(start, count + 1))) {
+			List<DType> tempList = exprs.GetRange(start, count);
+			
+			foreach (string s in StrFromExprList(tempList)) {
 				temp += s + "; ";
 			}
 			temp += "}";

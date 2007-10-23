@@ -43,15 +43,11 @@ namespace DBusViewerSharp
 			
 			if (args != null) {
 				foreach (Argument parameter in args) {
-					Console.WriteLine("Beginning parsing of : " + parameter.Type);
 					parameters += (parameters.Length == 0 ? string.Empty : ", ") + Parser.ParseDBusTypeExpression(parameter.Type) + " " + parameter.Name;
-					Console.WriteLine("Finished parsing of : " + parameter.Type);
 				}
 			}
 			
-			Console.WriteLine("Beginning parsing in cStyle of : " + returnType);
 			string cStyle = Parser.ParseDBusTypeExpression(returnType) + " " + name + " (" + parameters + ")";
-			Console.WriteLine("Finished parsing in cStyle of : " + returnType);
 			
 			parameters = string.Empty;
 			
