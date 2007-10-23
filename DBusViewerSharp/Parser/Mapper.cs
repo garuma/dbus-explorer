@@ -23,6 +23,11 @@ namespace DBusViewerSharp
 			fundamentalTypes.Add(DType.Int64, typeof(long));
 			fundamentalTypes.Add(DType.Single, typeof(float));
 			fundamentalTypes.Add(DType.String, typeof(string));
+			fundamentalTypes.Add(DType.UInt16, typeof(ushort));
+			fundamentalTypes.Add(DType.UInt32, typeof(uint));
+			fundamentalTypes.Add(DType.UInt64, typeof(ulong));
+			// Not exactly correct but it's the spirit (*textual* DBus representation of a complete type)
+			fundamentalTypes.Add(DType.Variant, typeof(string));
 		}
 		
 		public static Type DTypeToType(DType type)

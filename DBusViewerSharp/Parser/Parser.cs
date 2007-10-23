@@ -3,37 +3,96 @@
 // See COPYING file for license information.
 
 using System;
+using System.Text;
+using System.Collections.Generic;
 
 namespace DBusViewerSharp
 {
-	// Yeah I know. Very stupid.
 	public static class Parser
 	{
 		public static string ParseDBusTypeExpression(string expression)
 		{
 			if (string.IsNullOrEmpty(expression))
 				return expression;
+			// Assume it's a base type and thus directly return the corresponding type
+			if (expression.Length == 1)
+				return Mapper.DTypeToType((DType)(byte)expression[0]);
 			
-			DType backType = DType.Invalid;
-			DType frontType = DType.Invalid;
+			List<DType> expressionList = new List<DType>();
 			
-			switch (expression[0]) {
-			case (char)DType.Array:
-				frontType = DType.Array;
-				break;
-			default:
-				frontType = DType.Invalid;
-				break;
+			foreach (char c in expression) {
+				expressionList.Add((DType)(byte)c);
 			}
 			
-			backType = (frontType == DType.Invalid) ? (DType)(byte)expression[0] : (DType)(byte)expression[1];
-			Type temp = Mapper.DTypeToType(backType);
-			string back = (temp == null) ? (frontType != DType.Invalid ? expression : expression.Substring(1)) : temp.Name;
-			string result = (frontType == DType.Array) ? back + "[]" : back;
+			return StrFromExprList(expressionList)[0];
+		}
+		
+		static string[] StrFromExprList(List<DType> expressionList)
+		{
+			List<string> list = new List<string>();
+			int index = 0;
 			
-			return result;
+			foreach (DType currentToken in expressionList) {
+				if (currentToken == DType.Variant || currentToken == DType.DictEntryEnd || currentToken == DType.StructEnd
+				    || currentToken == DType.DictEntry || currentToken == DType.Invalid || currentToken == DType.ObjectPath
+				    || currentToken == DType.Signature)
+					continue;
+				
+				switch (currentToken) {
+					case DType.StructBegin:
+						list.Add(ParseStructDefinition(expressionList.GetRange(index, expressionList.Count - index)));
+						break;
+					case DType.DictEntryBegin:
+						list.Add(ParseDictDefinition(expressionList.GetRange(index, expressionList.Count - index)));
+						break;
+					case DType.Array:
+						list.Add(ParseArrayDefinition(expressionList.GetRange(index, expressionList.Count - index)));
+						break;
+					default:
+						list.Add(Mapper.DTypeToType(currentToken).Name);
+						break;
+				}
+				index++;
+			}
+			
+			return list.ToArray();
+		}
+		
+		static string ParseStructDefinition(List<DType> exprs)
+		{
+			Console.WriteLine("Parsing struct");
+			
+			string temp = "struct { ";
+			int count;
+			int start = exprs[0] == DType.StructBegin ? 1 : 0;
+			
+			for (count = exprs.Count - 1; count > 0; count--) {
+				if (exprs[count] == DType.StructEnd)
+					break;
+			}
+			
+			foreach (string s in StrFromExprList(exprs.GetRange(start, count + 1))) {
+				temp += s + "; ";
+			}
+			temp += "}";
+			
+			return temp;
+		}
+		
+		static string ParseArrayDefinition(List<DType> exprs)
+		{
+			string tmp = StrFromExprList(exprs.GetRange(1, exprs.Count - 1))[0];
+			tmp += "[]";
+			
+			return tmp;
+		}
+		
+		static string ParseDictDefinition(List<DType> exprList)
+		{
+			return string.Empty;
 		}
 	}
+	
 	
 	public enum DType : byte
 	{
