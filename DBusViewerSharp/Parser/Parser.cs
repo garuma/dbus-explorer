@@ -16,7 +16,7 @@ namespace DBusViewerSharp
 				return expression;
 			// Assume it's a base type and thus directly return the corresponding type
 			if (expression.Length == 1)
-				return Mapper.DTypeToType((DType)(byte)expression[0]).Name;
+				return Mapper.DTypeToStr((DType)(byte)expression[0]);
 			
 			List<DType> expressionList = new List<DType>();
 			
@@ -49,7 +49,7 @@ namespace DBusViewerSharp
 						list.Add(ParseArrayDefinition(expressionList.GetRange(index, expressionList.Count - index)));
 						break;
 					default:
-						list.Add(Mapper.DTypeToType(currentToken).Name);
+						list.Add(Mapper.DTypeToStr(currentToken));
 						break;
 				}
 				index++;

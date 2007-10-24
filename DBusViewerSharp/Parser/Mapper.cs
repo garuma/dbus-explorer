@@ -7,8 +7,6 @@ using System.Collections.Generic;
 
 namespace DBusViewerSharp
 {
-	
-	
 	public static class Mapper
 	{
 		static Dictionary<DType,Type> fundamentalTypes = new Dictionary<DType,Type>();
@@ -37,6 +35,11 @@ namespace DBusViewerSharp
 				temp = null;
 			
 			return temp;
+		}
+		
+		public static string DTypeToStr(DType type)
+		{
+			return type.ToString();
 		}
 	}
 }

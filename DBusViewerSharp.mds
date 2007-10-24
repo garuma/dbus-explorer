@@ -2,13 +2,13 @@
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="CombineConfiguration">
       <Entry build="True" name="DBusExplorer" configuration="Debug" />
-      <Entry build="True" name="Packages" configuration="" />
       <Entry build="True" name="DBusViewerSharpTranslation" configuration="" />
+      <Entry build="True" name="Packaging" configuration="" />
     </Configuration>
     <Configuration name="Release" ctype="CombineConfiguration">
       <Entry build="True" name="DBusExplorer" configuration="Release" />
-      <Entry build="True" name="Packages" configuration="" />
       <Entry build="True" name="DBusViewerSharpTranslation" configuration="" />
+      <Entry build="True" name="Packaging" configuration="" />
     </Configuration>
   </Configurations>
   <StartMode startupentry="DBusExplorer" single="True">
@@ -16,10 +16,11 @@
     <Execute type="None" entry="Packages" />
     <Execute type="None" entry="XmlAutoBinding" />
     <Execute type="None" entry="DBusViewerSharpTranslation" />
+    <Execute type="None" entry="Packaging" />
   </StartMode>
   <Entries>
     <Entry filename="DBusViewerSharp/DBusViewerSharp.mdp" />
-    <Entry filename="Packages.mdse" />
     <Entry filename="DBusViewerSharpTranslation/DBusViewerSharpTranslation.mdse" />
+    <Entry filename="Packaging/Packaging.mdse" />
   </Entries>
 </Combine>
