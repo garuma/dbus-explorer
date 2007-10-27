@@ -347,5 +347,6 @@ public partial class MainWindow {
         this.SystemBus.Activated += new System.EventHandler(this.OnSystemBusActivated);
         this.quit.Activated += new System.EventHandler(this.OnDeleteEvent);
         this.quit1.Activated += new System.EventHandler(this.OnDeleteEvent);
+        this.about.Activated += new System.EventHandler(this.OnAboutActivated);
     }
 }

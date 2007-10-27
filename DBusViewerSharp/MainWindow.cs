@@ -135,7 +135,7 @@ public partial class MainWindow: Gtk.Window
 		informationLabel.Text = key;
 		symbolImage.Pixbuf = representation.Image;
 		specstyleDecl.Markup = "<b><tt>" + representation.SpecDesc + "</tt></b>";
-		cstyleDecl.Markup = "<tt>" + representation.CStyle + "</tt>";
+		cstyleDecl.Markup = "<tt>" + representation.CStyle.Replace("<", "&lt;") + "</tt>";
 	}
 	
 	protected void OnDeleteEvent (object sender, EventArgs a)
@@ -170,5 +170,16 @@ public partial class MainWindow: Gtk.Window
 		model.Clear();
 		this.explorator = new DBusExplorator(NDesk.DBus.Bus.System);
 		FeedBusComboBox(this.explorator.AvalaibleBusNames);
+	}
+	
+	protected virtual void OnAboutActivated (object sender, System.EventArgs e)
+	{
+		AboutDialog ad = new AboutDialog();
+		ad.Authors = new string[] { "Jérémie \"Garuma\" Laval" };
+		ad.Copyright = "Copyright (c) 2007 Jérémie Laval <jeremie.laval@gmail.com>";
+		ad.License = "See the COPYING file";
+		
+		ad.Run();
+		ad.Destroy();
 	}
 }

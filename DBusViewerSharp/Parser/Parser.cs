@@ -18,7 +18,7 @@ namespace DBusViewerSharp
 			if (expression.Length == 1)
 				return Mapper.DTypeToStr((DType)(byte)expression[0]);
 			
-			List<DType> expressionList = new List<DType>();
+			List<DType> expressionList = new List<DType>(expression.Length + 1);
 			
 			foreach (char c in expression) {
 				expressionList.Add((DType)(byte)c);
@@ -33,9 +33,9 @@ namespace DBusViewerSharp
 			int index = 0;
 			
 			foreach (DType currentToken in expressionList) {
-				if (currentToken == DType.Variant || currentToken == DType.DictEntryEnd || currentToken == DType.StructEnd
-				    || currentToken == DType.DictEntry || currentToken == DType.Invalid || currentToken == DType.ObjectPath
-				    || currentToken == DType.Signature)
+				if (currentToken == DType.DictEntryEnd || currentToken == DType.StructEnd 
+				    || currentToken == DType.DictEntry || currentToken == DType.Invalid
+				    || currentToken == DType.ObjectPath || currentToken == DType.Signature)
 					continue;
 				
 				switch (currentToken) {
@@ -92,7 +92,6 @@ namespace DBusViewerSharp
 			return string.Empty;
 		}
 	}
-	
 	
 	public enum DType : byte
 	{

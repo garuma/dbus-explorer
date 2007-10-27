@@ -106,6 +106,12 @@ namespace DBusViewerSharp
 			foreach (XPathNavigator method in node.Select("method")) {
 				entries.Add(ParseMethod(method));
 			}
+			foreach (XPathNavigator method in node.Select("signal")) {
+				entries.Add(ParseSignal(method));
+			}
+			foreach (XPathNavigator method in node.Select("property")) {
+				entries.Add(ParseProperty(method));
+			}
 			
 			return new Interface(name, entries.ToArray());
 		}
@@ -133,6 +139,37 @@ namespace DBusViewerSharp
 			}
 				                       
 		    return ElementFactory.FromMethodDefinition(returnArg, name, args);
+		}
+		
+		IElement ParseSignal(XPathNavigator signal)
+		{
+			string name = signal.GetAttribute("name", string.Empty);
+			
+			XPathNavigator arg = signal.SelectSingleNode("arg");
+			string argType = arg.GetAttribute("type", string.Empty);
+			//string argName = arg.GetAttribute("name", string.Empty);
+			
+			return ElementFactory.FromSignalDefinition(name, new Argument(argType, null));
+		}
+		
+		IElement ParseProperty(XPathNavigator property)
+		{
+			string name = property.GetAttribute("name", string.Empty);
+			Argument type = new Argument(property.GetAttribute("type", string.Empty), null);
+			PropertyAccess access = PropertyAccess.Read;
+			switch (property.GetAttribute("access", string.Empty)) {
+				case "readwrite":
+					access = PropertyAccess.ReadWrite;
+					break;
+				case "read":
+					access = PropertyAccess.Read;
+					break;
+				case "write":
+					access = PropertyAccess.Write;
+					break;
+			}
+			
+			return ElementFactory.FromPropertyDefinition(name, type, access);
 		}
 		
 		string JoinPath(string path1, string path2)
