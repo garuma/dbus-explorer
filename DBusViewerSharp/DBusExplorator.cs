@@ -95,24 +95,26 @@ namespace DBusViewerSharp
 			string intrData = intr.Introspect();
 			
 			using (XmlReader reader = XmlReader.Create(new StringReader(intrData), settings)) {
-				while (reader.ReadToFollowing("interface")) {
-					if (interfaces == null)
-						interfaces = new List<Interface>(5);
-					interfaces.Add(MakeInterfaceFromNode(reader.ReadSubtree(), reader["name"]));
+				reader.ReadToFollowing("node");
+				while (reader.Read()) {
+					if (reader.NodeType == XmlNodeType.EndElement)
+						continue;
+					
+					if (reader.Name == "interface") {
+						if (interfaces == null)
+							interfaces = new List<Interface>(5);
+						interfaces.Add(MakeInterfaceFromNode(reader.ReadSubtree(), reader["name"]));
+					} else if (reader.Name == "node") {
+						if (reader["name"] != null) {
+							string newPath = JoinPath(currentPath, reader["name"]);
+							ParseIntrospectable(newPath, getter, paths);
+						}
+					}
 				}
 			}
 			
 			if (interfaces != null)
 				paths.Add(new PathContainer(currentPath, interfaces.ToArray()));
-			
-			using (XmlReader reader = XmlReader.Create(new StringReader(intrData), settings)) {
-				while (reader.ReadToFollowing("node")) {
-					if (reader["name"] != null) {
-						string newPath = JoinPath(currentPath, reader["name"]);
-						ParseIntrospectable(newPath, getter, paths);
-					}
-				}
-			}
 		}
 		
 		Interface MakeInterfaceFromNode(XmlReader reader, string name)
