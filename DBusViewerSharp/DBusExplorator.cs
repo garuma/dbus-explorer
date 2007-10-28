@@ -6,7 +6,6 @@ using System;
 using System.IO;
 using System.Text;
 using System.Xml;
-using System.Xml.XPath;
 using System.Collections.Generic;
 
 using NDesk.DBus;
@@ -20,8 +19,20 @@ namespace DBusViewerSharp
 		static readonly ObjectPath DBusPath = new ObjectPath ("/org/freedesktop/DBus");
 		static readonly string rootPath = "/";
 		
+		static readonly XmlReaderSettings settings = new XmlReaderSettings();
+		
 		IBus ibus;
 		Bus bus;
+
+		static DBusExplorator()
+		{
+			settings.IgnoreComments = true;
+			settings.IgnoreProcessingInstructions = true;
+			settings.ValidationType = ValidationType.None;
+			settings.ProhibitDtd = false;
+			settings.IgnoreWhitespace = true;
+			settings.CheckCharacters = false;
+		}
 		
 		public DBusExplorator(): this(Bus.Session)
 		{
@@ -67,7 +78,7 @@ namespace DBusViewerSharp
 				return bus.GetObject<Introspectable>(busName, new ObjectPath(path));
 			};
 			
-			List<PathContainer> paths = new List<PathContainer>();
+			List<PathContainer> paths = new List<PathContainer>(7);
 			
 			ParseIntrospectable(rootPath, getter, paths);
 			
@@ -79,85 +90,108 @@ namespace DBusViewerSharp
 		{
 			Introspectable intr = getter(currentPath);
 			
-			List<Interface> interfaces = new List<Interface>();
+			List<Interface> interfaces = null;
 			
 			string intrData = intr.Introspect();
-			XPathDocument doc = new XPathDocument(new System.IO.StringReader(intrData));
-			XPathNavigator navigator = doc.CreateNavigator();
 			
-			XPathNodeIterator interfaceList = navigator.Select("node/interface");
-			foreach (XPathNavigator node in interfaceList) {
-				interfaces.Add(MakeInterfaceFromNode(node, node.GetAttribute("name", string.Empty)));
+			using (XmlReader reader = XmlReader.Create(new StringReader(intrData), settings)) {
+				while (reader.ReadToFollowing("interface")) {
+					if (interfaces == null)
+						interfaces = new List<Interface>(5);
+					interfaces.Add(MakeInterfaceFromNode(reader.ReadSubtree(), reader["name"]));
+				}
 			}
 			
-			paths.Add(new PathContainer(currentPath, interfaces.ToArray()));
+			if (interfaces != null)
+				paths.Add(new PathContainer(currentPath, interfaces.ToArray()));
 			
-			XPathNodeIterator nodeList = navigator.Select("node/node");
-			foreach (XPathNavigator node in nodeList) {
-				string newPath = JoinPath(currentPath, node.GetAttribute("name", string.Empty));
-				ParseIntrospectable(newPath, getter, paths);
+			using (XmlReader reader = XmlReader.Create(new StringReader(intrData), settings)) {
+				while (reader.ReadToFollowing("node")) {
+					if (reader["name"] != null) {
+						string newPath = JoinPath(currentPath, reader["name"]);
+						ParseIntrospectable(newPath, getter, paths);
+					}
+				}
 			}
 		}
 		
-		Interface MakeInterfaceFromNode(XPathNavigator node, string name)
+		Interface MakeInterfaceFromNode(XmlReader reader, string name)
 		{	
-			List<IElement> entries = new List<IElement>();
+			List<IElement> entries = new List<IElement>(10);
 			
-			foreach (XPathNavigator method in node.Select("method")) {
-				entries.Add(ParseMethod(method));
+			while (reader.Read()) {
+				if (reader.NodeType == XmlNodeType.EndElement)
+					continue;
+				switch (reader.Name) {
+					case "method":
+						entries.Add(ParseMethod(reader.ReadSubtree()));
+						break;
+					case "signal":
+						entries.Add(ParseSignal(reader.ReadSubtree()));
+						break;
+					case "property":
+						entries.Add(ParseProperty(reader.ReadSubtree()));
+						break;
+				}
 			}
-			foreach (XPathNavigator method in node.Select("signal")) {
-				entries.Add(ParseSignal(method));
-			}
-			foreach (XPathNavigator method in node.Select("property")) {
-				entries.Add(ParseProperty(method));
-			}
+			
+			reader.Close();
 			
 			return new Interface(name, entries.ToArray());
 		}
 				                            
-	    IElement ParseMethod(XPathNavigator method)
+	    IElement ParseMethod(XmlReader method)
 		{
 			if (method == null)
 				return null;
 			
-			string name = method.GetAttribute("name", string.Empty);
+			method.Read();
+			string name = method["name"];
 			
-			XPathNavigator returnNode = method.SelectSingleNode("arg[@direction='out']");
-			string returnArg = returnNode == null ? string.Empty : returnNode.GetAttribute("type", string.Empty);
+			string returnArg = string.Empty;
+			List<Argument> args = null;
 			
-			XPathNodeIterator argNodeList = method.Select("arg[@direction='in']");
-			Argument[] args = null;
-			
-			if (argNodeList.Count > 0) {
-				args = new Argument[argNodeList.Count];
-				int i = 0;
-				foreach (XPathNavigator arg in argNodeList) {
-					string paramName = arg.GetAttribute("name", string.Empty);
-					args[i++] = new Argument(arg.GetAttribute("type", string.Empty), paramName);
+			while (method.ReadToFollowing("arg")) {
+				if (method["direction"] == "out") {
+					returnArg = method["type"];
+				} else {
+					if (args == null)
+						args = new List<Argument>(5);
+					args.Add(new Argument(method["type"], method["name"]));
 				}
 			}
-				                       
-		    return ElementFactory.FromMethodDefinition(returnArg, name, args);
+			
+			method.Close();
+			
+			return ElementFactory.FromMethodDefinition(returnArg, name, args != null ? args.ToArray() : null);
 		}
 		
-		IElement ParseSignal(XPathNavigator signal)
+		IElement ParseSignal(XmlReader signal)
 		{
-			string name = signal.GetAttribute("name", string.Empty);
+			if (signal == null)
+				return null;
 			
-			XPathNavigator arg = signal.SelectSingleNode("arg");
-			string argType = arg.GetAttribute("type", string.Empty);
-			//string argName = arg.GetAttribute("name", string.Empty);
+			signal.Read();
+			string name = signal["name"];
+			
+			signal.ReadToFollowing("arg");	
+			string argType = signal["type"];
+			
+			signal.Close();
 			
 			return ElementFactory.FromSignalDefinition(name, new Argument(argType, null));
 		}
 		
-		IElement ParseProperty(XPathNavigator property)
+		IElement ParseProperty(XmlReader property)
 		{
-			string name = property.GetAttribute("name", string.Empty);
-			Argument type = new Argument(property.GetAttribute("type", string.Empty), null);
+			if (property == null)
+				return null;
+			
+			property.Read();
+			string name = property["name"];
+			Argument type = new Argument(property["type"], null);
 			PropertyAccess access = PropertyAccess.Read;
-			switch (property.GetAttribute("access", string.Empty)) {
+			switch (property["access"]) {
 				case "readwrite":
 					access = PropertyAccess.ReadWrite;
 					break;
@@ -168,6 +202,8 @@ namespace DBusViewerSharp
 					access = PropertyAccess.Write;
 					break;
 			}
+			
+			property.Close();
 			
 			return ElementFactory.FromPropertyDefinition(name, type, access);
 		}

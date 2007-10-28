@@ -205,7 +205,7 @@ public partial class MainWindow {
         this.vpaned2 = new Gtk.VPaned();
         this.vpaned2.CanFocus = true;
         this.vpaned2.Name = "vpaned2";
-        this.vpaned2.Position = 347;
+        this.vpaned2.Position = 372;
         // Container child vpaned2.Gtk.Paned+PanedChild
         this.scrolledwindow1 = new Gtk.ScrolledWindow();
         this.scrolledwindow1.CanFocus = true;

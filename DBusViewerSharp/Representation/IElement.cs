@@ -10,6 +10,7 @@ namespace DBusViewerSharp
 	public interface IElement
 	{
 		ElementRepresentation Visual { get; }
+		Gdk.Pixbuf Image { get; }
 		// The symbol name
 		string Name { get; }
 	}

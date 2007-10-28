@@ -6,20 +6,10 @@ using System;
 
 namespace DBusViewerSharp
 {
-	
-	
 	public class ElementRepresentation
 	{
-		Gdk.Pixbuf image;
 		string specDesc;
 		string cStyle;
-		//string additionalFlags;
-		
-		public Gdk.Pixbuf Image {
-			get {
-				return image;
-			}
-		}
 
 		public string SpecDesc {
 			get {
@@ -33,9 +23,8 @@ namespace DBusViewerSharp
 			}
 		}
 		
-		public ElementRepresentation(Gdk.Pixbuf image, string specDesc, string cStyle)
+		public ElementRepresentation(string specDesc, string cStyle)
 		{
-			this.image = image;
 			this.specDesc = specDesc;
 			this.cStyle = cStyle;
 		}

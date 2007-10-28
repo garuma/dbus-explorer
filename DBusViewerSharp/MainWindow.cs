@@ -88,6 +88,10 @@ public partial class MainWindow: Gtk.Window
 				spinner.Active = false;
 			});
 		});
+		/*foreach (PathContainer path in explorator.GetElementsFromBus(busName)) {
+			//Console.WriteLine("Adding ElementsEntry");
+			AddPath(path);
+		}*/
 	}
 	
 	void AddPath(PathContainer path)
@@ -116,9 +120,10 @@ public partial class MainWindow: Gtk.Window
 	void AddChildSymbols (TreeIter parent, Interface element)
 	{
 		foreach (IElement entry in element.Symbols) {
-			ElementRepresentation representation = entry.Visual;
+			if (string.IsNullOrEmpty(element.Name) || entry.Image == null)
+				continue;
 			
-			model.AppendValues(parent, entry.Name, representation.Image);
+			model.AppendValues(parent, entry.Name, entry.Image);
 			try {
 				currentData.Add(entry.Name, entry);
 			} catch {}	
@@ -133,7 +138,7 @@ public partial class MainWindow: Gtk.Window
 		
 		ElementRepresentation representation = element.Visual;
 		informationLabel.Text = key;
-		symbolImage.Pixbuf = representation.Image;
+		symbolImage.Pixbuf = element.Image;
 		specstyleDecl.Markup = "<b><tt>" + representation.SpecDesc + "</tt></b>";
 		cstyleDecl.Markup = "<tt>" + representation.CStyle.Replace("<", "&lt;") + "</tt>";
 	}
