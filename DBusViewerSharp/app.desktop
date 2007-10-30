@@ -1,10 +1,10 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-Name=DBusViewerSharp
-Exec=dbusviewersharp
+Name=D-Bus Explorer
+Exec=dbusexplorersharp
 Terminal=false
 Categories=Development;
-GenericName=DBusViewerSharp
-Comment=A tool to visualize the exposed API of DBus services
-Icon=dbusviewersharp
+GenericName=D-Bus Explorer
+Comment=A tool to visualize the API of DBus services
+Icon=dbusexplorersharp

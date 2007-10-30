@@ -13,5 +13,6 @@ namespace DBusViewerSharp
 		Gdk.Pixbuf Image { get; }
 		// The symbol name
 		string Name { get; }
+		//InvocationData Data { get; }
 	}
 }

@@ -1,0 +1,11 @@
+<CombineEntry name="Packaging" fileversion="2.0" ctype="PackagingProject">
+  <Packages>
+    <Package name="Tarball">
+      <Builder rootEntry="../DBusViewerSharp.mds" TargetDirectory="/home/jeremie/Projects/DbusViewerSharp/deploy" DefaultConfiguration="Debug" GenerateAutotools="False" ctype="TarballDeployTarget">
+        <ChildEntries>
+          <Entry>../DBusViewerSharp/DBusViewerSharp.mdp</Entry>
+        </ChildEntries>
+      </Builder>
+    </Package>
+  </Packages>
+</CombineEntry>
