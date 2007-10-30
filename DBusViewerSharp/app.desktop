@@ -2,9 +2,9 @@
 Encoding=UTF-8
 Type=Application
 Name=D-Bus Explorer
-Exec=dbusexplorersharp
+Exec=dbus-explorer
 Terminal=false
 Categories=Development;
 GenericName=D-Bus Explorer
 Comment=A tool to visualize the API of DBus services
-Icon=dbusexplorersharp
+Icon=dbus-explorer
