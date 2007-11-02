@@ -34,8 +34,7 @@ namespace DBusViewerSharp
 			
 			foreach (DType currentToken in expressionList) {
 				if (currentToken == DType.DictEntryEnd || currentToken == DType.StructEnd 
-				    || currentToken == DType.DictEntry || currentToken == DType.Invalid
-				    || currentToken == DType.ObjectPath || currentToken == DType.Signature)
+				    || currentToken == DType.DictEntry)
 					continue;
 				
 				switch (currentToken) {
@@ -81,7 +80,7 @@ namespace DBusViewerSharp
 		
 		static string ParseArrayDefinition(List<DType> exprs)
 		{
-			string tmp = StrFromExprList(exprs.GetRange(1, exprs.Count - 1))[0];
+			string tmp = exprs.Count > 1 ? StrFromExprList(exprs.GetRange(1, exprs.Count - 1))[0] : "Invalid";
 			tmp += "[]";
 			
 			return tmp;

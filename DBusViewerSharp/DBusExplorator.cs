@@ -78,7 +78,7 @@ namespace DBusViewerSharp
 		{
 			Introspectable intr = getter(currentPath);
 			string intrData = intr.Introspect();
-			Console.WriteLine(intrData);
+			//Console.WriteLine(intrData);
 			
 			List<Interface> interfaces = null;
 			
@@ -155,7 +155,7 @@ namespace DBusViewerSharp
 			
 			method.Close();
 			
-			return ElementFactory.FromMethodDefinition(returnArg, name, args != null ? args.ToArray() : null);
+			return ElementFactory.FromMethodDefinition(returnArg, name, args != null ? (IEnumerable<Argument>)args : null);
 		}
 		
 		IElement ParseSignal(XmlReader signal)
@@ -166,12 +166,16 @@ namespace DBusViewerSharp
 			signal.Read();
 			string name = signal["name"];
 			
-			signal.ReadToFollowing("arg");	
-			string argType = signal["type"];
+			List<Argument> args = null;
+			while (signal.ReadToFollowing("arg")) {	
+				if (args == null)
+					args = new List<Argument>(3);
+				args.Add(new Argument(signal["type"], null));
+			}
 			
 			signal.Close();
 			
-			return ElementFactory.FromSignalDefinition(name, new Argument(argType, null));
+			return ElementFactory.FromSignalDefinition(name, args == null ? null : (IEnumerable<Argument>)args);
 		}
 		
 		IElement ParseProperty(XmlReader property)

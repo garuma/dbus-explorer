@@ -5,6 +5,8 @@
 // 
 
 using System;
+using System.Text;
+using System.Collections.Generic;
 
 namespace DBusViewerSharp
 {
@@ -46,31 +48,18 @@ namespace DBusViewerSharp
 		readonly static Gdk.Pixbuf signalPb   = Gdk.Pixbuf.LoadFromResource("event.png");
 		readonly static Gdk.Pixbuf propertyPb = Gdk.Pixbuf.LoadFromResource("property.png");
 		
-		public static IElement FromMethodDefinition(string returnType, string name, Argument[] args)
+		public static IElement FromMethodDefinition(string returnType, string name, IEnumerable<Argument> args)
 		{
-			string parameters = string.Empty;
-			if (args != null) {
-				foreach (Argument parameter in args) {
-					parameters += (parameters.Length == 0 ? string.Empty : ", ") + Parser.ParseDBusTypeExpression(parameter.Type) + " " + parameter.Name;
-				}
-			}
-			string cStyle = Parser.ParseDBusTypeExpression(returnType) + " " + name + " (" + parameters + ")";
-			
-			parameters = string.Empty;
-			if (args != null) {
-				foreach (Argument parameter in args) {
-					parameters += (parameters.Length == 0 ? string.Empty : ", ") + parameter.Name + ": " + parameter.Type;
-				}
-			}
-			string specDesc = name + " (" + parameters + ") : " + returnType;
+			string cStyle = Parser.ParseDBusTypeExpression(returnType) + " " + name + " (" + MakeArgumentList(args, ", ", "{T} {N}", true) + ")";
+			string specDesc = name + " (" + MakeArgumentList(args, ", ", "{N} : {T}", false) + ") : " + returnType;
 			
 			return new Element(name, new ElementRepresentation(specDesc, cStyle), methodPb);
 		}
 		
-		public static IElement FromSignalDefinition(string name, Argument parameter)
+		public static IElement FromSignalDefinition(string name, IEnumerable<Argument> args)
 		{
-			string spec = "signal " + name + " : " + parameter.Type;
-			string cdecl = "event EventHandler<" + Parser.ParseDBusTypeExpression(parameter.Type) + "> " + name;
+			string spec = "signal " + name + " : " + MakeArgumentList(args, ", ", "{T}", false);
+			string cdecl = "event EventHandler<" + MakeArgumentList(args, ", ", "{T}", true) + "> " + name;
 			
 			return new Element(name, new ElementRepresentation(spec, cdecl), signalPb);
 		}
@@ -84,6 +73,22 @@ namespace DBusViewerSharp
 			cdecl += "}";
 
 			return new Element(name, new ElementRepresentation(spec, cdecl), propertyPb);
+		}
+		
+		static StringBuilder sb = new StringBuilder(20);
+		
+		static string MakeArgumentList(IEnumerable<Argument> args, string separator, string format, bool parse)
+		{
+			if (args == null)
+				return string.Empty;
+			
+			sb.Remove(0, sb.Length);
+			foreach (Argument arg in args) {
+				sb.Append(sb.Length == 0 ? string.Empty : separator);
+				sb.Append(format.Replace("{T}", parse ? Parser.ParseDBusTypeExpression(arg.Type) : arg.Type)
+				          .Replace("{N}", arg.Name));				
+			}
+			return sb.ToString();
 		}
 	}
 }
