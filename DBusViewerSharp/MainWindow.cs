@@ -183,6 +183,7 @@ public partial class MainWindow: Gtk.Window
 		ad.Authors = new string[] { "Jérémie \"Garuma\" Laval" };
 		ad.Copyright = "Copyright (c) 2007 Jérémie Laval <jeremie.laval@gmail.com>";
 		ad.License = "See the COPYING file";
+		ad.Version = "0.2";
 		
 		ad.Run();
 		ad.Destroy();

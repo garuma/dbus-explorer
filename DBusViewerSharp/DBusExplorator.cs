@@ -8,8 +8,6 @@ using System.Text;
 using System.Xml;
 using System.Collections.Generic;
 
-using System.Diagnostics;
-
 using NDesk.DBus;
 using org.freedesktop.DBus;
 
@@ -21,21 +19,9 @@ namespace DBusViewerSharp
 		static readonly ObjectPath DBusPath = new ObjectPath ("/org/freedesktop/DBus");
 		static readonly string rootPath = "/";
 		
-		static readonly XmlReaderSettings settings = new XmlReaderSettings();
-		
 		IBus ibus;
 		Bus bus;
 
-		static DBusExplorator()
-		{
-			settings.IgnoreComments = true;
-			settings.IgnoreProcessingInstructions = true;
-			settings.ValidationType = ValidationType.None;
-			settings.ProhibitDtd = false;
-			settings.IgnoreWhitespace = true;
-			settings.CheckCharacters = false;
-		}
-		
 		public DBusExplorator(): this(Bus.Session)
 		{
 		}
@@ -81,23 +67,25 @@ namespace DBusViewerSharp
 			};
 			
 			List<PathContainer> paths = new List<PathContainer>(7);
-			
+
 			ParseIntrospectable(rootPath, getter, paths);
 			
 			return (IEnumerable<PathContainer>)paths;
 		}
 		
-		static void ParseIntrospectable(string currentPath, IntrospectableGetter getter,
+		void ParseIntrospectable(string currentPath, IntrospectableGetter getter,
 		                                    List<PathContainer> paths)
 		{
 			Introspectable intr = getter(currentPath);
+			string intrData = intr.Introspect();
+			Console.WriteLine(intrData);
 			
 			List<Interface> interfaces = null;
 			
-			string intrData = intr.Introspect();
-			
-			using (XmlReader reader = XmlReader.Create(new StringReader(intrData), settings)) {
+			using (XmlTextReader reader = new XmlTextReader(new StringReader(intrData))) {
+				reader.XmlResolver = null;
 				reader.ReadToFollowing("node");
+				
 				while (reader.Read()) {
 					if (reader.NodeType == XmlNodeType.EndElement)
 						continue;
@@ -119,8 +107,8 @@ namespace DBusViewerSharp
 				paths.Add(new PathContainer(currentPath, (IEnumerable<Interface>)interfaces));
 		}
 		
-		static Interface MakeInterfaceFromNode(XmlReader reader, string name)
-		{	
+		Interface MakeInterfaceFromNode(XmlReader reader, string name)
+		{
 			List<IElement> entries = new List<IElement>(50);
 			
 			while (reader.Read()) {
@@ -144,7 +132,7 @@ namespace DBusViewerSharp
 			return new Interface(name, (IEnumerable<IElement>)entries);
 		}
 				                            
-	    static IElement ParseMethod(XmlReader method)
+	    IElement ParseMethod(XmlReader method)
 		{
 			if (method == null)
 				return null;
@@ -170,7 +158,7 @@ namespace DBusViewerSharp
 			return ElementFactory.FromMethodDefinition(returnArg, name, args != null ? args.ToArray() : null);
 		}
 		
-		static IElement ParseSignal(XmlReader signal)
+		IElement ParseSignal(XmlReader signal)
 		{
 			if (signal == null)
 				return null;
@@ -186,7 +174,7 @@ namespace DBusViewerSharp
 			return ElementFactory.FromSignalDefinition(name, new Argument(argType, null));
 		}
 		
-		static IElement ParseProperty(XmlReader property)
+		IElement ParseProperty(XmlReader property)
 		{
 			if (property == null)
 				return null;

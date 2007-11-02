@@ -7,12 +7,12 @@ using System.Runtime.CompilerServices;
 // change them to the information which is associated with the assembly
 // you compile.
 
-[assembly: AssemblyTitle("DBusViewerSharp")]
-[assembly: AssemblyDescription("A tool to visualize the exposed API of DBus services")]
+[assembly: AssemblyTitle("D-Bus Explorer")]
+[assembly: AssemblyDescription("A tool to visualize the API of D-Bus services")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("Copyright (c) 2007 Jérémie Laval <jeremie.laval@gmail.com>")]
+[assembly: AssemblyCopyright("Copyright (c) 2007 Jérémie \"Garuma\" Laval <jeremie.laval@gmail.com>")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -23,7 +23,7 @@ using System.Runtime.CompilerServices;
 // You can specify all values by your own or you can build default build and revision
 // numbers with the '*' character (the default):
 
-[assembly: AssemblyVersion("0.1.*")]
+[assembly: AssemblyVersion("0.2.*")]
 
 // The following attributes specify the key for the sign of your assembly. See the
 // .NET Framework documentation for more information about signing.

@@ -10,6 +10,7 @@ using NDesk.DBus;
 
 namespace DBusViewerSharp
 {
+	// This part requires a redesign of the internal DBus# API
 	public class MethodInvokator
 	{
 		static AssemblyBuilder asmBuilder;
@@ -18,9 +19,9 @@ namespace DBusViewerSharp
 		
 		static MethodInvokator()
 		{
-			asmBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName("DBusViewerSharpInvokator"),
+			/*asmBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName("DBusViewerSharpInvokator"),
 			                                                           AssemblyBuilderAccess.Run);
-			modBuilder = asmBuilder.DefineDynamicModule("DBusViewerSharpInvoke");
+			modBuilder = asmBuilder.DefineDynamicModule("DBusViewerSharpInvoke");*/
 		}
 		
 		Bus bus;
