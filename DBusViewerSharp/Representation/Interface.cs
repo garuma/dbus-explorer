@@ -3,6 +3,7 @@
 // See COPYING file for license information.
 
 using System;
+using System.Collections.Generic;
 
 namespace DBusViewerSharp
 {
@@ -10,7 +11,7 @@ namespace DBusViewerSharp
 	public class Interface
 	{
 		string name;
-		IElement[] symbols;
+		IEnumerable<IElement> symbols;
 		
 		public string Name {
 			get {
@@ -18,13 +19,13 @@ namespace DBusViewerSharp
 			}
 		}
 
-		public IElement[] Symbols {
+		public IEnumerable<IElement> Symbols {
 			get {
 				return symbols;
 			}
 		}
 		
-		public Interface(string name, IElement[] symbols)
+		public Interface(string name, IEnumerable<IElement> symbols)
 		{
 			this.name = name;
 			this.symbols = symbols;

@@ -77,7 +77,7 @@ public partial class MainWindow: Gtk.Window
 		spinner.Active = true;
 		
 		explorator.BeginGetElementsFromBus(busName, delegate (IAsyncResult result) {
-			PathContainer[] elements = explorator.EndGetElementsFromBus(result);
+			IEnumerable<PathContainer> elements = explorator.EndGetElementsFromBus(result);
 			Application.Invoke(delegate {
 				foreach (PathContainer path in elements) {
 					//Console.WriteLine("Adding ElementsEntry");
@@ -98,8 +98,8 @@ public partial class MainWindow: Gtk.Window
 	{
 		if (path == null)
 			return;
-		if (path.Interfaces.Length == 0)
-			return;
+		/*if (path.Interfaces.Length == 0)
+			return;*/
 		    
 		TreeIter parent = model.AppendValues(path.Path, empty);
 		foreach (Interface @interface in path.Interfaces) {

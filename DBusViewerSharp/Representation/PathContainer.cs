@@ -5,15 +5,16 @@
 // 
 
 using System;
+using System.Collections.Generic;
 
 namespace DBusViewerSharp
 {
 	public class PathContainer
 	{
-		Interface[] interfaces;
+		IEnumerable<Interface> interfaces;
 		string path;
 		
-		public Interface[] Interfaces {
+		public IEnumerable<Interface> Interfaces {
 			get {
 				return interfaces;
 			}
@@ -25,7 +26,7 @@ namespace DBusViewerSharp
 			}
 		}
 		
-		public PathContainer(string path, Interface[] interfaces)
+		public PathContainer(string path, IEnumerable<Interface> interfaces)
 		{
 			this.path = path;
 			this.interfaces = interfaces;

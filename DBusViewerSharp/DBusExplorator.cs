@@ -8,6 +8,8 @@ using System.Text;
 using System.Xml;
 using System.Collections.Generic;
 
+using System.Diagnostics;
+
 using NDesk.DBus;
 using org.freedesktop.DBus;
 
@@ -57,7 +59,7 @@ namespace DBusViewerSharp
 			}
 		}
 		
-		delegate PathContainer[] UpdateDelegate(string busName);
+		delegate IEnumerable<PathContainer> UpdateDelegate(string busName);
 		UpdateDelegate updater;
 		
 		public IAsyncResult BeginGetElementsFromBus(string busName, AsyncCallback callback)
@@ -65,14 +67,14 @@ namespace DBusViewerSharp
 			return updater.BeginInvoke(busName, callback, null);
 		}
 		
-		public PathContainer[] EndGetElementsFromBus(IAsyncResult result)
+		public IEnumerable<PathContainer> EndGetElementsFromBus(IAsyncResult result)
 		{
 			return updater.EndInvoke(result);
 		}
 		
 		delegate Introspectable IntrospectableGetter(string path);
 		
-		public PathContainer[] GetElementsFromBus(string busName)
+		public IEnumerable<PathContainer> GetElementsFromBus(string busName)
 		{
 			IntrospectableGetter getter = delegate (string path) {
 				return bus.GetObject<Introspectable>(busName, new ObjectPath(path));
@@ -82,10 +84,10 @@ namespace DBusViewerSharp
 			
 			ParseIntrospectable(rootPath, getter, paths);
 			
-			return paths.ToArray();
+			return (IEnumerable<PathContainer>)paths;
 		}
 		
-		void ParseIntrospectable(string currentPath, IntrospectableGetter getter,
+		static void ParseIntrospectable(string currentPath, IntrospectableGetter getter,
 		                                    List<PathContainer> paths)
 		{
 			Introspectable intr = getter(currentPath);
@@ -114,12 +116,12 @@ namespace DBusViewerSharp
 			}
 			
 			if (interfaces != null)
-				paths.Add(new PathContainer(currentPath, interfaces.ToArray()));
+				paths.Add(new PathContainer(currentPath, (IEnumerable<Interface>)interfaces));
 		}
 		
-		Interface MakeInterfaceFromNode(XmlReader reader, string name)
+		static Interface MakeInterfaceFromNode(XmlReader reader, string name)
 		{	
-			List<IElement> entries = new List<IElement>(10);
+			List<IElement> entries = new List<IElement>(50);
 			
 			while (reader.Read()) {
 				if (reader.NodeType == XmlNodeType.EndElement)
@@ -139,10 +141,10 @@ namespace DBusViewerSharp
 			
 			reader.Close();
 			
-			return new Interface(name, entries.ToArray());
+			return new Interface(name, (IEnumerable<IElement>)entries);
 		}
 				                            
-	    IElement ParseMethod(XmlReader method)
+	    static IElement ParseMethod(XmlReader method)
 		{
 			if (method == null)
 				return null;
@@ -168,7 +170,7 @@ namespace DBusViewerSharp
 			return ElementFactory.FromMethodDefinition(returnArg, name, args != null ? args.ToArray() : null);
 		}
 		
-		IElement ParseSignal(XmlReader signal)
+		static IElement ParseSignal(XmlReader signal)
 		{
 			if (signal == null)
 				return null;
@@ -184,7 +186,7 @@ namespace DBusViewerSharp
 			return ElementFactory.FromSignalDefinition(name, new Argument(argType, null));
 		}
 		
-		IElement ParseProperty(XmlReader property)
+		static IElement ParseProperty(XmlReader property)
 		{
 			if (property == null)
 				return null;
@@ -210,7 +212,7 @@ namespace DBusViewerSharp
 			return ElementFactory.FromPropertyDefinition(name, type, access);
 		}
 		
-		string JoinPath(string path1, string path2)
+		static string JoinPath(string path1, string path2)
 		{
 			string path = path1.EndsWith("/") ? path1 : path1 + "/";
 			path += path2;
