@@ -18,8 +18,8 @@ namespace DBusViewerSharp
 			if (expression.Length == 1)
 				return Mapper.DTypeToStr((DType)(byte)expression[0]);
 			
-			List<DType> expressionList = new List<DType>(expression.Length + 1);
-			
+			List<DType> expressionList = new List<DType>(expression.Length);
+			// Fill expressionList
 			foreach (char c in expression) {
 				expressionList.Add((DType)(byte)c);
 			}
@@ -27,50 +27,71 @@ namespace DBusViewerSharp
 			return StrFromExprList(expressionList)[0];
 		}
 		
-		static string[] StrFromExprList(List<DType> expressionList)
+		static IList<string> StrFromExprList(List<DType> expressionList)
 		{
 			List<string> list = new List<string>();
-			int index = 0;
 			
-			foreach (DType currentToken in expressionList) {
-				if (currentToken == DType.DictEntryEnd || currentToken == DType.StructEnd 
-				    || currentToken == DType.DictEntry)
+			for (int index = 0; index < expressionList.Count; index++) {
+				DType currentToken = expressionList[index];
+				if (currentToken == DType.DictEntryEnd || currentToken == DType.StructEnd)
 					continue;
 				
 				switch (currentToken) {
 					case DType.StructBegin:
-						list.Add(ParseStructDefinition(expressionList.GetRange(index, expressionList.Count - index)));
+						int count = GetStructLimit(expressionList, ++index);
+						list.Add(ParseStructDefinition(expressionList.GetRange(index, count)));
+						index += count;
 						break;
-					case DType.DictEntryBegin:
-						list.Add(ParseDictDefinition(expressionList.GetRange(index, expressionList.Count - index)));
-						break;
+					// In fact this case is both for array and dictionary
 					case DType.Array:
-						list.Add(ParseArrayDefinition(expressionList.GetRange(index, expressionList.Count - index)));
+						count = GetArrayLimit(expressionList, ++index);
+						list.Add(ParseArrayDefinition(expressionList.GetRange(index, count)));
+						index += count;
 						break;
 					default:
 						list.Add(Mapper.DTypeToStr(currentToken));
 						break;
 				}
-				index++;
 			}
 			
-			return list.ToArray();
+			return list.AsReadOnly();
+		}
+		
+		static int GetStructLimit(List<DType> list, int start)
+		{
+			int count = -1;
+			for (count = list.Count - 1; count > start; count--) {
+				if (list[count] == DType.StructEnd)
+					break;
+			}
+			return count - start;
+		}
+		
+		static int GetArrayLimit(List<DType> list, int start)
+		{
+			if (list[0] == DType.StructBegin)
+				return GetStructLimit(list, start + 1);
+			if (list[0] == DType.DictEntryBegin)
+				return GetDictionaryLimit(list, start + 1);
+			else
+				// Basic type
+				return 1;
+		}
+		
+		static int GetDictionaryLimit(List<DType> list, int start)
+		{
+			int count = -1;
+			for (count = list.Count - 1; count > start; count--) {
+				if (list[count] == DType.DictEntryEnd)
+					break;
+			}
+			return count - start;
 		}
 		
 		static string ParseStructDefinition(List<DType> exprs)
 		{
 			string temp = "struct { ";
-			int count;
-			int start = exprs[0] == DType.StructBegin ? 1 : 0;
-			
-			for (count = exprs.Count - 1; count > 0; count--) {
-				if (exprs[count] == DType.StructEnd)
-					break;
-			}
-			
-			List<DType> tempList = exprs.GetRange(start, count);
-			
-			foreach (string s in StrFromExprList(tempList)) {
+			foreach (string s in StrFromExprList(exprs)) {
 				temp += s + "; ";
 			}
 			temp += "}";
@@ -80,7 +101,11 @@ namespace DBusViewerSharp
 		
 		static string ParseArrayDefinition(List<DType> exprs)
 		{
-			string tmp = exprs.Count > 1 ? StrFromExprList(exprs.GetRange(1, exprs.Count - 1))[0] : "Invalid";
+			// In the case it's a dictionary
+			if (exprs[0] == DType.DictEntryBegin)
+				return ParseDictDefinition(exprs.GetRange(1, exprs.Count - 1));
+			
+			string tmp = StrFromExprList(exprs)[0];
 			tmp += "[]";
 			
 			return tmp;
@@ -88,7 +113,8 @@ namespace DBusViewerSharp
 		
 		static string ParseDictDefinition(List<DType> exprList)
 		{
-			return string.Empty;
+			IList<string> list = StrFromExprList(exprList);
+			return "Dictionary<" + list[0] + ", " + list[1] + ">";
 		}
 	}
 	
@@ -111,9 +137,6 @@ namespace DBusViewerSharp
 		Signature = (byte)'g',
 
 		Array = (byte)'a',
-		//TODO: remove Struct and DictEntry -- they are not relevant to wire protocol
-		Struct = (byte)'r',
-		DictEntry = (byte)'e',
 		Variant = (byte)'v',
 
 		StructBegin = (byte)'(',
