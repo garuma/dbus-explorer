@@ -24,7 +24,13 @@ namespace DBusViewerSharp
 				expressionList.Add((DType)(byte)c);
 			}
 			
-			return StrFromExprList(expressionList)[0];
+			string temp;
+			try {			
+				temp = StrFromExprList(expressionList)[0];
+			} catch {
+				temp = "(Error while parsing)";
+			}
+			return temp;
 		}
 		
 		static IList<string> StrFromExprList(List<DType> expressionList)
@@ -36,15 +42,24 @@ namespace DBusViewerSharp
 				if (currentToken == DType.DictEntryEnd || currentToken == DType.StructEnd)
 					continue;
 				
+				/*Console.WriteLine("Starting a new StrFromExprList");
+				Console.WriteLine("Current Token : " + currentToken.ToString());*/
+				
 				switch (currentToken) {
 					case DType.StructBegin:
 						int count = GetStructLimit(expressionList, ++index);
+						/*Console.WriteLine("Struct count : " + count.ToString());
+						Console.Write("{ ");
+						foreach (DType t in expressionList) Console.Write(t.ToString());
+						Console.WriteLine(" }");*/
+						
 						list.Add(ParseStructDefinition(expressionList.GetRange(index, count)));
 						index += count;
 						break;
 					// In fact this case is both for array and dictionary
 					case DType.Array:
 						count = GetArrayLimit(expressionList, ++index);
+						//Console.WriteLine("Array count : " + count.ToString());
 						list.Add(ParseArrayDefinition(expressionList.GetRange(index, count)));
 						index += count;
 						break;
@@ -64,14 +79,14 @@ namespace DBusViewerSharp
 				if (list[count] == DType.StructEnd)
 					break;
 			}
-			return count - start;
+			return count - 1;
 		}
 		
 		static int GetArrayLimit(List<DType> list, int start)
 		{
-			if (list[0] == DType.StructBegin)
-				return GetStructLimit(list, start + 1);
-			if (list[0] == DType.DictEntryBegin)
+			if (list[start] == DType.StructBegin)
+				return GetStructLimit(list, start + 1) + 1;
+			if (list[start] == DType.DictEntryBegin)
 				return GetDictionaryLimit(list, start + 1);
 			else
 				// Basic type
@@ -85,7 +100,7 @@ namespace DBusViewerSharp
 				if (list[count] == DType.DictEntryEnd)
 					break;
 			}
-			return count - start;
+			return count;
 		}
 		
 		static string ParseStructDefinition(List<DType> exprs)

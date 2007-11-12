@@ -21,6 +21,8 @@ namespace DBusViewerSharp
 		
 		IBus ibus;
 		Bus bus;
+		
+		bool dump = Environment.CommandLine.Contains("--dump");
 
 		public DBusExplorator(): this(Bus.Session)
 		{
@@ -78,7 +80,12 @@ namespace DBusViewerSharp
 		{
 			Introspectable intr = getter(currentPath);
 			string intrData = intr.Introspect();
-			//Console.WriteLine(intrData);
+			
+			if (dump) {
+				Console.WriteLine("On path : " + currentPath);
+				Console.WriteLine(intrData);
+				Console.WriteLine();
+			}
 			
 			List<Interface> interfaces = null;
 			

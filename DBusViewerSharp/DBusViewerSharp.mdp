@@ -43,14 +43,18 @@
     <File name="Representation/Argument.cs" subtype="Code" buildaction="Compile" />
     <File name="Representation/Enums.cs" subtype="Code" buildaction="Compile" />
     <File name="InvocationLayer/InvocationData.cs" subtype="Code" buildaction="Nothing" />
+    <File name="SSP" subtype="Directory" buildaction="Compile" />
+    <File name="SSP/Parser.cs" subtype="Code" buildaction="Compile" />
+    <File name="SSP/SExp.cs" subtype="Code" buildaction="Compile" />
+    <File name="SSP/Types.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="gtk-sharp, Version=2.10.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <ProjectReference type="Gac" localcopy="True" refto="Mono.Posix, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
     <ProjectReference type="Gac" localcopy="True" refto="System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-    <ProjectReference type="Assembly" localcopy="True" refto="../deps/NDesk.DBus.dll" />
-    <ProjectReference type="Assembly" localcopy="True" refto="../deps/NDesk.DBus.GLib.dll" />
+    <ProjectReference type="Gac" localcopy="True" refto="NDesk.DBus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099" />
+    <ProjectReference type="Gac" localcopy="True" refto="NDesk.DBus.GLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099" />
   </References>
   <GtkDesignInfo gtkVersion="2.10.2" />
 </Project>
