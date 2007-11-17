@@ -78,14 +78,25 @@ namespace DBusViewerSharp
 		void ParseIntrospectable(string currentPath, IntrospectableGetter getter,
 		                                    List<PathContainer> paths)
 		{
-			Introspectable intr = getter(currentPath);
-			string intrData = intr.Introspect();
+			Introspectable intr = null;
+			string intrData = null;
+			
+			try {
+				intr = getter(currentPath);
+				intrData = intr.Introspect();
+			} catch (Exception e) {
+				Console.Error.WriteLine("Managed D-Bus error on path : " + currentPath);
+				Console.Error.WriteLine("Error : " + e.Message);
+			}
 			
 			if (dump) {
 				Console.WriteLine("On path : " + currentPath);
-				Console.WriteLine(intrData);
+				Console.WriteLine(intrData ?? "Nothing to be parsed");
 				Console.WriteLine();
 			}
+			
+			if (intrData == null)
+				return;
 			
 			List<Interface> interfaces = null;
 			
