@@ -20,6 +20,7 @@ public partial class MainWindow: Gtk.Window
 	
 	static Gdk.Pixbuf empty = Gdk.Pixbuf.LoadFromResource("empty.png");
 	ImageAnimation spinner;
+	Entry sentry = new Entry();
 	
 	public MainWindow (DBusViewerSharp.DBusExplorator explorator): base (Gtk.WindowType.Toplevel)
 	{
@@ -37,6 +38,10 @@ public partial class MainWindow: Gtk.Window
 		spinner.Active = false;
 		spinnerAlign.Add(spinner);
 		spinnerBox.HideAll();
+		
+		sentry.Activated += delegate {
+			
+		};
 		
 		// Graphical elements
 		FeedBusComboBox(explorator.AvalaibleBusNames);

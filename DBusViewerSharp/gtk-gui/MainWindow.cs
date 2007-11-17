@@ -50,37 +50,53 @@ public partial class MainWindow {
     
     private Gtk.Label label4;
     
+    private Gtk.Expander expander1;
+    
+    private Gtk.VBox vbox4;
+    
+    private Gtk.HBox hbox2;
+    
+    private Gtk.Label label3;
+    
+    private Gtk.Alignment searchEntryAlign;
+    
+    private Gtk.Alignment sortCb;
+    
+    private Gtk.HBox hbox4;
+    
+    private Gtk.Label label2;
+    
     private Gtk.VPaned vpaned2;
     
     private Gtk.ScrolledWindow scrolledwindow1;
     
     private Gtk.TreeView tv;
     
-    private Gtk.Expander expander1;
+    private Gtk.Expander expander2;
     
-    private Gtk.VBox vbox2;
+    private Gtk.VBox vbox3;
     
-    private Gtk.Alignment alignment1;
+    private Gtk.Alignment alignment5;
     
-    private Gtk.HBox hbox2;
+    private Gtk.HBox hbox5;
     
     private Gtk.Image symbolImage;
     
-    private Gtk.Alignment alignment2;
+    private Gtk.Alignment alignment7;
     
     private Gtk.Label specstyleDecl;
     
-    private Gtk.Alignment alignment3;
+    private Gtk.Alignment alignment8;
     
-    private Gtk.HBox hbox3;
+    private Gtk.HBox hbox6;
     
-    private Gtk.Label label3;
+    private Gtk.Label label5;
     
     private Gtk.Label cstyleDecl;
     
-    private Gtk.HBox hbox4;
+    private Gtk.HBox hbox7;
     
-    private Gtk.Label label2;
+    private Gtk.Label label6;
     
     private Gtk.Label informationLabel;
     
@@ -202,10 +218,74 @@ public partial class MainWindow {
         w12.Fill = false;
         w12.Padding = ((uint)(1));
         // Container child vbox1.Gtk.Box+BoxChild
+        this.expander1 = new Gtk.Expander(null);
+        this.expander1.CanFocus = true;
+        this.expander1.Name = "expander1";
+        this.expander1.Spacing = 2;
+        this.expander1.BorderWidth = ((uint)(1));
+        // Container child expander1.Gtk.Container+ContainerChild
+        this.vbox4 = new Gtk.VBox();
+        this.vbox4.Name = "vbox4";
+        this.vbox4.Spacing = 6;
+        this.vbox4.BorderWidth = ((uint)(6));
+        // Container child vbox4.Gtk.Box+BoxChild
+        this.hbox2 = new Gtk.HBox();
+        this.hbox2.Name = "hbox2";
+        this.hbox2.Spacing = 6;
+        this.hbox2.BorderWidth = ((uint)(5));
+        // Container child hbox2.Gtk.Box+BoxChild
+        this.label3 = new Gtk.Label();
+        this.label3.Name = "label3";
+        this.label3.LabelProp = Mono.Unix.Catalog.GetString("Search : ");
+        this.hbox2.Add(this.label3);
+        Gtk.Box.BoxChild w13 = ((Gtk.Box.BoxChild)(this.hbox2[this.label3]));
+        w13.Position = 0;
+        w13.Expand = false;
+        w13.Fill = false;
+        // Container child hbox2.Gtk.Box+BoxChild
+        this.searchEntryAlign = new Gtk.Alignment(0.5F, 0.5F, 1F, 1F);
+        this.searchEntryAlign.Name = "searchEntryAlign";
+        this.searchEntryAlign.LeftPadding = ((uint)(2));
+        this.searchEntryAlign.RightPadding = ((uint)(15));
+        this.hbox2.Add(this.searchEntryAlign);
+        Gtk.Box.BoxChild w14 = ((Gtk.Box.BoxChild)(this.hbox2[this.searchEntryAlign]));
+        w14.Position = 1;
+        // Container child hbox2.Gtk.Box+BoxChild
+        this.sortCb = new Gtk.Alignment(0.5F, 0.5F, 1F, 1F);
+        this.sortCb.Name = "sortCb";
+        this.sortCb.LeftPadding = ((uint)(2));
+        this.sortCb.RightPadding = ((uint)(15));
+        this.hbox2.Add(this.sortCb);
+        Gtk.Box.BoxChild w15 = ((Gtk.Box.BoxChild)(this.hbox2[this.sortCb]));
+        w15.Position = 2;
+        this.vbox4.Add(this.hbox2);
+        Gtk.Box.BoxChild w16 = ((Gtk.Box.BoxChild)(this.vbox4[this.hbox2]));
+        w16.Position = 0;
+        w16.Expand = false;
+        w16.Fill = false;
+        this.expander1.Add(this.vbox4);
+        this.hbox4 = new Gtk.HBox();
+        this.hbox4.Name = "hbox4";
+        this.hbox4.Spacing = 1;
+        // Container child hbox4.Gtk.Box+BoxChild
+        this.label2 = new Gtk.Label();
+        this.label2.Name = "label2";
+        this.label2.LabelProp = Mono.Unix.Catalog.GetString("More Options");
+        this.hbox4.Add(this.label2);
+        Gtk.Box.BoxChild w18 = ((Gtk.Box.BoxChild)(this.hbox4[this.label2]));
+        w18.Position = 0;
+        w18.Expand = false;
+        w18.Fill = false;
+        this.expander1.LabelWidget = this.hbox4;
+        this.vbox1.Add(this.expander1);
+        Gtk.Box.BoxChild w19 = ((Gtk.Box.BoxChild)(this.vbox1[this.expander1]));
+        w19.Position = 2;
+        w19.Expand = false;
+        // Container child vbox1.Gtk.Box+BoxChild
         this.vpaned2 = new Gtk.VPaned();
         this.vpaned2.CanFocus = true;
         this.vpaned2.Name = "vpaned2";
-        this.vpaned2.Position = 372;
+        this.vpaned2.Position = 197;
         // Container child vpaned2.Gtk.Paned+PanedChild
         this.scrolledwindow1 = new Gtk.ScrolledWindow();
         this.scrolledwindow1.CanFocus = true;
@@ -222,122 +302,122 @@ public partial class MainWindow {
         this.tv.HeadersClickable = true;
         this.scrolledwindow1.Add(this.tv);
         this.vpaned2.Add(this.scrolledwindow1);
-        Gtk.Paned.PanedChild w14 = ((Gtk.Paned.PanedChild)(this.vpaned2[this.scrolledwindow1]));
-        w14.Resize = false;
-        w14.Shrink = false;
+        Gtk.Paned.PanedChild w21 = ((Gtk.Paned.PanedChild)(this.vpaned2[this.scrolledwindow1]));
+        w21.Resize = false;
+        w21.Shrink = false;
         // Container child vpaned2.Gtk.Paned+PanedChild
-        this.expander1 = new Gtk.Expander(null);
-        this.expander1.CanFocus = true;
-        this.expander1.Name = "expander1";
-        this.expander1.Expanded = true;
-        this.expander1.Spacing = 2;
-        this.expander1.BorderWidth = ((uint)(6));
-        // Container child expander1.Gtk.Container+ContainerChild
-        this.vbox2 = new Gtk.VBox();
-        this.vbox2.Name = "vbox2";
-        this.vbox2.Spacing = 6;
-        this.vbox2.BorderWidth = ((uint)(6));
-        // Container child vbox2.Gtk.Box+BoxChild
-        this.alignment1 = new Gtk.Alignment(0.5F, 0.5F, 1F, 1F);
-        this.alignment1.Name = "alignment1";
-        this.alignment1.LeftPadding = ((uint)(44));
-        this.alignment1.TopPadding = ((uint)(7));
-        this.alignment1.BottomPadding = ((uint)(8));
-        // Container child alignment1.Gtk.Container+ContainerChild
-        this.hbox2 = new Gtk.HBox();
-        this.hbox2.Name = "hbox2";
-        this.hbox2.Spacing = 6;
-        // Container child hbox2.Gtk.Box+BoxChild
+        this.expander2 = new Gtk.Expander(null);
+        this.expander2.CanFocus = true;
+        this.expander2.Name = "expander2";
+        this.expander2.Expanded = true;
+        this.expander2.Spacing = 2;
+        this.expander2.BorderWidth = ((uint)(5));
+        // Container child expander2.Gtk.Container+ContainerChild
+        this.vbox3 = new Gtk.VBox();
+        this.vbox3.Name = "vbox3";
+        this.vbox3.Spacing = 6;
+        this.vbox3.BorderWidth = ((uint)(6));
+        // Container child vbox3.Gtk.Box+BoxChild
+        this.alignment5 = new Gtk.Alignment(0.5F, 0.5F, 1F, 1F);
+        this.alignment5.Name = "alignment5";
+        this.alignment5.LeftPadding = ((uint)(44));
+        this.alignment5.TopPadding = ((uint)(7));
+        this.alignment5.BottomPadding = ((uint)(8));
+        // Container child alignment5.Gtk.Container+ContainerChild
+        this.hbox5 = new Gtk.HBox();
+        this.hbox5.Name = "hbox5";
+        this.hbox5.Spacing = 6;
+        // Container child hbox5.Gtk.Box+BoxChild
         this.symbolImage = new Gtk.Image();
         this.symbolImage.Name = "symbolImage";
-        this.hbox2.Add(this.symbolImage);
-        Gtk.Box.BoxChild w15 = ((Gtk.Box.BoxChild)(this.hbox2[this.symbolImage]));
-        w15.Position = 0;
-        w15.Expand = false;
-        w15.Fill = false;
-        // Container child hbox2.Gtk.Box+BoxChild
-        this.alignment2 = new Gtk.Alignment(0.4F, 0.5F, 1F, 1F);
-        this.alignment2.Name = "alignment2";
-        this.alignment2.LeftPadding = ((uint)(10));
-        // Container child alignment2.Gtk.Container+ContainerChild
+        this.hbox5.Add(this.symbolImage);
+        Gtk.Box.BoxChild w22 = ((Gtk.Box.BoxChild)(this.hbox5[this.symbolImage]));
+        w22.Position = 0;
+        w22.Expand = false;
+        w22.Fill = false;
+        // Container child hbox5.Gtk.Box+BoxChild
+        this.alignment7 = new Gtk.Alignment(0.4F, 0.5F, 1F, 1F);
+        this.alignment7.Name = "alignment7";
+        this.alignment7.LeftPadding = ((uint)(10));
+        // Container child alignment7.Gtk.Container+ContainerChild
         this.specstyleDecl = new Gtk.Label();
         this.specstyleDecl.Name = "specstyleDecl";
         this.specstyleDecl.LabelProp = "";
         this.specstyleDecl.UseMarkup = true;
-        this.alignment2.Add(this.specstyleDecl);
-        this.hbox2.Add(this.alignment2);
-        Gtk.Box.BoxChild w17 = ((Gtk.Box.BoxChild)(this.hbox2[this.alignment2]));
-        w17.Position = 1;
-        w17.Expand = false;
-        w17.Fill = false;
-        this.alignment1.Add(this.hbox2);
-        this.vbox2.Add(this.alignment1);
-        Gtk.Box.BoxChild w19 = ((Gtk.Box.BoxChild)(this.vbox2[this.alignment1]));
-        w19.Position = 0;
-        w19.Expand = false;
-        w19.Fill = false;
-        // Container child vbox2.Gtk.Box+BoxChild
-        this.alignment3 = new Gtk.Alignment(0.5F, 0.5F, 1F, 1F);
-        this.alignment3.Name = "alignment3";
-        this.alignment3.LeftPadding = ((uint)(7));
-        this.alignment3.TopPadding = ((uint)(4));
-        this.alignment3.BottomPadding = ((uint)(7));
-        // Container child alignment3.Gtk.Container+ContainerChild
-        this.hbox3 = new Gtk.HBox();
-        this.hbox3.Name = "hbox3";
-        this.hbox3.Spacing = 6;
-        // Container child hbox3.Gtk.Box+BoxChild
-        this.label3 = new Gtk.Label();
-        this.label3.Name = "label3";
-        this.label3.LabelProp = Mono.Unix.Catalog.GetString("C# Style : ");
-        this.hbox3.Add(this.label3);
-        Gtk.Box.BoxChild w20 = ((Gtk.Box.BoxChild)(this.hbox3[this.label3]));
-        w20.Position = 0;
-        w20.Expand = false;
-        w20.Fill = false;
-        // Container child hbox3.Gtk.Box+BoxChild
+        this.alignment7.Add(this.specstyleDecl);
+        this.hbox5.Add(this.alignment7);
+        Gtk.Box.BoxChild w24 = ((Gtk.Box.BoxChild)(this.hbox5[this.alignment7]));
+        w24.Position = 1;
+        w24.Expand = false;
+        w24.Fill = false;
+        this.alignment5.Add(this.hbox5);
+        this.vbox3.Add(this.alignment5);
+        Gtk.Box.BoxChild w26 = ((Gtk.Box.BoxChild)(this.vbox3[this.alignment5]));
+        w26.Position = 0;
+        w26.Expand = false;
+        w26.Fill = false;
+        // Container child vbox3.Gtk.Box+BoxChild
+        this.alignment8 = new Gtk.Alignment(0.5F, 0.5F, 1F, 1F);
+        this.alignment8.Name = "alignment8";
+        this.alignment8.LeftPadding = ((uint)(7));
+        this.alignment8.TopPadding = ((uint)(4));
+        this.alignment8.BottomPadding = ((uint)(7));
+        // Container child alignment8.Gtk.Container+ContainerChild
+        this.hbox6 = new Gtk.HBox();
+        this.hbox6.Name = "hbox6";
+        this.hbox6.Spacing = 6;
+        // Container child hbox6.Gtk.Box+BoxChild
+        this.label5 = new Gtk.Label();
+        this.label5.Name = "label5";
+        this.label5.LabelProp = Mono.Unix.Catalog.GetString("C# Style : ");
+        this.hbox6.Add(this.label5);
+        Gtk.Box.BoxChild w27 = ((Gtk.Box.BoxChild)(this.hbox6[this.label5]));
+        w27.Position = 0;
+        w27.Expand = false;
+        w27.Fill = false;
+        // Container child hbox6.Gtk.Box+BoxChild
         this.cstyleDecl = new Gtk.Label();
         this.cstyleDecl.Name = "cstyleDecl";
         this.cstyleDecl.LabelProp = "";
-        this.hbox3.Add(this.cstyleDecl);
-        Gtk.Box.BoxChild w21 = ((Gtk.Box.BoxChild)(this.hbox3[this.cstyleDecl]));
-        w21.Position = 1;
-        w21.Expand = false;
-        w21.Fill = false;
-        this.alignment3.Add(this.hbox3);
-        this.vbox2.Add(this.alignment3);
-        Gtk.Box.BoxChild w23 = ((Gtk.Box.BoxChild)(this.vbox2[this.alignment3]));
-        w23.Position = 1;
-        w23.Expand = false;
-        w23.Fill = false;
-        this.expander1.Add(this.vbox2);
-        this.hbox4 = new Gtk.HBox();
-        this.hbox4.Name = "hbox4";
-        this.hbox4.Spacing = 1;
-        // Container child hbox4.Gtk.Box+BoxChild
-        this.label2 = new Gtk.Label();
-        this.label2.Name = "label2";
-        this.label2.LabelProp = Mono.Unix.Catalog.GetString("<b>Informations on : </b>");
-        this.label2.UseMarkup = true;
-        this.hbox4.Add(this.label2);
-        Gtk.Box.BoxChild w25 = ((Gtk.Box.BoxChild)(this.hbox4[this.label2]));
-        w25.Position = 0;
-        w25.Expand = false;
-        w25.Fill = false;
-        // Container child hbox4.Gtk.Box+BoxChild
+        this.hbox6.Add(this.cstyleDecl);
+        Gtk.Box.BoxChild w28 = ((Gtk.Box.BoxChild)(this.hbox6[this.cstyleDecl]));
+        w28.Position = 1;
+        w28.Expand = false;
+        w28.Fill = false;
+        this.alignment8.Add(this.hbox6);
+        this.vbox3.Add(this.alignment8);
+        Gtk.Box.BoxChild w30 = ((Gtk.Box.BoxChild)(this.vbox3[this.alignment8]));
+        w30.Position = 1;
+        w30.Expand = false;
+        w30.Fill = false;
+        this.expander2.Add(this.vbox3);
+        this.hbox7 = new Gtk.HBox();
+        this.hbox7.Name = "hbox7";
+        this.hbox7.Spacing = 1;
+        // Container child hbox7.Gtk.Box+BoxChild
+        this.label6 = new Gtk.Label();
+        this.label6.Name = "label6";
+        this.label6.LabelProp = Mono.Unix.Catalog.GetString("<b>Informations on : </b>");
+        this.label6.UseMarkup = true;
+        this.hbox7.Add(this.label6);
+        Gtk.Box.BoxChild w32 = ((Gtk.Box.BoxChild)(this.hbox7[this.label6]));
+        w32.Position = 0;
+        w32.Expand = false;
+        w32.Fill = false;
+        // Container child hbox7.Gtk.Box+BoxChild
         this.informationLabel = new Gtk.Label();
         this.informationLabel.Name = "informationLabel";
         this.informationLabel.LabelProp = "";
-        this.hbox4.Add(this.informationLabel);
-        Gtk.Box.BoxChild w26 = ((Gtk.Box.BoxChild)(this.hbox4[this.informationLabel]));
-        w26.Position = 1;
-        w26.Expand = false;
-        w26.Fill = false;
-        this.expander1.LabelWidget = this.hbox4;
-        this.vpaned2.Add(this.expander1);
+        this.hbox7.Add(this.informationLabel);
+        Gtk.Box.BoxChild w33 = ((Gtk.Box.BoxChild)(this.hbox7[this.informationLabel]));
+        w33.Position = 1;
+        w33.Expand = false;
+        w33.Fill = false;
+        this.expander2.LabelWidget = this.hbox7;
+        this.vpaned2.Add(this.expander2);
         this.vbox1.Add(this.vpaned2);
-        Gtk.Box.BoxChild w28 = ((Gtk.Box.BoxChild)(this.vbox1[this.vpaned2]));
-        w28.Position = 2;
+        Gtk.Box.BoxChild w35 = ((Gtk.Box.BoxChild)(this.vbox1[this.vpaned2]));
+        w35.Position = 3;
         this.Add(this.vbox1);
         if ((this.Child != null)) {
             this.Child.ShowAll();
