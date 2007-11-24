@@ -25,11 +25,38 @@ public partial class MainWindow: Gtk.Window
 	public MainWindow (DBusViewerSharp.DBusExplorator explorator): base (Gtk.WindowType.Toplevel)
 	{
 		this.explorator = explorator;
+		this.explorator.DBusError += OnDBusError;
 		
 		// Graphical setup
 		Build ();
 		this.DeleteEvent += OnDeleteEvent;
 		this.tv.CursorChanged += OnRowSelected;
+		tv.Selection.Mode = SelectionMode.Browse;
+		
+		this.tv.SearchColumn = 0;
+		this.tv.SearchEqualFunc = delegate (TreeModel model, int column, string key, TreeIter iter) {
+			string row;
+			try {
+				row = (string)model.GetValue(iter, 0);
+			} catch { return false; }
+			return !(row.Equals(key, StringComparison.OrdinalIgnoreCase));
+		};
+		
+		this.model.SetSortFunc(0, delegate (TreeModel model, TreeIter tia, TreeIter tib) {
+			
+			string key1 = (string)model.GetValue(tia, 0);
+			string key2 = (string)model.GetValue(tib, 0);
+			IElement elem1;
+			IElement elem2;
+			
+			if (!currentData.TryGetValue(key1, out elem1))
+				return string.CompareOrdinal(key1, key2);
+			if (!currentData.TryGetValue(key2, out elem2))
+				return string.CompareOrdinal(key1, key2);
+			
+			return elem1.CompareTo(elem2);			
+		});
+		
 		
 		// Spinner
 		spinner = new ImageAnimation(
@@ -67,8 +94,11 @@ public partial class MainWindow: Gtk.Window
 	void InitTreeView()
 	{
 		tv.Model = model;
-		tv.AppendColumn("Name", new CellRendererText(), "text", 0);
-		tv.AppendColumn("Logo", new CellRendererPixbuf(), "pixbuf", 1);
+		TreeViewColumn col = tv.AppendColumn("Name", new CellRendererText(), "text", 0);
+		tv.AppendColumn(" ", new CellRendererPixbuf(), "pixbuf", 1);
+		
+		col.Clickable = true;
+		col.Clicked += OnColumnLblClicked;
 	}
 
 	
@@ -161,9 +191,15 @@ public partial class MainWindow: Gtk.Window
 	protected virtual void OnRowSelected (object o, EventArgs args)
 	{
 		TreeIter tIter;
-		tv.Selection.GetSelected(out tIter);
+		TreeSelection selection = tv.Selection;
+		if (selection.CountSelectedRows() == 0)
+			return;
+		selection.GetSelected(out tIter);
 		
-		string valSelected = (string)model.GetValue(tIter, 0);
+		string valSelected = null;
+		try {
+			valSelected = (string)model.GetValue(tIter, 0);
+		} catch { return; }
 		//Console.WriteLine("Running FillBottom with : " + valSelected);
 		FillBottom(valSelected);
 	}
@@ -172,6 +208,7 @@ public partial class MainWindow: Gtk.Window
 	{
 		model.Clear();
 		this.explorator = new DBusExplorator();
+		this.explorator.DBusError += OnDBusError;
 		FeedBusComboBox(this.explorator.AvalaibleBusNames);
 	}
 
@@ -179,6 +216,7 @@ public partial class MainWindow: Gtk.Window
 	{
 		model.Clear();
 		this.explorator = new DBusExplorator(NDesk.DBus.Bus.System);
+		this.explorator.DBusError += OnDBusError;
 		FeedBusComboBox(this.explorator.AvalaibleBusNames);
 	}
 	
@@ -192,5 +230,26 @@ public partial class MainWindow: Gtk.Window
 		
 		ad.Run();
 		ad.Destroy();
+	}
+	
+	protected virtual void OnColumnLblClicked (object sender, EventArgs e)
+	{
+		TreeViewColumn col = sender as TreeViewColumn;
+		if (col == null) 
+			return;
+		col.SortOrder = (col.SortIndicator && col.SortOrder == SortType.Ascending) ? SortType.Descending : SortType.Ascending;
+		col.SortIndicator = true;
+		this.model.SetSortColumnId(0, col.SortOrder);
+	}
+	
+	void OnDBusError(object sender, DBusErrorEventArgs e)
+	{
+		Application.Invoke( delegate {
+			spinnerBox.HideAll();
+			spinner.Active = false;
+			MessageDialog diag = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Ok, e.ErrorMessage);
+			diag.Run();
+			diag.Destroy();
+		});
 	}
 }

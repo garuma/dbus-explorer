@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace DBusViewerSharp
 {
-	public interface IElement
+	public interface IElement: IComparable<IElement>
 	{
 		ElementRepresentation Visual { get; }
 		Gdk.Pixbuf Image { get; }

@@ -12,11 +12,13 @@ namespace DBusViewerSharp
 {
 	public static class ElementFactory
 	{
-		private class Element: IElement
+		private class Element: IElement, IComparable<IElement>
 		{
 			ElementRepresentation representation = null;
 			string name;
 			Gdk.Pixbuf image;
+			// For comparison
+			int type;
 			
 			public ElementRepresentation Visual {
 				get {
@@ -35,12 +37,25 @@ namespace DBusViewerSharp
 					return name;
 				}
 			}
+			
+			public int CompareTo(IElement other)
+			{
+				// First comparison
+				int comparison = String.Compare(this.name, other.Name, StringComparison.Ordinal);
+				// Then with the types
+				Element elem = (Element)other;
+				if (elem.type == this.type)
+					return comparison;
+				else
+					return this.type.CompareTo(elem.type);
+			}
 
-			public Element(string name, ElementRepresentation representation, Gdk.Pixbuf image)
+			public Element(string name, ElementRepresentation representation, Gdk.Pixbuf image, int type)
 			{
 				this.name = name;
 				this.representation = representation;
 				this.image = image;
+				this.type = type;
 			}
 		}
 		
@@ -53,7 +68,7 @@ namespace DBusViewerSharp
 			string cStyle = Parser.ParseDBusTypeExpression(returnType) + " " + name + " (" + MakeArgumentList(args, ", ", "{T} {N}", true) + ")";
 			string specDesc = name + " (" + MakeArgumentList(args, ", ", "{N} : {T}", false) + ") : " + returnType;
 			
-			return new Element(name, new ElementRepresentation(specDesc, cStyle), methodPb);
+			return new Element(name, new ElementRepresentation(specDesc, cStyle), methodPb, 0);
 		}
 		
 		public static IElement FromSignalDefinition(string name, IEnumerable<Argument> args)
@@ -61,7 +76,7 @@ namespace DBusViewerSharp
 			string spec = "signal " + name + " : " + MakeArgumentList(args, ", ", "{T}", false);
 			string cdecl = "event EventHandler<" + MakeArgumentList(args, ", ", "{T}", true) + "> " + name;
 			
-			return new Element(name, new ElementRepresentation(spec, cdecl), signalPb);
+			return new Element(name, new ElementRepresentation(spec, cdecl), signalPb, 2);
 		}
 		
 		public static IElement FromPropertyDefinition(string name, Argument type, PropertyAccess access)
@@ -72,7 +87,7 @@ namespace DBusViewerSharp
 			if (access == PropertyAccess.Write || access == PropertyAccess.ReadWrite) cdecl += "set; ";
 			cdecl += "}";
 
-			return new Element(name, new ElementRepresentation(spec, cdecl), propertyPb);
+			return new Element(name, new ElementRepresentation(spec, cdecl), propertyPb, 1);
 		}
 		
 		static StringBuilder sb = new StringBuilder(20);

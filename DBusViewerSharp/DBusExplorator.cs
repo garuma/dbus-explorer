@@ -19,6 +19,8 @@ namespace DBusViewerSharp
 		static readonly ObjectPath DBusPath = new ObjectPath ("/org/freedesktop/DBus");
 		static readonly string rootPath = "/";
 		
+		public event EventHandler<DBusErrorEventArgs> DBusError;
+		
 		IBus ibus;
 		Bus bus;
 		
@@ -85,8 +87,13 @@ namespace DBusViewerSharp
 				intr = getter(currentPath);
 				intrData = intr.Introspect();
 			} catch (Exception e) {
-				Console.Error.WriteLine("Managed D-Bus error on path : " + currentPath);
-				Console.Error.WriteLine("Error : " + e.Message);
+				string error = "Managed D-Bus error on path : " + currentPath + Environment.NewLine +
+						"Error : " + e.Message;
+				if (DBusError != null) {
+					DBusError(this, new DBusErrorEventArgs(error));
+				}
+				Console.WriteLine(error);
+				return;
 			}
 			
 			if (dump) {
@@ -95,7 +102,7 @@ namespace DBusViewerSharp
 				Console.WriteLine();
 			}
 			
-			if (intrData == null)
+			if (string.IsNullOrEmpty(intrData))
 				return;
 			
 			List<Interface> interfaces = null;

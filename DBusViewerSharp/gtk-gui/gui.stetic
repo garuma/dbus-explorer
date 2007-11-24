@@ -188,104 +188,10 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.Expander" id="expander1">
-            <property name="MemberName" />
-            <property name="CanFocus">True</property>
-            <property name="Spacing">2</property>
-            <property name="BorderWidth">1</property>
-            <child>
-              <widget class="Gtk.VBox" id="vbox4">
-                <property name="MemberName" />
-                <property name="Spacing">6</property>
-                <property name="BorderWidth">6</property>
-                <child>
-                  <widget class="Gtk.HBox" id="hbox2">
-                    <property name="MemberName" />
-                    <property name="Spacing">6</property>
-                    <property name="BorderWidth">5</property>
-                    <child>
-                      <widget class="Gtk.Label" id="label3">
-                        <property name="MemberName" />
-                        <property name="LabelProp" translatable="yes">Search : </property>
-                      </widget>
-                      <packing>
-                        <property name="Position">0</property>
-                        <property name="AutoSize">True</property>
-                        <property name="Expand">False</property>
-                        <property name="Fill">False</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="Gtk.Alignment" id="searchEntryAlign">
-                        <property name="MemberName" />
-                        <property name="LeftPadding">2</property>
-                        <property name="RightPadding">15</property>
-                        <child>
-                          <placeholder />
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="Position">1</property>
-                        <property name="AutoSize">True</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="Gtk.Alignment" id="sortCb">
-                        <property name="MemberName" />
-                        <property name="LeftPadding">2</property>
-                        <property name="RightPadding">15</property>
-                        <child>
-                          <placeholder />
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="Position">2</property>
-                        <property name="AutoSize">True</property>
-                      </packing>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="Position">0</property>
-                    <property name="AutoSize">True</property>
-                    <property name="Expand">False</property>
-                    <property name="Fill">False</property>
-                  </packing>
-                </child>
-              </widget>
-            </child>
-            <child>
-              <widget class="Gtk.HBox" id="hbox4">
-                <property name="MemberName" />
-                <property name="Spacing">1</property>
-                <child>
-                  <widget class="Gtk.Label" id="label2">
-                    <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">More Options</property>
-                  </widget>
-                  <packing>
-                    <property name="Position">0</property>
-                    <property name="AutoSize">True</property>
-                    <property name="Expand">False</property>
-                    <property name="Fill">False</property>
-                  </packing>
-                </child>
-              </widget>
-              <packing>
-                <property name="type">label_item</property>
-              </packing>
-            </child>
-          </widget>
-          <packing>
-            <property name="Position">2</property>
-            <property name="AutoSize">False</property>
-            <property name="Expand">False</property>
-          </packing>
-        </child>
-        <child>
           <widget class="Gtk.VPaned" id="vpaned2">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="Position">197</property>
+            <property name="Position">380</property>
             <child>
               <widget class="Gtk.ScrolledWindow" id="scrolledwindow1">
                 <property name="MemberName" />
@@ -298,7 +204,7 @@
                   <widget class="Gtk.TreeView" id="tv">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="HeadersVisible">False</property>
+                    <property name="Reorderable">True</property>
                     <property name="HeadersClickable">True</property>
                   </widget>
                 </child>
@@ -455,7 +361,7 @@
             </child>
           </widget>
           <packing>
-            <property name="Position">3</property>
+            <property name="Position">2</property>
             <property name="AutoSize">True</property>
           </packing>
         </child>
