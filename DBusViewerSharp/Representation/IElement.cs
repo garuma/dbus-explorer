@@ -5,7 +5,7 @@
 using System;
 using System.Reflection;
 
-namespace DBusViewerSharp
+namespace DBusExplorer
 {
 	public interface IElement: IComparable<IElement>
 	{

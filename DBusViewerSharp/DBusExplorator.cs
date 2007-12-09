@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using NDesk.DBus;
 using org.freedesktop.DBus;
 
-namespace DBusViewerSharp
+namespace DBusExplorer
 {
 	public class DBusExplorator
 	{

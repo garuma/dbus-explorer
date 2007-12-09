@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DBusViewerSharp
+namespace DBusExplorer
 {
 	// Represent the interface node
 	public class Interface

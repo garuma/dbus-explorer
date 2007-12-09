@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DBusViewerSharp
+namespace DBusExplorer
 {
 	public static class Mapper
 	{

@@ -1,7 +1,7 @@
 <Project name="DBusExplorer" fileversion="2.0" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
-      <Output directory="bin/Debug" assembly="DBusExplorer" />
+      <Output directory="bin/Debug" assemblyKeyFile="." assembly="DBusExplorer" />
       <Build debugmode="True" target="Exe" />
       <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" generatexmldocumentation="False" win32Icon="." ctype="CSharpCompilerParameters" />
@@ -17,7 +17,6 @@
     <File name="gtk-gui/gui.stetic" subtype="Code" buildaction="EmbedAsResource" />
     <File name="gtk-gui/generated.cs" subtype="Code" buildaction="Compile" />
     <File name="MainWindow.cs" subtype="Code" buildaction="Compile" />
-    <File name="gtk-gui/MainWindow.cs" subtype="Code" buildaction="Compile" />
     <File name="Main.cs" subtype="Code" buildaction="Compile" />
     <File name="AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
     <File name="app.desktop" subtype="Code" buildaction="FileCopy" DeployService.TargetDirectoryId="Linux.DesktopApplications" />
@@ -49,6 +48,11 @@
     <File name="Widgets" subtype="Directory" buildaction="Compile" />
     <File name="Widgets/ImageAnimation.cs" subtype="Code" buildaction="Compile" />
     <File name="Common.cs" subtype="Code" buildaction="Compile" />
+    <File name="DBusMonitor.cs" subtype="Code" buildaction="Compile" />
+    <File name="gtk-gui/DBusExplorer.DBusMonitor.cs" subtype="Code" buildaction="Compile" />
+    <File name="CustomBusDialog.cs" subtype="Code" buildaction="Compile" />
+    <File name="gtk-gui/DBusExplorer.CustomBusDialog.cs" subtype="Code" buildaction="Compile" />
+    <File name="gtk-gui/DBusExplorer.MainWindow.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="gtk-sharp, Version=2.10.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
@@ -59,5 +63,6 @@
     <ProjectReference type="Gac" localcopy="True" refto="NDesk.DBus.GLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099" />
     <ProjectReference type="Gac" localcopy="True" refto="gdk-sharp, Version=2.10.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </References>
-  <GtkDesignInfo gtkVersion="2.10.2" />
+  <Deployment.LinuxDeployData scriptName="dbus-explorer" />
+  <GtkDesignInfo gtkVersion="2.10.3" />
 </Project>

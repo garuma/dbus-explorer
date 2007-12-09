@@ -7,7 +7,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DBusViewerSharp
+namespace DBusExplorer
 {
 	public class PathContainer
 	{

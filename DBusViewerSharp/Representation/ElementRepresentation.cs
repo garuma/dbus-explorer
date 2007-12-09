@@ -4,7 +4,7 @@
 
 using System;
 
-namespace DBusViewerSharp
+namespace DBusExplorer
 {
 	public class ElementRepresentation
 	{

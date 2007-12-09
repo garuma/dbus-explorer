@@ -6,7 +6,7 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 
-namespace DBusViewerSharp
+namespace DBusExplorer
 {
 	public static class Parser
 	{

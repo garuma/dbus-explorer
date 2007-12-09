@@ -8,7 +8,7 @@ using Gtk;
 
 using NDesk.DBus;
 
-namespace DBusViewerSharp
+namespace DBusExplorer
 {
 	class MainClass
 	{
@@ -16,6 +16,7 @@ namespace DBusViewerSharp
 		{
 			Application.Init ();
 			BusG.Init();
+			Mono.Unix.Catalog.Init("dbus-explorer", "./");
 			
 			DBusExplorator explorator = new DBusExplorator();
 			MainWindow win = new MainWindow (explorator);
