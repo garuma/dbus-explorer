@@ -1,23 +1,22 @@
-<Combine name="DBusExplorer" fileversion="2.0">
+<Combine releaseversion="0.3" name="DBus-Explorer" fileversion="2.0">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="CombineConfiguration">
-      <Entry build="True" name="DBusExplorer" configuration="Debug" />
+      <Entry build="True" name="DBus-Explorer" configuration="Debug" />
       <Entry build="True" name="DBusViewerSharpTranslation" configuration="" />
       <Entry build="True" name="Packaging" configuration="" />
     </Configuration>
     <Configuration name="Release" ctype="CombineConfiguration">
-      <Entry build="True" name="DBusExplorer" configuration="Release" />
+      <Entry build="True" name="DBus-Explorer" configuration="Release" />
       <Entry build="True" name="DBusViewerSharpTranslation" configuration="" />
       <Entry build="True" name="Packaging" configuration="" />
     </Configuration>
   </Configurations>
-  <StartMode startupentry="DBusExplorer" single="True">
-    <Execute type="None" entry="DBusViewerSharp" />
-    <Execute type="None" entry="Packages" />
-    <Execute type="None" entry="XmlAutoBinding" />
+  <StartMode startupentry="DBus-Explorer" single="True">
+    <Execute type="None" entry="DBus-Explorer" />
     <Execute type="None" entry="DBusViewerSharpTranslation" />
     <Execute type="None" entry="Packaging" />
   </StartMode>
+  <MonoDevelop.ChangeLogAddIn.ChangeLogInfo policy="UpdateNearestChangeLog" />
   <Entries>
     <Entry filename="DBusViewerSharp/DBusViewerSharp.mdp" />
     <Entry filename="DBusViewerSharpTranslation/DBusViewerSharpTranslation.mdse" />

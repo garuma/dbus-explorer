@@ -228,7 +228,7 @@ namespace DBusExplorer
 			ad.Authors = new string[] { "Jérémie \"Garuma\" Laval" };
 			ad.Copyright = "Copyright (c) 2007 Jérémie Laval <jeremie.laval@gmail.com>";
 			ad.License = "See the COPYING file";
-			ad.Version = "0.2";
+			ad.Version = "0.3";
 		
 			ad.Run();
 			ad.Destroy();
@@ -268,10 +268,15 @@ namespace DBusExplorer
 
 		protected virtual void OnMonitorActivated (object sender, System.EventArgs e)
 		{
+			MessageDialog d = 
+				new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "Sorry, this feature is currently not finalized.");
+			d.Run();
+			d.Destroy();
+			/*
 			DBusMonitor d = new DBusMonitor(explorator.BusUsed, NDesk.DBus.ObjectPath.Root);
 			d.ShowAll();
 			d.Run();
-			d.Destroy();
+			d.Destroy();*/
 		}
 	}
 }

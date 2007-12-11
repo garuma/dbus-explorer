@@ -4,7 +4,6 @@
       <Builder rootEntry="../DBusViewerSharp.mds" TargetDirectory="/home/jeremie/Projects/DbusViewerSharp/deploy" DefaultConfiguration="Debug" ctype="TarballDeployTarget">
         <ChildEntries>
           <Entry>../DBusViewerSharp/DBusViewerSharp.mdp</Entry>
-          <Entry>../DBusViewerSharpTranslation/DBusViewerSharpTranslation.mdse</Entry>
         </ChildEntries>
       </Builder>
     </Package>

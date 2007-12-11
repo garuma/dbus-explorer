@@ -1,4 +1,4 @@
-<Project name="DBusExplorer" fileversion="2.0" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+<Project name="DBus-Explorer" fileversion="2.0" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assemblyKeyFile="." assembly="DBusExplorer" />
@@ -64,5 +64,5 @@
     <ProjectReference type="Gac" localcopy="True" refto="gdk-sharp, Version=2.10.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </References>
   <Deployment.LinuxDeployData scriptName="dbus-explorer" />
-  <GtkDesignInfo gtkVersion="2.10.3" />
+  <GtkDesignInfo />
 </Project>
