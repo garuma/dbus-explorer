@@ -14,9 +14,7 @@ namespace DBusExplorer
 	{	
 		DBusExplorator explorator;
 	
-		TreeStore model = new TreeStore(typeof(string), typeof(Gdk.Pixbuf));
-	
-		Dictionary<string, IElement> currentData = new Dictionary<string,IElement>(); 
+		TreeStore model = new TreeStore(typeof(string), typeof(Gdk.Pixbuf), typeof(IElement)); 
 	
 		static Gdk.Pixbuf empty = Gdk.Pixbuf.LoadFromResource("empty.png");
 		ImageAnimation spinner;
@@ -35,28 +33,20 @@ namespace DBusExplorer
 		
 			this.tv.SearchColumn = 0;
 			this.tv.SearchEqualFunc = delegate (TreeModel model, int column, string key, TreeIter iter) {
-				string row;
-				try {
-					row = (string)model.GetValue(iter, 0);
-				} catch { return false; }
-				return !(row.Equals(key, StringComparison.OrdinalIgnoreCase));
+				string row = model.GetValue(iter, 0) as string;
+				
+				return (row == null) ? false : !(row.StartsWith(key, StringComparison.OrdinalIgnoreCase));
 			};
 		
 			this.model.SetSortFunc(0, delegate (TreeModel model, TreeIter tia, TreeIter tib) {
-			
-				string key1 = (string)model.GetValue(tia, 0);
-				string key2 = (string)model.GetValue(tib, 0);
-				IElement elem1;
-				IElement elem2;
-			
-				if (!currentData.TryGetValue(key1, out elem1))
-					return string.CompareOrdinal(key1, key2);
-				if (!currentData.TryGetValue(key2, out elem2))
-					return string.CompareOrdinal(key1, key2);
-			
-				return elem1.CompareTo(elem2);			
+				IElement a = model.GetValue(tia, 2) as IElement;
+				IElement b = model.GetValue(tib, 2) as IElement;
+				
+				if (b == null || a == null)
+					return 0;
+				else
+					return a.CompareTo(b);
 			});
-		
 		
 			// Spinner
 			spinner = new ImageAnimation(
@@ -106,7 +96,7 @@ namespace DBusExplorer
 		{
 			//Console.WriteLine("Update the treeview");
 			model.Clear();
-			currentData.Clear();
+			//currentData.Clear();
 		
 			spinnerBox.ShowAll();
 			spinner.Active = true;
@@ -136,7 +126,7 @@ namespace DBusExplorer
 			/*if (path.Interfaces.Length == 0)
 				return;*/
 				
-			TreeIter parent = model.AppendValues(path.Path, empty);
+			TreeIter parent = model.AppendValues(path.Path, empty, null);
 			foreach (Interface @interface in path.Interfaces) {
 				AddInterface (parent, @interface);
 			}
@@ -147,7 +137,7 @@ namespace DBusExplorer
 			if (element == null)
 				return;
 		
-			TreeIter child = model.AppendValues(parent, element.Name, empty);
+			TreeIter child = model.AppendValues(parent, element.Name, empty, null);
 		
 			AddChildSymbols(child, element);
 		}
@@ -158,21 +148,14 @@ namespace DBusExplorer
 				if (string.IsNullOrEmpty(element.Name) || entry.Image == null)
 					continue;
 			
-				model.AppendValues(parent, entry.Name, entry.Image);
-				try {
-					currentData.Add(entry.Name, entry);
-				} catch {}	
+				model.AppendValues(parent, entry.Name, entry.Image, entry);
 			}
 		}
 	
-		void FillBottom (string key)
+		void FillBottom (IElement element)
 		{
-			IElement element;
-			if (!currentData.TryGetValue(key, out element))
-				return;
-		
 			ElementRepresentation representation = element.Visual;
-			informationLabel.Text = key;
+			informationLabel.Text = element.Name;
 			symbolImage.Pixbuf = element.Image;
 			specstyleDecl.Markup = "<b><tt>" + representation.SpecDesc + "</tt></b>";
 			cstyleDecl.Markup = "<tt>" + representation.CStyle.Replace("<", "&lt;") + "</tt>";
@@ -200,16 +183,14 @@ namespace DBusExplorer
 		{
 			TreeIter tIter;
 			TreeSelection selection = tv.Selection;
-			if (selection.CountSelectedRows() == 0)
+			if (selection == null || (selection != null && selection.CountSelectedRows() == 0))
 				return;
 			selection.GetSelected(out tIter);
 		
-			string valSelected = null;
-			try {
-				valSelected = (string)model.GetValue(tIter, 0);
-			} catch { return; }
-			//Console.WriteLine("Running FillBottom with : " + valSelected);
-			FillBottom(valSelected);
+			IElement element = model.GetValue(tIter, 2) as IElement;
+
+			if (element != null)
+				FillBottom(element);
 		}
 
 		protected virtual void OnSessionBusActivated (object sender, System.EventArgs e)

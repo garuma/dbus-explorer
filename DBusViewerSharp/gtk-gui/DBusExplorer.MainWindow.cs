@@ -35,6 +35,12 @@ namespace DBusExplorer {
         
         private Gtk.Action CustomBus;
         
+        private Gtk.Action Tools;
+        
+        private Gtk.Action LanguageRepresentations;
+        
+        private Gtk.Action CpdeGenerator;
+        
         private Gtk.VBox vbox1;
         
         private Gtk.MenuBar menubar1;
@@ -131,6 +137,15 @@ namespace DBusExplorer {
             this.CustomBus = new Gtk.Action("CustomBus", Mono.Unix.Catalog.GetString("C_ustom Bus..."), null, null);
             this.CustomBus.ShortLabel = Mono.Unix.Catalog.GetString("C_ustom Bus...");
             w2.Add(this.CustomBus, null);
+            this.Tools = new Gtk.Action("Tools", Mono.Unix.Catalog.GetString("_Tools"), null, null);
+            this.Tools.ShortLabel = Mono.Unix.Catalog.GetString("_Tools");
+            w2.Add(this.Tools, null);
+            this.LanguageRepresentations = new Gtk.Action("LanguageRepresentations", Mono.Unix.Catalog.GetString("Language representations ..."), null, "gtk-select-all");
+            this.LanguageRepresentations.ShortLabel = Mono.Unix.Catalog.GetString("Language representations ...");
+            w2.Add(this.LanguageRepresentations, null);
+            this.CpdeGenerator = new Gtk.Action("CpdeGenerator", Mono.Unix.Catalog.GetString("Code Generator..."), null, "gtk-convert");
+            this.CpdeGenerator.ShortLabel = Mono.Unix.Catalog.GetString("Code Generator...");
+            w2.Add(this.CpdeGenerator, null);
             w1.InsertActionGroup(w2, 0);
             this.AddAccelGroup(w1.AccelGroup);
             this.Name = "DBusExplorer.MainWindow";
@@ -145,7 +160,7 @@ namespace DBusExplorer {
             this.vbox1.Name = "vbox1";
             this.vbox1.Spacing = 6;
             // Container child vbox1.Gtk.Box+BoxChild
-            w1.AddUiFromString("<ui><menubar name='menubar1'><menu action='File'><menu action='SelectBus'><menuitem action='SessionBus'/><menuitem action='SystemBus'/><menuitem action='CustomBus'/></menu><menuitem action='quit1'/></menu><menu action='View'><menuitem action='Monitor'/></menu><menu action='Help'><menuitem action='about'/></menu></menubar></ui>");
+            w1.AddUiFromString("<ui><menubar name='menubar1'><menu action='File'><menu action='SelectBus'><menuitem action='SessionBus'/><menuitem action='SystemBus'/><menuitem action='CustomBus'/></menu><menuitem action='quit1'/></menu><menu action='View'><menuitem action='Monitor'/></menu><menu action='Tools'><menuitem action='LanguageRepresentations'/><menuitem action='CpdeGenerator'/></menu><menu action='Help'><menuitem action='about'/></menu></menubar></ui>");
             this.menubar1 = ((Gtk.MenuBar)(w1.GetWidget("/menubar1")));
             this.menubar1.Name = "menubar1";
             this.vbox1.Add(this.menubar1);
@@ -226,7 +241,6 @@ namespace DBusExplorer {
             this.scrolledwindow1 = new Gtk.ScrolledWindow();
             this.scrolledwindow1.CanFocus = true;
             this.scrolledwindow1.Name = "scrolledwindow1";
-            this.scrolledwindow1.VscrollbarPolicy = ((Gtk.PolicyType)(1));
             this.scrolledwindow1.HscrollbarPolicy = ((Gtk.PolicyType)(2));
             this.scrolledwindow1.ShadowType = ((Gtk.ShadowType)(1));
             this.scrolledwindow1.BorderWidth = ((uint)(3));

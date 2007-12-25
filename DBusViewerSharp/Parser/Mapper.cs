@@ -24,8 +24,7 @@ namespace DBusExplorer
 			fundamentalTypes.Add(DType.UInt16, typeof(ushort));
 			fundamentalTypes.Add(DType.UInt32, typeof(uint));
 			fundamentalTypes.Add(DType.UInt64, typeof(ulong));
-			// Not exactly correct but it's the spirit (*textual* DBus representation of a complete type)
-			fundamentalTypes.Add(DType.Variant, typeof(string));
+			fundamentalTypes.Add(DType.Variant, typeof(object));
 		}
 		
 		public static Type DTypeToType(DType type)

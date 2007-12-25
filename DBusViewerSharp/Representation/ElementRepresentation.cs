@@ -10,6 +10,7 @@ namespace DBusExplorer
 	{
 		string specDesc;
 		string cStyle;
+		
 
 		public string SpecDesc {
 			get {
@@ -22,6 +23,8 @@ namespace DBusExplorer
 				return cStyle;
 			}
 		}
+		
+		
 		
 		public ElementRepresentation(string specDesc, string cStyle)
 		{

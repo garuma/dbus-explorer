@@ -41,10 +41,8 @@
     <File name="Representation/Argument.cs" subtype="Code" buildaction="Compile" />
     <File name="Representation/Enums.cs" subtype="Code" buildaction="Compile" />
     <File name="InvocationLayer/InvocationData.cs" subtype="Code" buildaction="Nothing" />
-    <File name="SSP" subtype="Directory" buildaction="Nothing" />
-    <File name="SSP/Parser.cs" subtype="Code" buildaction="Nothing" />
-    <File name="SSP/SExp.cs" subtype="Code" buildaction="Nothing" />
-    <File name="SSP/Types.cs" subtype="Code" buildaction="Nothing" />
+    <File name="Config" subtype="Directory" buildaction="Nothing" />
+    <File name="Config/Parser.cs" subtype="Code" buildaction="Nothing" />
     <File name="Widgets" subtype="Directory" buildaction="Compile" />
     <File name="Widgets/ImageAnimation.cs" subtype="Code" buildaction="Compile" />
     <File name="Common.cs" subtype="Code" buildaction="Compile" />
@@ -53,6 +51,10 @@
     <File name="CustomBusDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="gtk-gui/DBusExplorer.CustomBusDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="gtk-gui/DBusExplorer.MainWindow.cs" subtype="Code" buildaction="Compile" />
+    <File name="Config/LangDefinitionPool.cs" subtype="Code" buildaction="Compile" />
+    <File name="Config/ILangDefinition.cs" subtype="Code" buildaction="Compile" />
+    <File name="LanguageRepresentationSelector.cs" subtype="Code" buildaction="Compile" />
+    <File name="gtk-gui/DBusExplorer.LanguageRepresentationSelector.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="gtk-sharp, Version=2.10.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />

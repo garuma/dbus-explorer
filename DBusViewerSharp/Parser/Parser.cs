@@ -28,7 +28,7 @@ namespace DBusExplorer
 			try {			
 				temp = StrFromExprList(expressionList)[0];
 			} catch {
-				temp = "(Error while parsing)";
+				temp = "(Err)";
 			}
 			return temp;
 		}
@@ -42,16 +42,10 @@ namespace DBusExplorer
 				if (currentToken == DType.DictEntryEnd || currentToken == DType.StructEnd)
 					continue;
 				
-				/*Console.WriteLine("Starting a new StrFromExprList");
-				Console.WriteLine("Current Token : " + currentToken.ToString());*/
 				
 				switch (currentToken) {
 					case DType.StructBegin:
 						int count = GetStructLimit(expressionList, ++index);
-						/*Console.WriteLine("Struct count : " + count.ToString());
-						Console.Write("{ ");
-						foreach (DType t in expressionList) Console.Write(t.ToString());
-						Console.WriteLine(" }");*/
 						
 						list.Add(ParseStructDefinition(expressionList.GetRange(index, count)));
 						index += count;

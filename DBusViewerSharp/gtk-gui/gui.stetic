@@ -2,7 +2,7 @@
 <stetic-interface>
   <configuration>
     <images-root-path>..</images-root-path>
-    <target-gtk-version>2.10.2</target-gtk-version>
+    <target-gtk-version>2.10.3</target-gtk-version>
   </configuration>
   <widget class="Gtk.Window" id="DBusExplorer.MainWindow" design-size="528 494">
     <action-group name="Default">
@@ -82,6 +82,23 @@
         <property name="ShortLabel" translatable="yes">C_ustom Bus...</property>
         <signal name="Activated" handler="OnCustomBusActivated" />
       </action>
+      <action id="Tools">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">_Tools</property>
+        <property name="ShortLabel" translatable="yes">_Tools</property>
+      </action>
+      <action id="LanguageRepresentations">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Language representations ...</property>
+        <property name="ShortLabel" translatable="yes">Language representations ...</property>
+        <property name="StockId">gtk-select-all</property>
+      </action>
+      <action id="CpdeGenerator">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Code Generator...</property>
+        <property name="ShortLabel" translatable="yes">Code Generator...</property>
+        <property name="StockId">gtk-convert</property>
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">D-Bus Explorer</property>
@@ -108,6 +125,10 @@
               </node>
               <node type="Menu" action="View">
                 <node type="Menuitem" action="Monitor" />
+              </node>
+              <node type="Menu" action="Tools">
+                <node type="Menuitem" action="LanguageRepresentations" />
+                <node type="Menuitem" action="CpdeGenerator" />
               </node>
               <node type="Menu" action="Help">
                 <node type="Menuitem" action="about" />
@@ -220,7 +241,6 @@
               <widget class="Gtk.ScrolledWindow" id="scrolledwindow1">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="VscrollbarPolicy">Automatic</property>
                 <property name="HscrollbarPolicy">Never</property>
                 <property name="ShadowType">In</property>
                 <property name="BorderWidth">3</property>
@@ -473,7 +493,6 @@
             <child>
               <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
                 <property name="MemberName" />
-                <property name="VscrollbarPolicy">Automatic</property>
                 <property name="HscrollbarPolicy">Never</property>
                 <property name="ShadowType">In</property>
                 <property name="BorderWidth">6</property>
@@ -613,6 +632,65 @@
           </widget>
           <packing>
             <property name="Position">1</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Dialog" id="DBusExplorer.LanguageRepresentationSelector" design-size="400 300">
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">Language selection</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <property name="Buttons">1</property>
+    <property name="HelpButton">False</property>
+    <property name="HasSeparator">False</property>
+    <child internal-child="VBox">
+      <widget class="Gtk.VBox" id="dialog1_VBox">
+        <property name="MemberName" />
+        <property name="BorderWidth">2</property>
+        <child>
+          <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
+            <property name="MemberName" />
+            <property name="HscrollbarPolicy">Never</property>
+            <property name="ShadowType">In</property>
+            <property name="BorderWidth">9</property>
+            <child>
+              <widget class="Gtk.TreeView" id="tv">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="ShowScrollbars">True</property>
+                <property name="HeadersClickable">True</property>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">True</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+    <child internal-child="ActionArea">
+      <widget class="Gtk.HButtonBox" id="dialog1_ActionArea">
+        <property name="MemberName" />
+        <property name="Spacing">6</property>
+        <property name="BorderWidth">5</property>
+        <property name="Size">1</property>
+        <property name="LayoutStyle">End</property>
+        <child>
+          <widget class="Gtk.Button" id="buttonCancel">
+            <property name="MemberName" />
+            <property name="CanDefault">True</property>
+            <property name="CanFocus">True</property>
+            <property name="UseStock">True</property>
+            <property name="Type">StockItem</property>
+            <property name="StockId">gtk-close</property>
+            <property name="ResponseId">-7</property>
+            <property name="label">gtk-close</property>
+          </widget>
+          <packing>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
           </packing>

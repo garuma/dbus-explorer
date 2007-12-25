@@ -96,7 +96,6 @@ namespace DBusExplorer {
             // Container child vbox2.Gtk.Box+BoxChild
             this.GtkScrolledWindow = new Gtk.ScrolledWindow();
             this.GtkScrolledWindow.Name = "GtkScrolledWindow";
-            this.GtkScrolledWindow.VscrollbarPolicy = ((Gtk.PolicyType)(1));
             this.GtkScrolledWindow.HscrollbarPolicy = ((Gtk.PolicyType)(2));
             this.GtkScrolledWindow.ShadowType = ((Gtk.ShadowType)(1));
             this.GtkScrolledWindow.BorderWidth = ((uint)(6));
