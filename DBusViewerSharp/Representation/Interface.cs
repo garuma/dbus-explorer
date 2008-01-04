@@ -12,10 +12,20 @@ namespace DBusExplorer
 	{
 		string name;
 		IEnumerable<IElement> symbols;
+		PathContainer parent;
 		
 		public string Name {
 			get {
 				return name;
+			}
+		}
+		
+		public PathContainer Parent {
+			get {
+				return parent;
+			}
+			set {
+				parent = value;
 			}
 		}
 
@@ -29,6 +39,8 @@ namespace DBusExplorer
 		{
 			this.name = name;
 			this.symbols = symbols;
+			foreach (IElement element in symbols)
+				element.Parent = this;
 		}
 	}
 }

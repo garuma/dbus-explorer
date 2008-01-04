@@ -30,6 +30,8 @@ namespace DBusExplorer
 		{
 			this.path = path;
 			this.interfaces = interfaces;
+			foreach (Interface inter in interfaces)
+				inter.Parent = this;
 		}
 	}
 }

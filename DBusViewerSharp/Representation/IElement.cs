@@ -13,6 +13,7 @@ namespace DBusExplorer
 		Gdk.Pixbuf Image { get; }
 		// The symbol name
 		string Name { get; }
+		Interface Parent { get; set; }
 		//InvocationData Data { get; }
 	}
 }

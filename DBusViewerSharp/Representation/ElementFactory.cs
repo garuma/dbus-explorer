@@ -19,6 +19,7 @@ namespace DBusExplorer
 			Gdk.Pixbuf image;
 			// For comparison
 			int type;
+			Interface parent;
 			
 			public ElementRepresentation Visual {
 				get {
@@ -35,6 +36,15 @@ namespace DBusExplorer
 			public string Name {
 				get {
 					return name;
+				}
+			}
+			
+			public Interface Parent { 
+				get {
+					return parent;
+				}
+				set {
+					parent = value;
 				}
 			}
 			

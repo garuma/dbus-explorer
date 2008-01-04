@@ -153,14 +153,14 @@ namespace DBusExplorer {
             this.Icon = Gdk.Pixbuf.LoadFromResource("icon.png");
             this.WindowPosition = ((Gtk.WindowPosition)(4));
             this.AllowShrink = true;
-            this.DefaultWidth = 800;
-            this.DefaultHeight = 600;
+            this.DefaultWidth = 900;
+            this.DefaultHeight = 700;
             // Container child DBusExplorer.MainWindow.Gtk.Container+ContainerChild
             this.vbox1 = new Gtk.VBox();
             this.vbox1.Name = "vbox1";
             this.vbox1.Spacing = 6;
             // Container child vbox1.Gtk.Box+BoxChild
-            w1.AddUiFromString("<ui><menubar name='menubar1'><menu action='File'><menu action='SelectBus'><menuitem action='SessionBus'/><menuitem action='SystemBus'/><menuitem action='CustomBus'/></menu><menuitem action='quit1'/></menu><menu action='View'><menuitem action='Monitor'/></menu><menu action='Tools'><menuitem action='LanguageRepresentations'/><menuitem action='CpdeGenerator'/></menu><menu action='Help'><menuitem action='about'/></menu></menubar></ui>");
+            w1.AddUiFromString("<ui><menubar name='menubar1'><menu action='File'><menu action='SelectBus'><menuitem action='SessionBus'/><menuitem action='SystemBus'/><menuitem action='CustomBus'/></menu><menuitem action='quit1'/></menu><menu action='View'><menuitem action='Monitor'/></menu><menu action='Help'><menuitem action='about'/></menu></menubar></ui>");
             this.menubar1 = ((Gtk.MenuBar)(w1.GetWidget("/menubar1")));
             this.menubar1.Name = "menubar1";
             this.vbox1.Add(this.menubar1);
@@ -236,7 +236,7 @@ namespace DBusExplorer {
             this.vpaned2 = new Gtk.VPaned();
             this.vpaned2.CanFocus = true;
             this.vpaned2.Name = "vpaned2";
-            this.vpaned2.Position = 369;
+            this.vpaned2.Position = 500;
             // Container child vpaned2.Gtk.Paned+PanedChild
             this.scrolledwindow1 = new Gtk.ScrolledWindow();
             this.scrolledwindow1.CanFocus = true;

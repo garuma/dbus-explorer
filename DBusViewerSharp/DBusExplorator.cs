@@ -24,7 +24,7 @@ namespace DBusExplorer
 		IBus ibus;
 		Bus bus;
 		
-		bool dump = Environment.CommandLine.Contains("--dump");
+		static bool dump = Environment.CommandLine.Contains("--dump");
 
 		public DBusExplorator(): this(Bus.Session)
 		{

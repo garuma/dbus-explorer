@@ -14,7 +14,7 @@ namespace DBusExplorer
 	{	
 		DBusExplorator explorator;
 	
-		TreeStore model = new TreeStore(typeof(string), typeof(Gdk.Pixbuf), typeof(IElement)); 
+		TreeStore model = new TreeStore(typeof(string), typeof(Gdk.Pixbuf), typeof(object)); 
 	
 		static Gdk.Pixbuf empty = Gdk.Pixbuf.LoadFromResource("empty.png");
 		ImageAnimation spinner;
@@ -94,9 +94,7 @@ namespace DBusExplorer
 	
 		void UpdateTreeView (string busName)
 		{
-			//Console.WriteLine("Update the treeview");
 			model.Clear();
-			//currentData.Clear();
 		
 			spinnerBox.ShowAll();
 			spinner.Active = true;
@@ -105,7 +103,6 @@ namespace DBusExplorer
 				IEnumerable<PathContainer> elements = explorator.EndGetElementsFromBus(result);
 				Application.Invoke(delegate {
 					foreach (PathContainer path in elements) {
-						//Console.WriteLine("Adding ElementsEntry");
 						AddPath(path);
 					}
 				
@@ -113,10 +110,6 @@ namespace DBusExplorer
 					spinner.Active = false;
 				});
 			});
-			/*foreach (PathContainer path in explorator.GetElementsFromBus(busName)) {
-				//Console.WriteLine("Adding ElementsEntry");
-				AddPath(path);
-			}*/
 		}
 	
 		void AddPath(PathContainer path)
@@ -126,7 +119,7 @@ namespace DBusExplorer
 			/*if (path.Interfaces.Length == 0)
 				return;*/
 				
-			TreeIter parent = model.AppendValues(path.Path, empty, null);
+			TreeIter parent = model.AppendValues(path.Path, empty, path);
 			foreach (Interface @interface in path.Interfaces) {
 				AddInterface (parent, @interface);
 			}
@@ -137,7 +130,7 @@ namespace DBusExplorer
 			if (element == null)
 				return;
 		
-			TreeIter child = model.AppendValues(parent, element.Name, empty, null);
+			TreeIter child = model.AppendValues(parent, element.Name, empty, element);
 		
 			AddChildSymbols(child, element);
 		}
