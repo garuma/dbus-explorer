@@ -40,7 +40,7 @@ namespace DBusExplorer
 		public string ParseDictDefinition(IEnumerator<DType> exprList)
 		{
 			IList<string> list = parent.ConvertFromExprList(exprList, this, 2);
-			return "Dictionary<" + list[0] + ", " + list[1] + ">";
+			return "Dictionary<" + ((list.Count > 0) ? list[0] : Error) + ", " + ((list.Count > 1) ? list[1] : Error) + ">";
 		}
 		
 		public string ParseBaseTypeDefinition(DType type)

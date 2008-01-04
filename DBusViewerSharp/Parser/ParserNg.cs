@@ -47,6 +47,8 @@ namespace DBusExplorer
 			
 			bool arrayState = false;
 			
+			// This whole loop is hacky about countdown and tokens.MoveNext()
+			// TODO: need refractoring
 			do {
 				DType currentToken;
 				// Ugly but it's in the case the DBus type end with an array where tokens.MoveNext() returning false
@@ -54,9 +56,16 @@ namespace DBusExplorer
 				try {
 					currentToken = tokens.Current;
 				} catch { break; }
+				//if (!arrayState) Console.Write("\n" + currentToken.ToString());
 				
-				if (currentToken == DType.DictEntryEnd || currentToken == DType.StructEnd) {
+				if (currentToken == DType.StructEnd) {
 					break;
+				}
+				
+				if (currentToken == DType.DictEntryEnd) {
+					if (!tokens.MoveNext()) break;
+					countdown++;
+					continue;
 				}
 				
 				// If precedent character was an array character determine if it's
@@ -70,6 +79,7 @@ namespace DBusExplorer
 					}
 					
 					arrayState = false;
+					
 					continue;
 				}
 				
@@ -86,6 +96,7 @@ namespace DBusExplorer
 					// In fact this case is both for array and dictionary
 					case DType.Array:
 						arrayState = true;
+						countdown++;
 						if (!tokens.MoveNext()) break;
 						continue;
 					default:
