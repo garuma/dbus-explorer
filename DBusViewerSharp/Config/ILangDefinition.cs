@@ -11,11 +11,11 @@ namespace DBusExplorer
 {
 	public interface ILangDefinition
 	{
-		string LangageName { get; }
-		IDictionary<string, string> LangageTypes { get; }
+		string Name { get; }
+		IDictionary<string, string> Types { get; }
 		
-		string MethodFormating { get; }
-		string EventFormating { get; }
-		
+		string MethodFormat(string name, string returnType, IEnumerable<KeyValuePair<string, string>> args);
+		string EventFormat(string name, IEnumerable<KeyValuePair<string, string>> args);
+		string PropertyFormat();
 	}
 }

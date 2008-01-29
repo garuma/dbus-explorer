@@ -12,11 +12,16 @@ namespace DBusExplorer
 {
 	public class LangDefinitionPool
 	{
-		
+		Dictionary<string, ILangDefinition> langs = new Dictionary<string,ILangDefinition>();
 		
 		public LangDefinitionPool(string basePath)
 		{
-			
+			foreach (string file in Directory.GetFiles(basePath)) {
+				ILangDefinition def = LangParser.ParseFromFile(file);
+				langs.Add(def.Name, def);
+			}
 		}
+		
+		
 	}
 }

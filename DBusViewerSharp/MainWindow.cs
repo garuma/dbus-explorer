@@ -15,8 +15,8 @@ namespace DBusExplorer
 		DBusExplorator explorator;
 	
 		TreeStore model = new TreeStore(typeof(string), typeof(Gdk.Pixbuf), typeof(object)); 
+		BusContentView tv;
 	
-		static Gdk.Pixbuf empty = Gdk.Pixbuf.LoadFromResource("empty.png");
 		ImageAnimation spinner;
 		Entry sentry = new Entry();
 	
@@ -24,29 +24,15 @@ namespace DBusExplorer
 		{
 			this.explorator = explorator;
 			this.explorator.DBusError += OnDBusError;
+			this.tv = new BusContentView(model);
 		
 			// Graphical setup
 			Build ();
+			this.tvWindow.Add(tv);
+			this.tvWindow.ShowAll();
+			
 			this.DeleteEvent += OnDeleteEvent;
 			this.tv.CursorChanged += OnRowSelected;
-			tv.Selection.Mode = SelectionMode.Browse;
-		
-			this.tv.SearchColumn = 0;
-			this.tv.SearchEqualFunc = delegate (TreeModel model, int column, string key, TreeIter iter) {
-				string row = model.GetValue(iter, 0) as string;
-				
-				return (row == null) ? false : !(row.StartsWith(key, StringComparison.OrdinalIgnoreCase));
-			};
-		
-			this.model.SetSortFunc(0, delegate (TreeModel model, TreeIter tia, TreeIter tib) {
-				IElement a = model.GetValue(tia, 2) as IElement;
-				IElement b = model.GetValue(tib, 2) as IElement;
-				
-				if (b == null || a == null)
-					return 0;
-				else
-					return a.CompareTo(b);
-			});
 		
 			// Spinner
 			spinner = new ImageAnimation(
@@ -55,14 +41,10 @@ namespace DBusExplorer
 			spinner.Active = false;
 			spinnerAlign.Add(spinner);
 			spinnerBox.HideAll();
-		
-			sentry.Activated += delegate {
 			
-			};
 		
 			// Graphical elements
 			FeedBusComboBox(explorator.AvalaibleBusNames);
-			InitTreeView();
 		}
 	
 		void FeedBusComboBox(string[] buses)
@@ -80,19 +62,8 @@ namespace DBusExplorer
 			busCb.Changed += OnBusComboChanged;
 			busCbCont.ShowAll();
 		}
-	
-		void InitTreeView()
-		{
-			tv.Model = model;
-			TreeViewColumn col = tv.AppendColumn("Name", new CellRendererText(), "text", 0);
-			tv.AppendColumn(" ", new CellRendererPixbuf(), "pixbuf", 1);
-		
-			col.Clickable = true;
-			col.Clicked += OnColumnLblClicked;
-		}
 
-	
-		void UpdateTreeView (string busName)
+		void UpdateView (string busName)
 		{
 			model.Clear();
 		
@@ -103,46 +74,13 @@ namespace DBusExplorer
 				IEnumerable<PathContainer> elements = explorator.EndGetElementsFromBus(result);
 				Application.Invoke(delegate {
 					foreach (PathContainer path in elements) {
-						AddPath(path);
+						tv.AddPath(path);
 					}
 				
 					spinnerBox.HideAll();
 					spinner.Active = false;
 				});
 			});
-		}
-	
-		void AddPath(PathContainer path)
-		{
-			if (path == null)
-				return;
-			/*if (path.Interfaces.Length == 0)
-				return;*/
-				
-			TreeIter parent = model.AppendValues(path.Path, empty, path);
-			foreach (Interface @interface in path.Interfaces) {
-				AddInterface (parent, @interface);
-			}
-		}
-	
-		void AddInterface (TreeIter parent, Interface element)
-		{
-			if (element == null)
-				return;
-		
-			TreeIter child = model.AppendValues(parent, element.Name, empty, element);
-		
-			AddChildSymbols(child, element);
-		}
-	
-		void AddChildSymbols (TreeIter parent, Interface element)
-		{
-			foreach (IElement entry in element.Symbols) {
-				if (string.IsNullOrEmpty(element.Name) || entry.Image == null)
-					continue;
-			
-				model.AppendValues(parent, entry.Name, entry.Image, entry);
-			}
 		}
 	
 		void FillBottom (IElement element)
@@ -169,7 +107,7 @@ namespace DBusExplorer
 
 		protected virtual void OnBusComboChanged (object sender, System.EventArgs e)
 		{
-			UpdateTreeView(busCb.ActiveText);
+			UpdateView(busCb.ActiveText);
 		}
 
 		protected virtual void OnRowSelected (object o, EventArgs args)
