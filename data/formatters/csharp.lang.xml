@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<language name="C#">
+	<types>
+		<map src="Int32" to="int" />
+		<map src="Int64" to="long" />
+		<map src="UInt32" to="uint" />
+		<map src="UInt64" to="ulong" />
+		<map src="Single" to="float" />
+		<map src="Double" to="double" />
+		<map src="String" to="string" />
+		<map src="Variant" to="object" />
+	</types>
+	
+	<syntax>
+		<method general="%{return} %{name}(%{args});">
+			<arguments accumulator=", " start="" end="" general="%{arg-type} {arg-name}" />
+		</method>
+		<event general="event EventHandler&lt;%{types}&gt; %{name};" >
+			<arguments accumulator=", " start="" end="" general="%{arg-type}" />
+		</event>
+		<property read="%{type} %{name} { get; }" write="%{type} %{name} { set }" readwrite="%{type} %{name} { get; set; }" />
+
+		<struct prefix="struct { " suffix="}" inner="%{types}" accumulator="; " />
+		<dictionary general="Dictionary&lt;%{type1}, %{type2}&gt;" />
+		<array general="%{type}[]" />
+	</syntax>
+</language>

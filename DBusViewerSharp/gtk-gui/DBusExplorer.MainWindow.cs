@@ -41,6 +41,8 @@ namespace DBusExplorer {
         
         private Gtk.ToggleAction C;
         
+        private Gtk.Action NewTabAction;
+        
         private Gtk.VBox vbox1;
         
         private Gtk.MenuBar menubar1;
@@ -63,37 +65,11 @@ namespace DBusExplorer {
         
         private Gtk.Label label4;
         
-        private Gtk.VPaned vpaned2;
+        private Gtk.Notebook buses_Nb;
         
-        private Gtk.ScrolledWindow tvWindow;
+        private Gtk.Label label2;
         
-        private Gtk.Expander expander2;
-        
-        private Gtk.VBox vbox3;
-        
-        private Gtk.Alignment alignment5;
-        
-        private Gtk.HBox hbox5;
-        
-        private Gtk.Image symbolImage;
-        
-        private Gtk.Alignment alignment7;
-        
-        private Gtk.Label specstyleDecl;
-        
-        private Gtk.Alignment alignment8;
-        
-        private Gtk.HBox hbox6;
-        
-        private Gtk.Label label5;
-        
-        private Gtk.Label cstyleDecl;
-        
-        private Gtk.HBox hbox7;
-        
-        private Gtk.Label label6;
-        
-        private Gtk.Label informationLabel;
+        private Gtk.Statusbar statusbar1;
         
         protected virtual void Build() {
             Stetic.Gui.Initialize(this);
@@ -144,21 +120,22 @@ namespace DBusExplorer {
             this.C = new Gtk.ToggleAction("C", Mono.Unix.Catalog.GetString("C#"), null, null);
             this.C.ShortLabel = Mono.Unix.Catalog.GetString("C#");
             w2.Add(this.C, null);
+            this.NewTabAction = new Gtk.Action("NewTabAction", Mono.Unix.Catalog.GetString("New Tab"), null, null);
+            this.NewTabAction.ShortLabel = Mono.Unix.Catalog.GetString("New Bus");
+            w2.Add(this.NewTabAction, null);
             w1.InsertActionGroup(w2, 0);
             this.AddAccelGroup(w1.AccelGroup);
             this.Name = "DBusExplorer.MainWindow";
             this.Title = Mono.Unix.Catalog.GetString("D-Bus Explorer");
-            this.Icon = Gdk.Pixbuf.LoadFromResource("icon.png");
+            this.Icon = Gdk.Pixbuf.LoadFromResource("dbus-explorer.png");
             this.WindowPosition = ((Gtk.WindowPosition)(4));
             this.AllowShrink = true;
-            this.DefaultWidth = 900;
-            this.DefaultHeight = 700;
             // Container child DBusExplorer.MainWindow.Gtk.Container+ContainerChild
             this.vbox1 = new Gtk.VBox();
             this.vbox1.Name = "vbox1";
             this.vbox1.Spacing = 6;
             // Container child vbox1.Gtk.Box+BoxChild
-            w1.AddUiFromString("<ui><menubar name='menubar1'><menu action='File'><menu action='SelectBus'><menuitem action='SessionBus'/><menuitem action='SystemBus'/><menuitem action='CustomBus'/></menu><menuitem action='quit1'/></menu><menu action='View'><menu action='Languages'><menuitem action='C'/></menu><menuitem action='Monitor'/></menu><menu action='Help'><menuitem action='about'/></menu></menubar></ui>");
+            w1.AddUiFromString("<ui><menubar name='menubar1'><menu action='File'><menuitem action='NewTabAction'/><menu action='SelectBus'><menuitem action='SessionBus'/><menuitem action='SystemBus'/><menuitem action='CustomBus'/></menu><menuitem action='quit1'/></menu><menu action='View'><menu action='Languages'><menuitem action='C'/></menu><menuitem action='Monitor'/></menu><menu action='Help'><menuitem action='about'/></menu></menubar></ui>");
             this.menubar1 = ((Gtk.MenuBar)(w1.GetWidget("/menubar1")));
             this.menubar1.Name = "menubar1";
             this.vbox1.Add(this.menubar1);
@@ -231,139 +208,37 @@ namespace DBusExplorer {
             w12.Fill = false;
             w12.Padding = ((uint)(1));
             // Container child vbox1.Gtk.Box+BoxChild
-            this.vpaned2 = new Gtk.VPaned();
-            this.vpaned2.CanFocus = true;
-            this.vpaned2.Name = "vpaned2";
-            this.vpaned2.Position = 470;
-            // Container child vpaned2.Gtk.Paned+PanedChild
-            this.tvWindow = new Gtk.ScrolledWindow();
-            this.tvWindow.CanFocus = true;
-            this.tvWindow.Name = "tvWindow";
-            this.tvWindow.HscrollbarPolicy = ((Gtk.PolicyType)(2));
-            this.tvWindow.ShadowType = ((Gtk.ShadowType)(1));
-            this.tvWindow.BorderWidth = ((uint)(3));
-            this.vpaned2.Add(this.tvWindow);
-            Gtk.Paned.PanedChild w13 = ((Gtk.Paned.PanedChild)(this.vpaned2[this.tvWindow]));
-            w13.Resize = false;
-            w13.Shrink = false;
-            // Container child vpaned2.Gtk.Paned+PanedChild
-            this.expander2 = new Gtk.Expander(null);
-            this.expander2.CanFocus = true;
-            this.expander2.Name = "expander2";
-            this.expander2.Expanded = true;
-            this.expander2.Spacing = 2;
-            this.expander2.BorderWidth = ((uint)(5));
-            // Container child expander2.Gtk.Container+ContainerChild
-            this.vbox3 = new Gtk.VBox();
-            this.vbox3.Name = "vbox3";
-            this.vbox3.Spacing = 6;
-            this.vbox3.BorderWidth = ((uint)(6));
-            // Container child vbox3.Gtk.Box+BoxChild
-            this.alignment5 = new Gtk.Alignment(0.5F, 0.5F, 1F, 1F);
-            this.alignment5.Name = "alignment5";
-            this.alignment5.LeftPadding = ((uint)(44));
-            this.alignment5.TopPadding = ((uint)(7));
-            this.alignment5.BottomPadding = ((uint)(8));
-            // Container child alignment5.Gtk.Container+ContainerChild
-            this.hbox5 = new Gtk.HBox();
-            this.hbox5.Name = "hbox5";
-            this.hbox5.Spacing = 6;
-            // Container child hbox5.Gtk.Box+BoxChild
-            this.symbolImage = new Gtk.Image();
-            this.symbolImage.Name = "symbolImage";
-            this.hbox5.Add(this.symbolImage);
-            Gtk.Box.BoxChild w14 = ((Gtk.Box.BoxChild)(this.hbox5[this.symbolImage]));
-            w14.Position = 0;
-            w14.Expand = false;
-            w14.Fill = false;
-            // Container child hbox5.Gtk.Box+BoxChild
-            this.alignment7 = new Gtk.Alignment(0.4F, 0.5F, 1F, 1F);
-            this.alignment7.Name = "alignment7";
-            this.alignment7.LeftPadding = ((uint)(10));
-            // Container child alignment7.Gtk.Container+ContainerChild
-            this.specstyleDecl = new Gtk.Label();
-            this.specstyleDecl.Name = "specstyleDecl";
-            this.specstyleDecl.LabelProp = "";
-            this.specstyleDecl.UseMarkup = true;
-            this.alignment7.Add(this.specstyleDecl);
-            this.hbox5.Add(this.alignment7);
-            Gtk.Box.BoxChild w16 = ((Gtk.Box.BoxChild)(this.hbox5[this.alignment7]));
-            w16.Position = 1;
-            w16.Expand = false;
-            w16.Fill = false;
-            this.alignment5.Add(this.hbox5);
-            this.vbox3.Add(this.alignment5);
-            Gtk.Box.BoxChild w18 = ((Gtk.Box.BoxChild)(this.vbox3[this.alignment5]));
-            w18.Position = 0;
-            w18.Expand = false;
-            w18.Fill = false;
-            // Container child vbox3.Gtk.Box+BoxChild
-            this.alignment8 = new Gtk.Alignment(0.5F, 0.5F, 1F, 1F);
-            this.alignment8.Name = "alignment8";
-            this.alignment8.LeftPadding = ((uint)(7));
-            this.alignment8.TopPadding = ((uint)(4));
-            this.alignment8.BottomPadding = ((uint)(7));
-            // Container child alignment8.Gtk.Container+ContainerChild
-            this.hbox6 = new Gtk.HBox();
-            this.hbox6.Name = "hbox6";
-            this.hbox6.Spacing = 6;
-            // Container child hbox6.Gtk.Box+BoxChild
-            this.label5 = new Gtk.Label();
-            this.label5.Name = "label5";
-            this.label5.LabelProp = Mono.Unix.Catalog.GetString("C# Style : ");
-            this.hbox6.Add(this.label5);
-            Gtk.Box.BoxChild w19 = ((Gtk.Box.BoxChild)(this.hbox6[this.label5]));
-            w19.Position = 0;
-            w19.Expand = false;
-            w19.Fill = false;
-            // Container child hbox6.Gtk.Box+BoxChild
-            this.cstyleDecl = new Gtk.Label();
-            this.cstyleDecl.Name = "cstyleDecl";
-            this.cstyleDecl.LabelProp = "";
-            this.cstyleDecl.Selectable = true;
-            this.hbox6.Add(this.cstyleDecl);
-            Gtk.Box.BoxChild w20 = ((Gtk.Box.BoxChild)(this.hbox6[this.cstyleDecl]));
-            w20.Position = 1;
-            w20.Expand = false;
-            w20.Fill = false;
-            this.alignment8.Add(this.hbox6);
-            this.vbox3.Add(this.alignment8);
-            Gtk.Box.BoxChild w22 = ((Gtk.Box.BoxChild)(this.vbox3[this.alignment8]));
-            w22.Position = 1;
-            w22.Expand = false;
-            w22.Fill = false;
-            this.expander2.Add(this.vbox3);
-            this.hbox7 = new Gtk.HBox();
-            this.hbox7.Name = "hbox7";
-            this.hbox7.Spacing = 1;
-            // Container child hbox7.Gtk.Box+BoxChild
-            this.label6 = new Gtk.Label();
-            this.label6.Name = "label6";
-            this.label6.LabelProp = Mono.Unix.Catalog.GetString("<b>Informations on : </b>");
-            this.label6.UseMarkup = true;
-            this.hbox7.Add(this.label6);
-            Gtk.Box.BoxChild w24 = ((Gtk.Box.BoxChild)(this.hbox7[this.label6]));
-            w24.Position = 0;
-            w24.Expand = false;
-            w24.Fill = false;
-            // Container child hbox7.Gtk.Box+BoxChild
-            this.informationLabel = new Gtk.Label();
-            this.informationLabel.Name = "informationLabel";
-            this.informationLabel.LabelProp = "";
-            this.hbox7.Add(this.informationLabel);
-            Gtk.Box.BoxChild w25 = ((Gtk.Box.BoxChild)(this.hbox7[this.informationLabel]));
-            w25.Position = 1;
-            w25.Expand = false;
-            w25.Fill = false;
-            this.expander2.LabelWidget = this.hbox7;
-            this.vpaned2.Add(this.expander2);
-            this.vbox1.Add(this.vpaned2);
-            Gtk.Box.BoxChild w27 = ((Gtk.Box.BoxChild)(this.vbox1[this.vpaned2]));
-            w27.Position = 2;
+            this.buses_Nb = new Gtk.Notebook();
+            this.buses_Nb.CanFocus = true;
+            this.buses_Nb.Name = "buses_Nb";
+            this.buses_Nb.CurrentPage = 0;
+            // Notebook tab
+            Gtk.Label w13 = new Gtk.Label();
+            w13.Visible = true;
+            this.buses_Nb.Add(w13);
+            this.label2 = new Gtk.Label();
+            this.label2.Name = "label2";
+            this.label2.LabelProp = Mono.Unix.Catalog.GetString("(No Title)");
+            this.buses_Nb.SetTabLabel(w13, this.label2);
+            this.label2.ShowAll();
+            this.vbox1.Add(this.buses_Nb);
+            Gtk.Box.BoxChild w14 = ((Gtk.Box.BoxChild)(this.vbox1[this.buses_Nb]));
+            w14.Position = 2;
+            // Container child vbox1.Gtk.Box+BoxChild
+            this.statusbar1 = new Gtk.Statusbar();
+            this.statusbar1.Name = "statusbar1";
+            this.statusbar1.Spacing = 6;
+            this.vbox1.Add(this.statusbar1);
+            Gtk.Box.BoxChild w15 = ((Gtk.Box.BoxChild)(this.vbox1[this.statusbar1]));
+            w15.Position = 3;
+            w15.Expand = false;
+            w15.Fill = false;
             this.Add(this.vbox1);
             if ((this.Child != null)) {
                 this.Child.ShowAll();
             }
+            this.DefaultWidth = 798;
+            this.DefaultHeight = 679;
             this.Show();
             this.SessionBus.Activated += new System.EventHandler(this.OnSessionBusActivated);
             this.SystemBus.Activated += new System.EventHandler(this.OnSystemBusActivated);
@@ -372,6 +247,8 @@ namespace DBusExplorer {
             this.about.Activated += new System.EventHandler(this.OnAboutActivated);
             this.Monitor.Activated += new System.EventHandler(this.OnMonitorActivated);
             this.CustomBus.Activated += new System.EventHandler(this.OnCustomBusActivated);
+            this.NewTabAction.Activated += new System.EventHandler(this.OnNewTabActionActivated);
+            this.buses_Nb.SwitchPage += new Gtk.SwitchPageHandler(this.OnBusesNbSwitchPage);
         }
     }
 }

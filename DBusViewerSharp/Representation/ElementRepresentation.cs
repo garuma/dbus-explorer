@@ -3,33 +3,43 @@
 // See COPYING file for license information.
 
 using System;
+using System.Collections.Generic;
 
 namespace DBusExplorer
 {
+	public delegate string LangProcesser(); 
+	
 	public class ElementRepresentation
 	{
 		string specDesc;
-		string cStyle;
-		
+		IDictionary<string, LangProcesser> langs;
 
 		public string SpecDesc {
 			get {
 				return specDesc;
 			}
 		}
-
-		public string CStyle {
+		
+		public string this[string language] {
 			get {
-				return cStyle;
+				LangProcesser temp;
+				if (!langs.TryGetValue(language, out temp))
+					return "N/A";
+				
+				return temp();
 			}
 		}
 		
+		public IEnumerable<string> AllLanguage {
+			get {
+				return langs.Keys;
+			}
+		}
 		
-		
-		public ElementRepresentation(string specDesc, string cStyle)
+		public ElementRepresentation(string specDesc, IDictionary<string, LangProcesser> langs)
 		{
 			this.specDesc = specDesc;
-			this.cStyle = cStyle;
+			this.langs = langs;
 		}
 	}
 }

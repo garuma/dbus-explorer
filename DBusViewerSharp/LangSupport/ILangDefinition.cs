@@ -12,10 +12,16 @@ namespace DBusExplorer
 	public interface ILangDefinition
 	{
 		string Name { get; }
-		IDictionary<string, string> Types { get; }
+		IDictionary<DType, string> Types { get; }
 		
-		string MethodFormat(string name, string returnType, IEnumerable<KeyValuePair<string, string>> args);
+		// Careful, the string that represent type here have already been parsed somewhere before entering here.
+		string MethodFormat(string name, string returnType, IEnumerable<Argument> args);
 		string EventFormat(string name, IEnumerable<KeyValuePair<string, string>> args);
 		string PropertyFormat();
+		
+		string DictionaryFormat(string type1, string type2);
+		string StructFormat(IEnumerable<string> types);
+		string ArrayFormat(string type);
+
 	}
 }

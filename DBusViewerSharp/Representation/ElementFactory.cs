@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace DBusExplorer
 {
-	public static class ElementFactory
+	public class ElementFactory
 	{
 		private class Element: IElement, IComparable<IElement>
 		{
@@ -69,40 +69,65 @@ namespace DBusExplorer
 			}
 		}
 		
+		IEnumerable<ILangDefinition> langs;
+		IDictionary<ILangDefinition, IParserVisitor<string>> visitors;
+		
+		public ElementFactory(IEnumerable<ILangDefinition> langs)
+		{
+			this.langs = langs;
+			
+			foreach (ILangDefinition def in langs)
+				visitors.Add(def, new LangDefVisitor(def, Parser.RealParser));
+		}
+		
 		readonly static Gdk.Pixbuf methodPb   = Gdk.Pixbuf.LoadFromResource("method.png");
 		readonly static Gdk.Pixbuf signalPb   = Gdk.Pixbuf.LoadFromResource("event.png");
 		readonly static Gdk.Pixbuf propertyPb = Gdk.Pixbuf.LoadFromResource("property.png");
 		
-		public static IElement FromMethodDefinition(string returnType, string name, IEnumerable<Argument> args)
+		public IElement FromMethodDefinition(string returnType, string name, IEnumerable<Argument> args)
 		{
-			string cStyle = Parser.ParseDBusTypeExpression(returnType) + " " + name + " (" + MakeArgumentList(args, ", ", "{T} {N}", true) + ")";
-			string specDesc = name + " (" + MakeArgumentList(args, ", ", "{N} : {T}", false) + ") : " + returnType;
+			//string cStyle = Parser.ParseDBusTypeExpression(returnType) + " " + name + " (" + MakeArgumentList(args, ", ", "{T} {N}", true) + ")";
+			string specDesc = name + " (" + MakeArgumentList(args, ", ", "{N} : {T}") + ") : " + returnType;
+			Dictionary<string, LangProcesser> temp = new Dictionary<string,LangProcesser>();
 			
-			return new Element(name, new ElementRepresentation(specDesc, cStyle), methodPb, 0);
+			foreach (KeyValuePair<ILangDefinition, IParserVisitor<string>> visitor in visitors) {
+				temp.Add(visitor.Key.Name, delegate {
+					string retRealType = Parser.ParseDBusTypeExpression(returnType, visitor.Value);
+					List<Argument> argsReal = new List<Argument>();
+					foreach (Argument arg in args)
+						argsReal.Add(new Argument(Parser.ParseDBusTypeExpression(arg.Type, visitor.Value), arg.Name));
+					
+					return visitor.Key.MethodFormat(name, retRealType, argsReal); 
+				});
+			}
+			
+			return new Element(name, new ElementRepresentation(specDesc, temp), methodPb, 0);
 		}
 		
-		public static IElement FromSignalDefinition(string name, IEnumerable<Argument> args)
+		public IElement FromSignalDefinition(string name, IEnumerable<Argument> args)
 		{
-			string spec = "signal " + name + " : " + MakeArgumentList(args, ", ", "{T}", false);
-			string cdecl = "event EventHandler<" + MakeArgumentList(args, ", ", "{T}", true) + "> " + name;
+			/*string spec = "signal " + name + " : " + MakeArgumentList(args, ", ", "{T}", false);
+			//string cdecl = "event EventHandler<" + MakeArgumentList(args, ", ", "{T}", true) + "> " + name;
 			
-			return new Element(name, new ElementRepresentation(spec, cdecl), signalPb, 2);
+			return new Element(name, new ElementRepresentation(spec, cdecl), signalPb, 2);*/
+			return null;
 		}
 		
-		public static IElement FromPropertyDefinition(string name, Argument type, PropertyAccess access)
+		public IElement FromPropertyDefinition(string name, Argument type, PropertyAccess access)
 		{
-			string spec = access.ToString().ToLowerInvariant() + "property " + name + " : " + type.Type;
-			string cdecl = Parser.ParseDBusTypeExpression(type.Type) + " " + name + " { ";
+			/*string spec = access.ToString().ToLowerInvariant() + "property " + name + " : " + type.Type;
+			//string cdecl = Parser.ParseDBusTypeExpression(type.Type) + " " + name + " { ";
 			if (access == PropertyAccess.Read  || access == PropertyAccess.ReadWrite) cdecl += "get; ";
 			if (access == PropertyAccess.Write || access == PropertyAccess.ReadWrite) cdecl += "set; ";
 			cdecl += "}";
 
-			return new Element(name, new ElementRepresentation(spec, cdecl), propertyPb, 1);
+			return new Element(name, new ElementRepresentation(spec, cdecl), propertyPb, 1);*/
+			return null;
 		}
 		
-		static StringBuilder sb = new StringBuilder(20);
+		StringBuilder sb = new StringBuilder(20);
 		
-		static string MakeArgumentList(IEnumerable<Argument> args, string separator, string format, bool parse)
+		string MakeArgumentList(IEnumerable<Argument> args, string separator, string format)
 		{
 			if (args == null)
 				return string.Empty;
@@ -110,7 +135,7 @@ namespace DBusExplorer
 			sb.Remove(0, sb.Length);
 			foreach (Argument arg in args) {
 				sb.Append(sb.Length == 0 ? string.Empty : separator);
-				sb.Append(format.Replace("{T}", parse ? Parser.ParseDBusTypeExpression(arg.Type) : arg.Type)
+				sb.Append(format.Replace("{T}", arg.Type)
 				          .Replace("{N}", arg.Name));				
 			}
 			return sb.ToString();

@@ -1,4 +1,4 @@
-<Combine releaseversion="0.4" name="DBus-Explorer" fileversion="2.0">
+<Combine releaseversion="0.3.1" name="DBus-Explorer" fileversion="2.0">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="CombineConfiguration">
       <Entry build="True" name="DBus-Explorer" configuration="Debug" />

@@ -11,14 +11,22 @@ namespace DBusExplorer
 	public static class Parser
 	{
 		static ParserNg<string> realParser = new ParserNg<string>();
-		static IParserVisitor<string> visitor = new CSharpVisitor(realParser);
+		/*static IParserVisitor<string> visitor = new CSharpVisitor(realParser);*/
 		
+		/*public static string ParseDBusTypeExpression(string expression)
+		{
+			return realParser.ParseDBusTypeExpression(expression, visitor);
+		}*/
 		
-		
-		public static string ParseDBusTypeExpression(string expression)
+		public static string ParseDBusTypeExpression(string expression, IParserVisitor<string> visitor)
 		{
 			return realParser.ParseDBusTypeExpression(expression, visitor);
 		}
+		
+		public static ParserNg<string> RealParser {
+			get {
+				return realParser;
+			}
+		}
 	}
-	
 }

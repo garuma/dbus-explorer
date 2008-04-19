@@ -10,10 +10,6 @@ namespace DBusExplorer
 {
 	public class ParserNg<TReturn>
 	{
-		public void ParseDBusTypeExpression(string expression, IEnumerable<IParserVisitor<TReturn>> visitors)
-		{
-			
-		}
 		
 		public TReturn ParseDBusTypeExpression(string expression, IParserVisitor<TReturn> visitor)
 		{

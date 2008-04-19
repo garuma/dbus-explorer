@@ -12,27 +12,28 @@ namespace DBusExplorer
 {
 	public partial class MainWindow: Gtk.Window
 	{	
-		DBusExplorator explorator;
+		//DBusExplorator explorator;
 	
-		TreeStore model = new TreeStore(typeof(string), typeof(Gdk.Pixbuf), typeof(object)); 
-		BusContentView tv;
+		//TreeStore model = new TreeStore(typeof(string), typeof(Gdk.Pixbuf), typeof(object)); 
+		//BusContentView tv;
 	
 		ImageAnimation spinner;
 		Entry sentry = new Entry();
+		BusPageWidget currentPageWidget = null;
 	
-		public MainWindow (DBusExplorator explorator): base (Gtk.WindowType.Toplevel)
+		public MainWindow (): base (Gtk.WindowType.Toplevel)
 		{
-			this.explorator = explorator;
-			this.explorator.DBusError += OnDBusError;
-			this.tv = new BusContentView(model);
+			Logging.AddWatcher(LoggingEventHandler);
+			this.DeleteEvent += OnDeleteEvent;
+			DBusExplorator.SessionExplorator.DBusError += OnDBusError;
+			DBusExplorator.SystemExplorator.DBusError += OnDBusError;
 		
 			// Graphical setup
 			Build ();
-			this.tvWindow.Add(tv);
-			this.tvWindow.ShowAll();
-			
-			this.DeleteEvent += OnDeleteEvent;
-			this.tv.CursorChanged += OnRowSelected;
+			// Remove the page inital page imposed by the RAD
+			buses_Nb.RemovePage(0);
+			// Fake the action to create a nicely formated new page
+			OnNewTabActionActivated(this, EventArgs.Empty);
 		
 			// Spinner
 			spinner = new ImageAnimation(
@@ -41,13 +42,14 @@ namespace DBusExplorer
 			spinner.Active = false;
 			spinnerAlign.Add(spinner);
 			spinnerBox.HideAll();
-			
-		
-			// Graphical elements
-			FeedBusComboBox(explorator.AvalaibleBusNames);
 		}
 	
 		void FeedBusComboBox(string[] buses)
+		{
+			FeedBusComboBox(buses, currentPageWidget);
+		}
+		
+		void FeedBusComboBox(string[] buses, BusPageWidget page)
 		{
 			ComboBox cb = ComboBox.NewText();
 		
@@ -56,6 +58,18 @@ namespace DBusExplorer
 					continue;
 				cb.AppendText(s);
 			}
+			
+			UpdateComboBox(cb);
+			page.CurrentComboBox = cb;
+		}
+		
+		void UpdateComboBox(ComboBox cb)
+		{
+			if (cb == null)
+				return;
+			if (System.Object.ReferenceEquals(cb, busCb))
+				return;
+			
 			busCbCont.Remove(busCb);
 			busCb = cb;
 			busCbCont.Add(busCb);
@@ -65,8 +79,11 @@ namespace DBusExplorer
 
 		void UpdateView (string busName)
 		{
-			model.Clear();
-		
+			BusContentView view = this.currentPageWidget.BusContent;
+			DBusExplorator explorator = currentPageWidget.Explorator;
+			buses_Nb.SetTabLabelText(currentPageWidget, busName);
+			view.Reinitialize();
+			
 			spinnerBox.ShowAll();
 			spinner.Active = true;
 		
@@ -74,31 +91,49 @@ namespace DBusExplorer
 				IEnumerable<PathContainer> elements = explorator.EndGetElementsFromBus(result);
 				Application.Invoke(delegate {
 					foreach (PathContainer path in elements) {
-						tv.AddPath(path);
+						view.AddPath(path);
 					}
 				
 					spinnerBox.HideAll();
 					spinner.Active = false;
 				});
 			});
-		}
-	
-		void FillBottom (IElement element)
-		{
-			ElementRepresentation representation = element.Visual;
-			informationLabel.Text = element.Name;
-			symbolImage.Pixbuf = element.Image;
-			specstyleDecl.Markup = "<b><tt>" + representation.SpecDesc + "</tt></b>";
-			cstyleDecl.Markup = "<tt>" + representation.CStyle.Replace("<", "&lt;") + "</tt>";
-		}
+		}	
 		
 		void ReinitBus (DBusExplorator exp)
 		{
-			model.Clear();
-			this.explorator = exp;
-			this.explorator.DBusError += OnDBusError;
-			FeedBusComboBox(this.explorator.AvalaibleBusNames);
+			this.currentPageWidget.Explorator = exp;
+			// If it's a custom bus
+			if (exp != DBusExplorator.SessionExplorator && exp != DBusExplorator.SystemExplorator)
+				exp.DBusError += OnDBusError;
+			FeedBusComboBox(exp.AvalaibleBusNames);
 		}
+		
+		void OnDBusError(object sender, DBusErrorEventArgs e)
+		{
+			Application.Invoke( delegate {
+				spinnerBox.HideAll();
+				spinner.Active = false;
+				MessageDialog diag = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Ok, e.ErrorMessage);
+				diag.Run();
+				diag.Destroy();
+			});
+		}
+		
+		void LoggingEventHandler(LogType type, string message, Exception ex) {
+			Application.Invoke( delegate {
+				spinnerBox.HideAll();
+				spinner.Active = false;
+				string mess = ex == null ? message : message + Environment.NewLine + "Exception : " + ex.Message; 
+				MessageDialog diag = new MessageDialog(this, DialogFlags.DestroyWithParent,
+				                                       type == LogType.Error ? MessageType.Error : MessageType.Warning,
+				                                       ButtonsType.Ok, mess);
+				diag.Run();
+				diag.Destroy();
+			});
+		}
+		
+#region UI Event methods
 	
 		protected void OnDeleteEvent (object sender, EventArgs a)
 		{
@@ -110,28 +145,14 @@ namespace DBusExplorer
 			UpdateView(busCb.ActiveText);
 		}
 
-		protected virtual void OnRowSelected (object o, EventArgs args)
-		{
-			TreeIter tIter;
-			TreeSelection selection = tv.Selection;
-			if (selection == null || (selection != null && selection.CountSelectedRows() == 0))
-				return;
-			selection.GetSelected(out tIter);
-		
-			IElement element = model.GetValue(tIter, 2) as IElement;
-
-			if (element != null)
-				FillBottom(element);
-		}
-
 		protected virtual void OnSessionBusActivated (object sender, System.EventArgs e)
 		{
-			ReinitBus(new DBusExplorator());
+			ReinitBus(DBusExplorator.SessionExplorator);
 		}
 
 		protected virtual void OnSystemBusActivated (object sender, System.EventArgs e)
 		{
-			ReinitBus(new DBusExplorator(NDesk.DBus.Bus.System));			
+			ReinitBus(DBusExplorator.SystemExplorator);			
 		}
 	
 		protected virtual void OnAboutActivated (object sender, System.EventArgs e)
@@ -140,31 +161,10 @@ namespace DBusExplorer
 			ad.Authors = new string[] { "Jérémie \"Garuma\" Laval" };
 			ad.Copyright = "Copyright (c) 2007 Jérémie Laval <jeremie.laval@gmail.com>";
 			ad.License = "See the COPYING file";
-			ad.Version = "0.3";
+			ad.Version = "0.4";
 		
 			ad.Run();
 			ad.Destroy();
-		}
-	
-		protected virtual void OnColumnLblClicked (object sender, EventArgs e)
-		{
-			TreeViewColumn col = sender as TreeViewColumn;
-			if (col == null) 
-				return;
-			col.SortOrder = (col.SortIndicator && col.SortOrder == SortType.Ascending) ? SortType.Descending : SortType.Ascending;
-			col.SortIndicator = true;
-			this.model.SetSortColumnId(0, col.SortOrder);
-		}
-	
-		void OnDBusError(object sender, DBusErrorEventArgs e)
-		{
-			Application.Invoke( delegate {
-				spinnerBox.HideAll();
-				spinner.Active = false;
-				MessageDialog diag = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Ok, e.ErrorMessage);
-				diag.Run();
-				diag.Destroy();
-			});
 		}
 
 		protected virtual void OnCustomBusActivated (object sender, System.EventArgs e)
@@ -181,7 +181,7 @@ namespace DBusExplorer
 		protected virtual void OnMonitorActivated (object sender, System.EventArgs e)
 		{
 			MessageDialog d = 
-				new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "Sorry, this feature is currently not finalized.");
+				new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "Sorry, this feature is currently not available.");
 			d.Run();
 			d.Destroy();
 			/*
@@ -190,5 +190,26 @@ namespace DBusExplorer
 			d.Run();
 			d.Destroy();*/
 		}
+
+		protected virtual void OnBusesNbSwitchPage (object o, Gtk.SwitchPageArgs args)
+		{
+			currentPageWidget = buses_Nb.CurrentPageWidget as BusPageWidget;
+			if (currentPageWidget == null) {
+				buses_Nb.CurrentPage = 0;
+				currentPageWidget = buses_Nb.CurrentPageWidget as BusPageWidget;
+			}
+			UpdateComboBox(currentPageWidget.CurrentComboBox);
+		}
+
+		protected virtual void OnNewTabActionActivated (object sender, System.EventArgs e)
+		{
+			BusPageWidget page = new BusPageWidget();
+			page.Explorator = DBusExplorator.SessionExplorator;
+			FeedBusComboBox(page.Explorator.AvalaibleBusNames, page);
+			buses_Nb.AppendPage(page, new Label("(No Title)"));
+			// Switch to the newly append page which trigger the normal events
+			buses_Nb.CurrentPage = buses_Nb.NPages - 1;
+		}
+#endregion
 	}
 }

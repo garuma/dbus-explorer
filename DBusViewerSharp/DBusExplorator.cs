@@ -18,11 +18,16 @@ namespace DBusExplorer
 		static readonly string DBusName = "org.freedesktop.DBus";
 		static readonly ObjectPath DBusPath = new ObjectPath ("/org/freedesktop/DBus");
 		static readonly string rootPath = "/";
+		public static readonly DBusExplorator sessionExplorator = new DBusExplorator();
+		public static readonly DBusExplorator systemExplorator = new DBusExplorator(Bus.System);
+		static ElementFactory elementFactory = new ElementFactory(LangDefinitionService.DefaultPool.Languages.Values);
 		
 		public event EventHandler<DBusErrorEventArgs> DBusError;
 		
 		IBus ibus;
 		Bus bus;
+		
+		string[] avalaibleBusNames = null;
 		
 		static bool dump = Environment.CommandLine.Contains("--dump");
 
@@ -39,13 +44,26 @@ namespace DBusExplorer
 		
 		public string[] AvalaibleBusNames {
 			get {
-				return ibus.ListNames();
+				return avalaibleBusNames == null ? 
+					(avalaibleBusNames = ibus.ListNames()) : avalaibleBusNames;
 			}
 		}
 		
 		public Bus BusUsed {
 			get {
 				return bus;
+			}
+		}
+
+		public static DBusExplorator SessionExplorator {
+			get {
+				return sessionExplorator;
+			}
+		}
+
+		public static DBusExplorator SystemExplorator {
+			get {
+				return systemExplorator;
 			}
 		}
 		
@@ -180,7 +198,7 @@ namespace DBusExplorer
 			
 			method.Close();
 			
-			return ElementFactory.FromMethodDefinition(returnArg, name, args != null ? (IEnumerable<Argument>)args : null);
+			return elementFactory.FromMethodDefinition(returnArg, name, args != null ? (IEnumerable<Argument>)args : null);
 		}
 		
 		IElement ParseSignal(XmlReader signal)
@@ -200,7 +218,7 @@ namespace DBusExplorer
 			
 			signal.Close();
 			
-			return ElementFactory.FromSignalDefinition(name, args == null ? null : (IEnumerable<Argument>)args);
+			return elementFactory.FromSignalDefinition(name, args == null ? null : (IEnumerable<Argument>)args);
 		}
 		
 		IElement ParseProperty(XmlReader property)
@@ -226,7 +244,7 @@ namespace DBusExplorer
 			
 			property.Close();
 			
-			return ElementFactory.FromPropertyDefinition(name, type, access);
+			return elementFactory.FromPropertyDefinition(name, type, access);
 		}
 		
 		static string JoinPath(string path1, string path2)

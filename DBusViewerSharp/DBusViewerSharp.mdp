@@ -26,7 +26,7 @@
     <File name="../data/property.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="Representation" subtype="Directory" buildaction="Compile" />
     <File name="../data/empty.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="../data/icon.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="../data/dbus-explorer.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="Parser" subtype="Directory" buildaction="Compile" />
     <File name="Parser/Mapper.cs" subtype="Code" buildaction="Compile" />
     <File name="Parser/Parser.cs" subtype="Code" buildaction="Compile" />
@@ -41,8 +41,8 @@
     <File name="Representation/Argument.cs" subtype="Code" buildaction="Compile" />
     <File name="Representation/Enums.cs" subtype="Code" buildaction="Compile" />
     <File name="InvocationLayer/InvocationData.cs" subtype="Code" buildaction="Nothing" />
-    <File name="Config" subtype="Directory" buildaction="Nothing" />
-    <File name="Config/LangParser.cs" subtype="Code" buildaction="Compile" />
+    <File name="LangSupport" subtype="Directory" buildaction="Nothing" />
+    <File name="LangSupport/LangParser.cs" subtype="Code" buildaction="Compile" />
     <File name="Widgets" subtype="Directory" buildaction="Compile" />
     <File name="Widgets/ImageAnimation.cs" subtype="Code" buildaction="Compile" />
     <File name="Common.cs" subtype="Code" buildaction="Compile" />
@@ -51,11 +51,10 @@
     <File name="CustomBusDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="gtk-gui/DBusExplorer.CustomBusDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="gtk-gui/DBusExplorer.MainWindow.cs" subtype="Code" buildaction="Compile" />
-    <File name="Config/LangDefinitionPool.cs" subtype="Code" buildaction="Compile" />
-    <File name="Config/ILangDefinition.cs" subtype="Code" buildaction="Compile" />
+    <File name="LangSupport/LangDefinitionPool.cs" subtype="Code" buildaction="Compile" />
+    <File name="LangSupport/ILangDefinition.cs" subtype="Code" buildaction="Compile" />
     <File name="Generator" subtype="Directory" buildaction="Compile" />
-    <File name="Widgets/LangageRepresentationViewer.cs" subtype="Code" buildaction="Compile" />
-    <File name="gtk-gui/DBusExplorer.LangageRepresentationViewer.cs" subtype="Code" buildaction="Compile" />
+    <File name="Widgets/LanguageWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="gtk-gui/objects.xml" subtype="Code" buildaction="EmbedAsResource" />
     <File name="Generator/CodeDomGenerator.cs" subtype="Code" buildaction="Compile" />
     <File name="Generator/IGenerator.cs" subtype="Code" buildaction="Compile" />
@@ -65,11 +64,14 @@
     <File name="Parser/TextVisitors/CSharpVisitor.cs" subtype="Code" buildaction="Compile" />
     <File name="Parser/TextVisitors/LangDefVisitor.cs" subtype="Code" buildaction="Compile" />
     <File name="Logging.cs" subtype="Code" buildaction="Compile" />
-    <File name="Config/Formats" subtype="Directory" buildaction="Compile" />
-    <File name="Config/Formats/MethodFormat.cs" subtype="Code" buildaction="Compile" />
-    <File name="Config/Formats/EventFormat.cs" subtype="Code" buildaction="Compile" />
-    <File name="Config/Formats/PropertyFormat.cs" subtype="Code" buildaction="Compile" />
     <File name="Widgets/BusContentView.cs" subtype="Code" buildaction="Compile" />
+    <File name="Widgets/BusPageWidget.cs" subtype="Code" buildaction="Compile" />
+    <File name="gtk-gui/DBusExplorer.BusPageWidget.cs" subtype="Code" buildaction="Compile" />
+    <File name="Widgets/InformationView.cs" subtype="Code" buildaction="Compile" />
+    <File name="gtk-gui/DBusExplorer.InformationView.cs" subtype="Code" buildaction="Compile" />
+    <File name="gtk-gui/DBusExplorer.LanguageWidget.cs" subtype="Code" buildaction="Compile" />
+    <File name="Widgets/GenerationMenuWidget.cs" subtype="Code" buildaction="Compile" />
+    <File name="LangSupport/LangDefinitionService.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="gtk-sharp, Version=2.10.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
@@ -83,7 +85,9 @@
   <Deployment.LinuxDeployData scriptName="dbus-explorer" />
   <GtkDesignInfo>
     <ExportedWidgets>
-      <Widget>DBusExplorer.LangageRepresentationViewer</Widget>
+      <Widget>DBusExplorer.BusPageWidget</Widget>
+      <Widget>DBusExplorer.InformationView</Widget>
+      <Widget>DBusExplorer.LanguageWidget</Widget>
     </ExportedWidgets>
   </GtkDesignInfo>
 </Project>
