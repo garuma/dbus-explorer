@@ -37,6 +37,11 @@ namespace DBusExplorer
 		
 		public Interface(string name, IEnumerable<IElement> symbols)
 		{
+			if (name == null)
+				throw new ArgumentNullException("name");
+			if (symbols == null)
+				throw new ArgumentNullException("symbols");
+			
 			this.name = name;
 			this.symbols = symbols;
 			foreach (IElement element in symbols)

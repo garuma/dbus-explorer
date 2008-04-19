@@ -171,6 +171,7 @@ namespace DBusExplorer
 			}
 			
 			reader.Close();
+			entries.RemoveAll(delegate (IElement elem) { return elem == null; });
 			
 			return new Interface(name, (IEnumerable<IElement>)entries);
 		}

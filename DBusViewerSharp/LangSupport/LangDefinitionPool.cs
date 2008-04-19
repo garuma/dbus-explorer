@@ -13,7 +13,6 @@ namespace DBusExplorer
 	public class LangDefinitionPool
 	{
 		Dictionary<string, ILangDefinition> langs = new Dictionary<string,ILangDefinition>();
-		static Dictionary<string, ILangDefinition> currLangs;
 		
 		public Dictionary<string, ILangDefinition> Languages {
 			get {

@@ -15,7 +15,8 @@ namespace DBusExplorer
 		public GenerationMenuWidget(PathContainer referer)
 		{
 			MenuItem path = new MenuItem("Generate wrapper code for " + referer.Path);
-			
+			this.Append(path);
+			path.ShowAll();
 		}
 		
 		public GenerationMenuWidget(Interface referer)

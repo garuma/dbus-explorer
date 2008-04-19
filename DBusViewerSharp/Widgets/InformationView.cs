@@ -11,16 +11,18 @@ namespace DBusExplorer
 	
 	public partial class InformationView : Gtk.Bin
 	{
-		LanguageWidget languageRepresentation;
+		LanguageWidget languageRepresentation = new LanguageWidget();
 		
 		public InformationView()
 		{
 			this.Build();
 			this.langsPh.Add(languageRepresentation);
+			languageRepresentation.ShowAll();
 		}
 		
 		public void FillBottom (IElement element)
 		{
+			Console.WriteLine("FillBottom called with " + element.Name);
 			ElementRepresentation representation = element.Visual;
 			informationLabel.Text = element.Name;
 			symbolImage.Pixbuf = element.Image;

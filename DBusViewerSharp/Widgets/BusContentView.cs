@@ -60,6 +60,8 @@ namespace DBusExplorer
 				else
 					return a.CompareTo(b);
 			});
+			
+			this.CursorChanged += OnRowSelected;
 		}
 		
 		public void Reinitialize()
@@ -137,7 +139,7 @@ namespace DBusExplorer
 		            return true;
 				if (!model.GetIter(out iter, path))
 					return true;
-				//Console.WriteLine("Rightclicked");
+				Console.WriteLine("Rightclicked for Generation");
 				object target = model.GetValue(iter, 2);
 				GenerationMenuWidget menu = null;
 				switch (path.Depth) {

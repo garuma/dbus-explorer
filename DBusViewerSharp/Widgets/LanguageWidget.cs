@@ -16,7 +16,7 @@ namespace DBusExplorer
 	public partial class LanguageWidget : Gtk.Bin
 	{
 		Dictionary<string, Label> langs = new Dictionary<string,Label>();
-		Menu rightMenu;
+		Menu menu;
 		
 		public LanguageWidget()
 		{
@@ -26,7 +26,7 @@ namespace DBusExplorer
 					 AddLangage(tuple.Key, string.Empty);
 				} catch {}
 			}
-			rightMenu = MakeMenu(LangDefinitionService.DefaultPool.Languages.Keys);
+			menu = MakeMenu(LangDefinitionService.DefaultPool.Languages.Keys);
 		}
 		
 		Menu MakeMenu(IEnumerable<string> defs)
@@ -81,7 +81,7 @@ namespace DBusExplorer
 			//right click
 			if (evnt.Button == 3) {
 				
-				Console.WriteLine("Rightclicked");
+				menu.Popup (null, null, null, 3, Gtk.Global.CurrentEventTime);
 				// TODO: use Menu subclass which adapt to model.GetValue(iter) type (path, interface...)
 				// and make the generation dialog
 			}

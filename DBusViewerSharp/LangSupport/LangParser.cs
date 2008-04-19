@@ -25,6 +25,8 @@ namespace DBusExplorer
 			
 			doc = new XPathDocument(new StreamReader(path));
 			nav = doc.CreateNavigator();
+			if (nav == null)
+				throw new ApplicationException("Error the XPathNavigator for the document ("+path+") is null");
 			
 			return new LangDefinition(GetTypes(), GetName(), GetMethodFormating(), null, null, null, null);
 		}
@@ -51,7 +53,9 @@ namespace DBusExplorer
 		
 		static MethodFormatDelegate GetMethodFormating()
 		{
-			XPathNavigator methodNode = nav.SelectSingleNode("method");
+			XPathNavigator methodNode = nav.SelectSingleNode("//method");
+			if (methodNode == null)
+				throw new ApplicationException("Parsing error : there is no method node in the file");
 			string general = methodNode.GetAttribute("general", string.Empty);
 			ArgsFormatingDelegate argsFormat = GetArgsFormating(methodNode.SelectSingleNode("arguments"));
 			
@@ -62,7 +66,7 @@ namespace DBusExplorer
 		
 		static EventFormatDelegate GetEventFormating()
 		{
-			XPathNavigator eventNode = nav.SelectSingleNode("event");
+			XPathNavigator eventNode = nav.SelectSingleNode("//event");
 			string general = eventNode.GetAttribute("general", string.Empty);
 			ArgsFormatingDelegate argsFormat = GetArgsFormating(eventNode.SelectSingleNode("arguments"));
 			

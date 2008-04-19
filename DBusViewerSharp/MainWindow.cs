@@ -87,7 +87,14 @@ namespace DBusExplorer
 			spinnerBox.ShowAll();
 			spinner.Active = true;
 		
-			explorator.BeginGetElementsFromBus(busName, delegate (IAsyncResult result) {
+			foreach (PathContainer path in explorator.GetElementsFromBus(busName)) {
+				view.AddPath(path);
+				//Console.WriteLine(path.Path);
+			}
+				
+			spinnerBox.HideAll();
+			spinner.Active = false;
+			/*explorator.BeginGetElementsFromBus(busName, delegate (IAsyncResult result) {
 				IEnumerable<PathContainer> elements = explorator.EndGetElementsFromBus(result);
 				Application.Invoke(delegate {
 					foreach (PathContainer path in elements) {
@@ -97,7 +104,7 @@ namespace DBusExplorer
 					spinnerBox.HideAll();
 					spinner.Active = false;
 				});
-			});
+			});*/
 		}	
 		
 		void ReinitBus (DBusExplorator exp)
@@ -204,6 +211,7 @@ namespace DBusExplorer
 		protected virtual void OnNewTabActionActivated (object sender, System.EventArgs e)
 		{
 			BusPageWidget page = new BusPageWidget();
+			page.ShowAll();
 			page.Explorator = DBusExplorator.SessionExplorator;
 			FeedBusComboBox(page.Explorator.AvalaibleBusNames, page);
 			buses_Nb.AppendPage(page, new Label("(No Title)"));
