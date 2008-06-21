@@ -10,7 +10,6 @@ using Gtk;
 namespace DBusExplorer
 {
 	
-	
 	public partial class BusPageWidget : Gtk.Bin
 	{
 		BusContentView busContent = new BusContentView();

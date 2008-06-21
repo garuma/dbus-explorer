@@ -115,6 +115,9 @@ namespace DBusExplorer
 	public enum DType : byte
 	{
 		Invalid = (byte)'\0',
+		// Addition for use in DBus-Explorer
+		// e like empty
+		Void = (byte)'e',
 
 		Byte = (byte)'y',
 		Boolean = (byte)'b',

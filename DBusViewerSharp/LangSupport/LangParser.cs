@@ -28,13 +28,15 @@ namespace DBusExplorer
 			if (nav == null)
 				throw new ApplicationException("Error the XPathNavigator for the document ("+path+") is null");
 			
-			return new LangDefinition(GetTypes(), GetName(), GetMethodFormating(), null, null, null, null);
+			LangDefinition def = new LangDefinition(GetTypes(), GetName(), GetMethodFormating(), null, null, null, null);
+			Console.WriteLine(def);
+			return def;
 		}
 		
 		static Dictionary<DType, string> GetTypes()
 		{
 			Dictionary<DType, string> types = new Dictionary<DType,string>();
-			foreach (XPathNavigator t in nav.Select("map")) {
+			foreach (XPathNavigator t in nav.Select("//map")) {
 				DType temp;
 				try {
 					temp = (DType)Enum.Parse(typeof(DType), t.GetAttribute("src", string.Empty));
@@ -73,6 +75,19 @@ namespace DBusExplorer
 			return null;
 		}
 		
+		static StructFormatDelegate GetStructFormating()
+		{
+			XPathNavigator structNode = nav.SelectSingleNode("//struct");
+			string prefix = structNode.GetAttribute("prefix", string.Empty);
+			string suffix = structNode.GetAttribute("suffix", string.Empty);
+			string general = structNode.GetAttribute("general", string.Empty);
+			string accumulator = structNode.GetAttribute("accumulator", string.Empty);
+			
+			return delegate (IEnumerable<string> types) {
+				return string.Empty;
+			};
+		}
+		
 		static ArgsFormatingDelegate GetArgsFormating(XPathNavigator argsNode)
 		{
 			string accumulator = argsNode.GetAttribute("accumulator", string.Empty);
@@ -80,13 +95,23 @@ namespace DBusExplorer
 			string end = argsNode.GetAttribute("end", string.Empty);
 			string general = argsNode.GetAttribute("general", string.Empty);
 			
+			return GetArgsFormating(accumulator, start, end, general);
+		}
+		
+		static ArgsFormatingDelegate GetArgsFormating(string accumulator, string start, string end, string general)
+		{
 			return delegate (IEnumerable<Argument> args) {
 				// Should use Linq when Mono gets older
 				string temp = start;
+				bool isThereArgs = false;
 				foreach (Argument tuple in args) {
 					temp += general.Replace("%{arg-type}", tuple.Type).Replace("%{arg-name}", tuple.Name);
 					temp += accumulator;
+					isThereArgs = true;
 				}
+				// remove the last accumulator if there was args in the Enumerable (dirty)
+				if (isThereArgs)
+					temp = temp.Substring(0, temp.Length - accumulator.Length);
 				temp += end;
 				
 				return temp;
@@ -175,6 +200,19 @@ namespace DBusExplorer
 			public override int GetHashCode()
 			{
 				return name.GetHashCode();
+			}
+			
+			public override string ToString()
+			{
+				string s = "LangDefinition of " + name;
+				s += Environment.NewLine;
+				s += "Types:";
+				s += Environment.NewLine;
+				foreach (var type in types) {
+					s += string.Format("\t{0} = > {1}", type.Key, type.Value);
+					s += Environment.NewLine;
+				}
+				return s;
 			}
 		}
 	}

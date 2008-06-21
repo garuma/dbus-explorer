@@ -142,14 +142,15 @@ namespace DBusExplorer
 				Console.WriteLine("Rightclicked for Generation");
 				object target = model.GetValue(iter, 2);
 				GenerationMenuWidget menu = null;
+				Console.WriteLine("Depth : " + path.Depth);
 				switch (path.Depth) {
-				case 0:
+				case 1:
 					menu = new GenerationMenuWidget((PathContainer)target);
 					break;
-				case 1:
+				case 2:
 					menu = new GenerationMenuWidget((Interface)target);
 					break;
-				case 2:
+				case 3:
 					menu = new GenerationMenuWidget((IElement)target);
 					break;
 				}

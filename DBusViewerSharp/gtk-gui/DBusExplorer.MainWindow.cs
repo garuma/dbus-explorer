@@ -31,8 +31,6 @@ namespace DBusExplorer {
         
         private Gtk.Action View;
         
-        private Gtk.Action Monitor;
-        
         private Gtk.Action CustomBus;
         
         private Gtk.Action Tools;
@@ -105,9 +103,6 @@ namespace DBusExplorer {
             this.View = new Gtk.Action("View", Mono.Unix.Catalog.GetString("_View"), null, null);
             this.View.ShortLabel = Mono.Unix.Catalog.GetString("_View");
             w2.Add(this.View, null);
-            this.Monitor = new Gtk.Action("Monitor", Mono.Unix.Catalog.GetString("_Monitor..."), Mono.Unix.Catalog.GetString("Show D-Bus Monitor to track events on the selected bus."), "gtk-network");
-            this.Monitor.ShortLabel = Mono.Unix.Catalog.GetString("_Monitor");
-            w2.Add(this.Monitor, "<Control>m");
             this.CustomBus = new Gtk.Action("CustomBus", Mono.Unix.Catalog.GetString("C_ustom Bus..."), null, null);
             this.CustomBus.ShortLabel = Mono.Unix.Catalog.GetString("C_ustom Bus...");
             w2.Add(this.CustomBus, null);
@@ -122,7 +117,7 @@ namespace DBusExplorer {
             w2.Add(this.C, null);
             this.NewTabAction = new Gtk.Action("NewTabAction", Mono.Unix.Catalog.GetString("New Tab"), null, null);
             this.NewTabAction.ShortLabel = Mono.Unix.Catalog.GetString("New Bus");
-            w2.Add(this.NewTabAction, null);
+            w2.Add(this.NewTabAction, "<Control><Mod2>t");
             w1.InsertActionGroup(w2, 0);
             this.AddAccelGroup(w1.AccelGroup);
             this.Name = "DBusExplorer.MainWindow";
@@ -135,7 +130,7 @@ namespace DBusExplorer {
             this.vbox1.Name = "vbox1";
             this.vbox1.Spacing = 6;
             // Container child vbox1.Gtk.Box+BoxChild
-            w1.AddUiFromString("<ui><menubar name='menubar1'><menu action='File'><menuitem action='NewTabAction'/><menu action='SelectBus'><menuitem action='SessionBus'/><menuitem action='SystemBus'/><menuitem action='CustomBus'/></menu><menuitem action='quit1'/></menu><menu action='View'><menu action='Languages'><menuitem action='C'/></menu><menuitem action='Monitor'/></menu><menu action='Help'><menuitem action='about'/></menu></menubar></ui>");
+            w1.AddUiFromString("<ui><menubar name='menubar1'><menu action='File'><menuitem action='NewTabAction'/><menu action='SelectBus'><menuitem action='SessionBus'/><menuitem action='SystemBus'/><menuitem action='CustomBus'/></menu><menuitem action='quit1'/></menu><menu action='Help'><menuitem action='about'/></menu></menubar></ui>");
             this.menubar1 = ((Gtk.MenuBar)(w1.GetWidget("/menubar1")));
             this.menubar1.Name = "menubar1";
             this.vbox1.Add(this.menubar1);
@@ -245,7 +240,6 @@ namespace DBusExplorer {
             this.quit.Activated += new System.EventHandler(this.OnDeleteEvent);
             this.quit1.Activated += new System.EventHandler(this.OnDeleteEvent);
             this.about.Activated += new System.EventHandler(this.OnAboutActivated);
-            this.Monitor.Activated += new System.EventHandler(this.OnMonitorActivated);
             this.CustomBus.Activated += new System.EventHandler(this.OnCustomBusActivated);
             this.NewTabAction.Activated += new System.EventHandler(this.OnNewTabActionActivated);
             this.buses_Nb.SwitchPage += new Gtk.SwitchPageHandler(this.OnBusesNbSwitchPage);

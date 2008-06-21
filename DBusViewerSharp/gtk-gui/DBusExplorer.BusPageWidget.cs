@@ -30,7 +30,7 @@ namespace DBusExplorer {
             this.vpaned3 = new Gtk.VPaned();
             this.vpaned3.CanFocus = true;
             this.vpaned3.Name = "vpaned3";
-            this.vpaned3.Position = 120;
+            this.vpaned3.Position = 294;
             // Container child vpaned3.Gtk.Paned+PanedChild
             this.tvWindow = new Gtk.ScrolledWindow();
             this.tvWindow.CanFocus = true;
@@ -49,6 +49,7 @@ namespace DBusExplorer {
             this.vpaned3.Add(this.tvWindow);
             Gtk.Paned.PanedChild w4 = ((Gtk.Paned.PanedChild)(this.vpaned3[this.tvWindow]));
             w4.Resize = false;
+            w4.Shrink = false;
             // Container child vpaned3.Gtk.Paned+PanedChild
             this.informationViewPlaceholder = new Gtk.Alignment(0.5F, 0.5F, 1F, 1F);
             this.informationViewPlaceholder.Name = "informationViewPlaceholder";

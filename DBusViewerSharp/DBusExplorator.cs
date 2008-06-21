@@ -196,6 +196,9 @@ namespace DBusExplorer
 					args.Add(new Argument(method["type"], method["name"]));
 				}
 			}
+			if (string.IsNullOrEmpty(returnArg))
+				// 'e' represent void in DBus Explorer. It's not standard !!!
+				returnArg = "e";
 			
 			method.Close();
 			

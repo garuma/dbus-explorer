@@ -9,18 +9,20 @@
 		<map src="Double" to="double" />
 		<map src="String" to="string" />
 		<map src="Variant" to="object" />
+		<map src="Boolean" to="bool" />
+		<map src="Void"    to="void" />
 	</types>
 	
 	<syntax>
 		<method general="%{return} %{name}(%{args});">
-			<arguments accumulator=", " start="" end="" general="%{arg-type} {arg-name}" />
+			<arguments accumulator=", " start="" end="" general="%{type} %{name}" />
 		</method>
 		<event general="event EventHandler&lt;%{types}&gt; %{name};" >
-			<arguments accumulator=", " start="" end="" general="%{arg-type}" />
+			<arguments accumulator=", " start="" end="" general="%{type}" />
 		</event>
 		<property read="%{type} %{name} { get; }" write="%{type} %{name} { set }" readwrite="%{type} %{name} { get; set; }" />
 
-		<struct prefix="struct { " suffix="}" inner="%{types}" accumulator="; " />
+		<struct prefix="struct { " suffix="}" general="%{type}" accumulator="; " />
 		<dictionary general="Dictionary&lt;%{type1}, %{type2}&gt;" />
 		<array general="%{type}[]" />
 	</syntax>

@@ -45,6 +45,7 @@ namespace DBusExplorer
 			Label temp = new Label();
 			temp.UseMarkup = true;
 			temp.Markup = FormatPrototype(prototype);
+			temp.Selectable = true;
 			
 			try {
 				langs.Add(langKey, temp);

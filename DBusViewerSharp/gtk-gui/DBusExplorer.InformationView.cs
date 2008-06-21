@@ -71,7 +71,7 @@ namespace DBusExplorer {
             w1.Expand = false;
             w1.Fill = false;
             // Container child hbox5.Gtk.Box+BoxChild
-            this.alignment7 = new Gtk.Alignment(0.4F, 0.5F, 1F, 1F);
+            this.alignment7 = new Gtk.Alignment(0.5F, 0.5F, 1F, 1F);
             this.alignment7.Name = "alignment7";
             this.alignment7.LeftPadding = ((uint)(10));
             // Container child alignment7.Gtk.Container+ContainerChild
@@ -79,6 +79,7 @@ namespace DBusExplorer {
             this.specstyleDecl.Name = "specstyleDecl";
             this.specstyleDecl.LabelProp = "";
             this.specstyleDecl.UseMarkup = true;
+            this.specstyleDecl.Selectable = true;
             this.alignment7.Add(this.specstyleDecl);
             this.hbox5.Add(this.alignment7);
             Gtk.Box.BoxChild w3 = ((Gtk.Box.BoxChild)(this.hbox5[this.alignment7]));
@@ -118,6 +119,7 @@ namespace DBusExplorer {
             this.informationLabel = new Gtk.Label();
             this.informationLabel.Name = "informationLabel";
             this.informationLabel.LabelProp = "";
+            this.informationLabel.Selectable = true;
             this.hbox7.Add(this.informationLabel);
             Gtk.Box.BoxChild w9 = ((Gtk.Box.BoxChild)(this.hbox7[this.informationLabel]));
             w9.Position = 1;

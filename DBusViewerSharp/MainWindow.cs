@@ -184,20 +184,7 @@ namespace DBusExplorer
 			}
 			d.Destroy();
 		}
-
-		protected virtual void OnMonitorActivated (object sender, System.EventArgs e)
-		{
-			MessageDialog d = 
-				new MessageDialog(this, DialogFlags.Modal, MessageType.Info, ButtonsType.Ok, "Sorry, this feature is currently not available.");
-			d.Run();
-			d.Destroy();
-			/*
-			DBusMonitor d = new DBusMonitor(explorator.BusUsed, NDesk.DBus.ObjectPath.Root);
-			d.ShowAll();
-			d.Run();
-			d.Destroy();*/
-		}
-
+		
 		protected virtual void OnBusesNbSwitchPage (object o, Gtk.SwitchPageArgs args)
 		{
 			currentPageWidget = buses_Nb.CurrentPageWidget as BusPageWidget;
@@ -214,10 +201,11 @@ namespace DBusExplorer
 			page.ShowAll();
 			page.Explorator = DBusExplorator.SessionExplorator;
 			FeedBusComboBox(page.Explorator.AvalaibleBusNames, page);
-			buses_Nb.AppendPage(page, new Label("(No Title)"));
+			buses_Nb.AppendPage(page, new TabWidget(Mono.Unix.Catalog.GetString("(No Title)"), buses_Nb, buses_Nb.NPages));
 			// Switch to the newly append page which trigger the normal events
 			buses_Nb.CurrentPage = buses_Nb.NPages - 1;
 		}
+
 #endregion
 	}
 }

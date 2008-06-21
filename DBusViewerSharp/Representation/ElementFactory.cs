@@ -90,7 +90,6 @@ namespace DBusExplorer
 		
 		public IElement FromMethodDefinition(string returnType, string name, IEnumerable<Argument> args)
 		{
-			//string cStyle = Parser.ParseDBusTypeExpression(returnType) + " " + name + " (" + MakeArgumentList(args, ", ", "{T} {N}", true) + ")";
 			string specDesc = name + " (" + MakeArgumentList(args, ", ", "{N} : {T}") + ") : " + returnType;
 			Dictionary<string, LangProcesser> temp = new Dictionary<string,LangProcesser>();
 			
@@ -98,9 +97,10 @@ namespace DBusExplorer
 				temp.Add(visitor.Key.Name, delegate {
 					string retRealType = Parser.ParseDBusTypeExpression(returnType, visitor.Value);
 					List<Argument> argsReal = new List<Argument>();
-					foreach (Argument arg in args)
-						argsReal.Add(new Argument(Parser.ParseDBusTypeExpression(arg.Type, visitor.Value), arg.Name));
-					
+					if (args != null) {
+						foreach (Argument arg in args)
+							argsReal.Add(new Argument(Parser.ParseDBusTypeExpression(arg.Type, visitor.Value), arg.Name));
+					}
 					return visitor.Key.MethodFormat(name, retRealType, argsReal); 
 				});
 			}
