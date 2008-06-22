@@ -24,7 +24,7 @@ namespace DBusExplorer
 		{
 			foreach (string bPath in basePaths) {
 				string path = System.IO.Path.Combine(bPath, "langs");
-				foreach (string file in Directory.GetFiles(path)) {
+				foreach (string file in Directory.GetFiles(path, "*.lang.xml")) {
 					ILangDefinition def = LangParser.ParseFromFile(file);
 					langs.Add(def.Name, def);
 				}
