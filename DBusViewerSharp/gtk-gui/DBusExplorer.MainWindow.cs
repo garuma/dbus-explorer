@@ -13,7 +13,7 @@ namespace DBusExplorer {
     
     public partial class MainWindow {
         
-        private Gtk.Action File;
+        private Gtk.Action FileAction;
         
         private Gtk.Action SelectBus;
         
@@ -74,12 +74,12 @@ namespace DBusExplorer {
             // Widget DBusExplorer.MainWindow
             Gtk.UIManager w1 = new Gtk.UIManager();
             Gtk.ActionGroup w2 = new Gtk.ActionGroup("Default");
-            this.File = new Gtk.Action("File", Mono.Unix.Catalog.GetString("_File"), null, null);
-            this.File.ShortLabel = Mono.Unix.Catalog.GetString("_File");
-            w2.Add(this.File, null);
+            this.FileAction = new Gtk.Action("FileAction", Mono.Unix.Catalog.GetString("_File"), null, null);
+            this.FileAction.ShortLabel = Mono.Unix.Catalog.GetString("_File");
+            w2.Add(this.FileAction, null);
             this.SelectBus = new Gtk.Action("SelectBus", Mono.Unix.Catalog.GetString("_Select Bus"), null, null);
             this.SelectBus.ShortLabel = Mono.Unix.Catalog.GetString("Select Bus");
-            w2.Add(this.SelectBus, null);
+            w2.Add(this.SelectBus, "<Control><Mod2>s");
             this.SessionBus = new Gtk.RadioAction("SessionBus", Mono.Unix.Catalog.GetString("S_ession Bus"), null, null, 0);
             this.SessionBus.Group = new GLib.SList(System.IntPtr.Zero);
             this.SessionBus.ShortLabel = Mono.Unix.Catalog.GetString("Session Bus");
@@ -115,8 +115,8 @@ namespace DBusExplorer {
             this.C = new Gtk.ToggleAction("C", Mono.Unix.Catalog.GetString("C#"), null, null);
             this.C.ShortLabel = Mono.Unix.Catalog.GetString("C#");
             w2.Add(this.C, null);
-            this.NewTabAction = new Gtk.Action("NewTabAction", Mono.Unix.Catalog.GetString("New Tab"), null, null);
-            this.NewTabAction.ShortLabel = Mono.Unix.Catalog.GetString("New Bus");
+            this.NewTabAction = new Gtk.Action("NewTabAction", Mono.Unix.Catalog.GetString("New _tab"), null, null);
+            this.NewTabAction.ShortLabel = Mono.Unix.Catalog.GetString("New _tab");
             w2.Add(this.NewTabAction, "<Control><Mod2>t");
             w1.InsertActionGroup(w2, 0);
             this.AddAccelGroup(w1.AccelGroup);
@@ -125,12 +125,13 @@ namespace DBusExplorer {
             this.Icon = Gdk.Pixbuf.LoadFromResource("dbus-explorer.png");
             this.WindowPosition = ((Gtk.WindowPosition)(4));
             this.AllowShrink = true;
+            this.DefaultHeight = 600;
             // Container child DBusExplorer.MainWindow.Gtk.Container+ContainerChild
             this.vbox1 = new Gtk.VBox();
             this.vbox1.Name = "vbox1";
             this.vbox1.Spacing = 6;
             // Container child vbox1.Gtk.Box+BoxChild
-            w1.AddUiFromString("<ui><menubar name='menubar1'><menu action='File'><menuitem action='NewTabAction'/><menu action='SelectBus'><menuitem action='SessionBus'/><menuitem action='SystemBus'/><menuitem action='CustomBus'/></menu><menuitem action='quit1'/></menu><menu action='Help'><menuitem action='about'/></menu></menubar></ui>");
+            w1.AddUiFromString("<ui><menubar name='menubar1'><menu action='FileAction'><menuitem action='NewTabAction'/><menu action='SelectBus'><menuitem action='SessionBus'/><menuitem action='SystemBus'/><menuitem action='CustomBus'/></menu><menuitem action='quit1'/></menu><menu action='Help'><menuitem action='about'/></menu></menubar></ui>");
             this.menubar1 = ((Gtk.MenuBar)(w1.GetWidget("/menubar1")));
             this.menubar1.Name = "menubar1";
             this.vbox1.Add(this.menubar1);
@@ -207,6 +208,7 @@ namespace DBusExplorer {
             this.buses_Nb.CanFocus = true;
             this.buses_Nb.Name = "buses_Nb";
             this.buses_Nb.CurrentPage = 0;
+            this.buses_Nb.BorderWidth = ((uint)(3));
             // Notebook tab
             Gtk.Label w13 = new Gtk.Label();
             w13.Visible = true;
@@ -233,7 +235,6 @@ namespace DBusExplorer {
                 this.Child.ShowAll();
             }
             this.DefaultWidth = 798;
-            this.DefaultHeight = 679;
             this.Show();
             this.SessionBus.Activated += new System.EventHandler(this.OnSessionBusActivated);
             this.SystemBus.Activated += new System.EventHandler(this.OnSystemBusActivated);

@@ -28,6 +28,7 @@ namespace DBusExplorer {
             // Container child evts.Gtk.Container+ContainerChild
             this.langsVbox = new Gtk.VBox();
             this.langsVbox.Name = "langsVbox";
+            this.langsVbox.Homogeneous = true;
             this.langsVbox.Spacing = 6;
             this.evts.Add(this.langsVbox);
             this.Add(this.evts);

@@ -16,7 +16,7 @@ namespace DBusExplorer
 		
 		// Careful, the string that represent type here have already been parsed somewhere before entering here.
 		string MethodFormat(string name, string returnType, IEnumerable<Argument> args);
-		string EventFormat(string name, IEnumerable<KeyValuePair<string, string>> args);
+		string EventFormat(string name, IEnumerable<Argument> args);
 		string PropertyFormat();
 		
 		string DictionaryFormat(string type1, string type2);

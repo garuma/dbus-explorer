@@ -101,6 +101,7 @@ namespace DBusExplorer {
             this.vbox3.Add(this.langsPh);
             Gtk.Box.BoxChild w6 = ((Gtk.Box.BoxChild)(this.vbox3[this.langsPh]));
             w6.Position = 1;
+            w6.Expand = false;
             this.expander2.Add(this.vbox3);
             this.hbox7 = new Gtk.HBox();
             this.hbox7.Name = "hbox7";

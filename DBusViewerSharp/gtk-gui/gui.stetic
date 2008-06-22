@@ -7,15 +7,16 @@
   <import>
     <widget-library name="../bin/Debug/DBusExplorer.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="DBusExplorer.MainWindow" design-size="798 679">
+  <widget class="Gtk.Window" id="DBusExplorer.MainWindow" design-size="798 579">
     <action-group name="Default">
-      <action id="File">
+      <action id="FileAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">_File</property>
         <property name="ShortLabel" translatable="yes">_File</property>
       </action>
       <action id="SelectBus">
         <property name="Type">Action</property>
+        <property name="Accelerator">&lt;Control&gt;&lt;Mod2&gt;s</property>
         <property name="Label" translatable="yes">_Select Bus</property>
         <property name="ShortLabel" translatable="yes">Select Bus</property>
       </action>
@@ -96,8 +97,8 @@
       <action id="NewTabAction">
         <property name="Type">Action</property>
         <property name="Accelerator">&lt;Control&gt;&lt;Mod2&gt;t</property>
-        <property name="Label" translatable="yes">New Tab</property>
-        <property name="ShortLabel" translatable="yes">New Bus</property>
+        <property name="Label" translatable="yes">New _tab</property>
+        <property name="ShortLabel" translatable="yes">New _tab</property>
         <signal name="Activated" handler="OnNewTabActionActivated" />
       </action>
     </action-group>
@@ -106,6 +107,7 @@
     <property name="Icon">resource:dbus-explorer.png</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="AllowShrink">True</property>
+    <property name="DefaultHeight">600</property>
     <child>
       <widget class="Gtk.VBox" id="vbox1">
         <property name="MemberName" />
@@ -114,7 +116,7 @@
           <widget class="Gtk.MenuBar" id="menubar1">
             <property name="MemberName" />
             <node name="menubar1" type="Menubar">
-              <node type="Menu" action="File">
+              <node type="Menu" action="FileAction">
                 <node type="Menuitem" action="NewTabAction" />
                 <node type="Menu" action="SelectBus">
                   <node type="Menuitem" action="SessionBus" />
@@ -230,6 +232,7 @@
             <property name="MemberName" />
             <property name="CanFocus">True</property>
             <property name="CurrentPage">0</property>
+            <property name="BorderWidth">3</property>
             <signal name="SwitchPage" handler="OnBusesNbSwitchPage" />
             <child>
               <placeholder />
@@ -246,7 +249,7 @@
           </widget>
           <packing>
             <property name="Position">2</property>
-            <property name="AutoSize">True</property>
+            <property name="AutoSize">False</property>
           </packing>
         </child>
         <child>
@@ -373,6 +376,7 @@
         <child>
           <widget class="Gtk.VBox" id="langsVbox">
             <property name="MemberName" />
+            <property name="Homogeneous">True</property>
             <property name="Spacing">6</property>
             <child>
               <placeholder />
@@ -385,10 +389,9 @@
   <widget class="Gtk.Bin" id="DBusExplorer.BusPageWidget" design-size="300 300">
     <property name="MemberName" />
     <child>
-      <widget class="Gtk.VPaned" id="vpaned3">
+      <widget class="Gtk.VBox" id="vbox3">
         <property name="MemberName" />
-        <property name="CanFocus">True</property>
-        <property name="Position">294</property>
+        <property name="Spacing">6</property>
         <child>
           <widget class="Gtk.ScrolledWindow" id="tvWindow">
             <property name="MemberName" />
@@ -412,22 +415,38 @@
             </child>
           </widget>
           <packing>
-            <property name="Resize">False</property>
-            <property name="Shrink">False</property>
+            <property name="Position">0</property>
+            <property name="AutoSize">True</property>
           </packing>
         </child>
         <child>
-          <widget class="Gtk.Alignment" id="informationViewPlaceholder">
+          <widget class="Gtk.VBox" id="vbox4">
             <property name="MemberName" />
+            <property name="Spacing">6</property>
             <child>
-              <placeholder />
+              <widget class="Gtk.Alignment" id="informationViewPlaceholder">
+                <property name="MemberName" />
+                <child>
+                  <placeholder />
+                </child>
+              </widget>
+              <packing>
+                <property name="Position">0</property>
+                <property name="AutoSize">False</property>
+                <property name="Expand">False</property>
+              </packing>
             </child>
           </widget>
+          <packing>
+            <property name="Position">1</property>
+            <property name="AutoSize">False</property>
+            <property name="Expand">False</property>
+          </packing>
         </child>
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Bin" id="DBusExplorer.InformationView" design-size="300 300">
+  <widget class="Gtk.Bin" id="DBusExplorer.InformationView" design-size="300 134">
     <property name="MemberName" />
     <child>
       <widget class="Gtk.Expander" id="expander2">
@@ -504,7 +523,8 @@
               </widget>
               <packing>
                 <property name="Position">1</property>
-                <property name="AutoSize">True</property>
+                <property name="AutoSize">False</property>
+                <property name="Expand">False</property>
               </packing>
             </child>
           </widget>

@@ -13,11 +13,13 @@ namespace DBusExplorer {
     
     public partial class BusPageWidget {
         
-        private Gtk.VPaned vpaned3;
+        private Gtk.VBox vbox3;
         
         private Gtk.ScrolledWindow tvWindow;
         
         private Gtk.Alignment tvPlaceholder;
+        
+        private Gtk.VBox vbox4;
         
         private Gtk.Alignment informationViewPlaceholder;
         
@@ -27,11 +29,10 @@ namespace DBusExplorer {
             Stetic.BinContainer.Attach(this);
             this.Name = "DBusExplorer.BusPageWidget";
             // Container child DBusExplorer.BusPageWidget.Gtk.Container+ContainerChild
-            this.vpaned3 = new Gtk.VPaned();
-            this.vpaned3.CanFocus = true;
-            this.vpaned3.Name = "vpaned3";
-            this.vpaned3.Position = 294;
-            // Container child vpaned3.Gtk.Paned+PanedChild
+            this.vbox3 = new Gtk.VBox();
+            this.vbox3.Name = "vbox3";
+            this.vbox3.Spacing = 6;
+            // Container child vbox3.Gtk.Box+BoxChild
             this.tvWindow = new Gtk.ScrolledWindow();
             this.tvWindow.CanFocus = true;
             this.tvWindow.Name = "tvWindow";
@@ -46,15 +47,25 @@ namespace DBusExplorer {
             this.tvPlaceholder.Name = "tvPlaceholder";
             w1.Add(this.tvPlaceholder);
             this.tvWindow.Add(w1);
-            this.vpaned3.Add(this.tvWindow);
-            Gtk.Paned.PanedChild w4 = ((Gtk.Paned.PanedChild)(this.vpaned3[this.tvWindow]));
-            w4.Resize = false;
-            w4.Shrink = false;
-            // Container child vpaned3.Gtk.Paned+PanedChild
+            this.vbox3.Add(this.tvWindow);
+            Gtk.Box.BoxChild w4 = ((Gtk.Box.BoxChild)(this.vbox3[this.tvWindow]));
+            w4.Position = 0;
+            // Container child vbox3.Gtk.Box+BoxChild
+            this.vbox4 = new Gtk.VBox();
+            this.vbox4.Name = "vbox4";
+            this.vbox4.Spacing = 6;
+            // Container child vbox4.Gtk.Box+BoxChild
             this.informationViewPlaceholder = new Gtk.Alignment(0.5F, 0.5F, 1F, 1F);
             this.informationViewPlaceholder.Name = "informationViewPlaceholder";
-            this.vpaned3.Add(this.informationViewPlaceholder);
-            this.Add(this.vpaned3);
+            this.vbox4.Add(this.informationViewPlaceholder);
+            Gtk.Box.BoxChild w5 = ((Gtk.Box.BoxChild)(this.vbox4[this.informationViewPlaceholder]));
+            w5.Position = 0;
+            w5.Expand = false;
+            this.vbox3.Add(this.vbox4);
+            Gtk.Box.BoxChild w6 = ((Gtk.Box.BoxChild)(this.vbox3[this.vbox4]));
+            w6.Position = 1;
+            w6.Expand = false;
+            this.Add(this.vbox3);
             if ((this.Child != null)) {
                 this.Child.ShowAll();
             }

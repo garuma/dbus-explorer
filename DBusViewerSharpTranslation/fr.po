@@ -1,142 +1,148 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-01-27 16:23:17+0100\n"
-"Last-Translator: \n"
+"X-Generator: MonoDevelop Gettext addin\n"
 "Language-Team: \n"
+"PO-Revision-Date: 2008-06-22 13:35:33+0200\n"
+"POT-Creation-Date: 2008-06-22 13:32:51+0200\n"
+"Project-Id-Version: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: MonoDevelop.Gettext \n"
+"Last-Translator: \n"
+"Content-Type: text/plain; charset=UTF-8\n"
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.DBusMonitor.cs:37
-msgid "D-Bus Monitor"
-msgstr "Moniteur D-Bus"
-
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.DBusMonitor.cs:60
-msgid "Show Methods"
-msgstr "Afficher les méthodes"
-
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.DBusMonitor.cs:71
-msgid "Show Signals"
-msgstr "Afficher les signaux"
-
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.DBusMonitor.cs:82
-msgid "Show Properties"
-msgstr "Afficher les propriétés"
+#: ../DBusViewerSharp/MainWindow.cs:203
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:216
+msgid "(No Title)"
+msgstr "(Sans Titre)"
 
 #: ../DBusViewerSharp/gtk-gui/DBusExplorer.CustomBusDialog.cs:29
 msgid "Enter Bus name"
 msgstr "Entrez le nom du bus"
 
 #: ../DBusViewerSharp/gtk-gui/DBusExplorer.CustomBusDialog.cs:45
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:176
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:148
 msgid "Bus name : "
 msgstr "Nom du Bus : "
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:102
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:103
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:76
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:77
 msgid "_File"
 msgstr "_Fichier"
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:105
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:79
 msgid "_Select Bus"
 msgstr "_Sélectionnez le bus"
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:106
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:80
 msgid "Select Bus"
 msgstr "Sélectionnez le bus"
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:108
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:82
 msgid "S_ession Bus"
 msgstr "Bus de s_ession"
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:110
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:84
 msgid "Session Bus"
 msgstr "Bus de session"
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:112
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:86
 msgid "S_ystem Bus"
 msgstr "Bus s_ystème"
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:114
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:88
 msgid "System Bus"
 msgstr "Bus système"
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:116
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:117
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:90
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:91
 msgid "_Quitter"
 msgstr "_Quitter"
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:119
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:120
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:93
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:94
 msgid "_Quit"
 msgstr "_Quitter"
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:122
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:96
 msgid "_Help"
 msgstr "Aid_e"
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:123
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:97
 msgid "Help"
 msgstr "Aide"
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:125
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:126
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:99
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:100
 msgid "_About"
 msgstr "A _propos"
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:128
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:129
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:102
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:103
 msgid "_View"
 msgstr "_Affichage"
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:131
-msgid "_Monitor..."
-msgstr "_Moniteur..."
-
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:131
-msgid "Show D-Bus Monitor to track events on the selected bus."
-msgstr ""
-"Affiche le moniteur D-Bus pour suivre les évènements du bus séléctioné "
-
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:132
-msgid "_Monitor"
-msgstr "_Moniteur"
-
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:134
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:135
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:105
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:106
 msgid "C_ustom Bus..."
 msgstr "B_us personnalisé..."
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:137
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:138
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:108
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:109
 msgid "_Tools"
 msgstr "Outils"
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:140
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:141
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:111
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:112
 msgid "Languages"
 msgstr "Langages"
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:143
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:144
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:114
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:115
 msgid "C#"
+msgstr "C#"
+
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:117
+msgid "New Tab"
+msgstr "Nouvel ongle_t"
+
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:118
+msgid "New Bus"
 msgstr ""
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:149
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:123
 msgid "D-Bus Explorer"
 msgstr ""
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:215
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:187
 msgid "Parsing ..."
 msgstr "Traitement ..."
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:312
-msgid "C# Style : "
-msgstr "Syntaxe C# : "
-
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:341
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.InformationView.cs:110
 msgid "<b>Informations on : </b>"
 msgstr "<b>Informations sur : </b>"
+
+#~ msgid "D-Bus Monitor"
+#~ msgstr "Moniteur D-Bus"
+
+#~ msgid "Show Methods"
+#~ msgstr "Afficher les méthodes"
+
+#~ msgid "Show Signals"
+#~ msgstr "Afficher les signaux"
+
+#~ msgid "Show Properties"
+#~ msgstr "Afficher les propriétés"
+
+#~ msgid "_Monitor..."
+#~ msgstr "_Moniteur..."
+
+#~ msgid "Show D-Bus Monitor to track events on the selected bus."
+#~ msgstr ""
+#~ "Affiche le moniteur D-Bus pour suivre les évènements du bus séléctioné "
+
+#~ msgid "_Monitor"
+#~ msgstr "_Moniteur"
+
+#~ msgid "C# Style : "
+#~ msgstr "Syntaxe C# : "
+

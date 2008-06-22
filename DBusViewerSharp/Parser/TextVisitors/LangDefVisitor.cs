@@ -25,7 +25,7 @@ namespace DBusExplorer
 		public string ParseStructDefinition(IEnumerator<DType> exprs)
 		{
 			IList<string> tmp = parent.ConvertFromExprList(exprs, this);
-			
+
 			return tmp.Count > 0 ? lang.StructFormat(tmp) : Error;
 		}
 		

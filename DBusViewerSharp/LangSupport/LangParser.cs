@@ -28,8 +28,8 @@ namespace DBusExplorer
 			if (nav == null)
 				throw new ApplicationException("Error the XPathNavigator for the document ("+path+") is null");
 			
-			LangDefinition def = new LangDefinition(GetTypes(), GetName(), GetMethodFormating(), null, null, null, null);
-			Console.WriteLine(def);
+			LangDefinition def = new LangDefinition(GetTypes(), GetName(), GetMethodFormating(), GetEventFormating(),
+			                                        GetDictionaryFormating(), GetStructFormating(), GetArrayFormating());
 			return def;
 		}
 		
@@ -69,10 +69,24 @@ namespace DBusExplorer
 		static EventFormatDelegate GetEventFormating()
 		{
 			XPathNavigator eventNode = nav.SelectSingleNode("//event");
+			if (eventNode == null)
+				throw new ApplicationException("Parsing error : there is no event node in the file");
 			string general = eventNode.GetAttribute("general", string.Empty);
 			ArgsFormatingDelegate argsFormat = GetArgsFormating(eventNode.SelectSingleNode("arguments"));
 			
-			return null;
+			return delegate (string name, IEnumerable<Argument> args) {
+				return general.Replace("%{name}", name).Replace("%{types}", argsFormat(args));
+			};
+		}
+		
+		static DictionaryFormatDelegate GetDictionaryFormating()
+		{
+			XPathNavigator dictNode = nav.SelectSingleNode("//dictionary");
+			string general = dictNode.GetAttribute("general", string.Empty);
+			
+			return delegate (string type1, string type2) {
+				return general.Replace("%{type1}", type1).Replace("%{type2}", type2);
+			};
 		}
 		
 		static StructFormatDelegate GetStructFormating()
@@ -84,7 +98,23 @@ namespace DBusExplorer
 			string accumulator = structNode.GetAttribute("accumulator", string.Empty);
 			
 			return delegate (IEnumerable<string> types) {
-				return string.Empty;
+				string temp = prefix;
+				foreach (var t in types) {
+					temp += general.Replace("%{type}", t);
+					temp += accumulator;
+				}
+				temp += suffix;
+				return temp;
+			};
+		}
+		
+		static ArrayFormatDelegate GetArrayFormating()
+		{
+			XPathNavigator arrayNode = nav.SelectSingleNode("//array");
+			string general = arrayNode.GetAttribute("general", string.Empty);
+			
+			return delegate (string type) {
+				return general.Replace("%{type}", type);
 			};
 		}
 		
@@ -105,7 +135,7 @@ namespace DBusExplorer
 				string temp = start;
 				bool isThereArgs = false;
 				foreach (Argument tuple in args) {
-					temp += general.Replace("%{arg-type}", tuple.Type).Replace("%{arg-name}", tuple.Name);
+					temp += general.Replace("%{type}", tuple.Type).Replace("%{name}", tuple.Name);
 					temp += accumulator;
 					isThereArgs = true;
 				}
@@ -171,10 +201,9 @@ namespace DBusExplorer
 				return methDeleg(name, returnType, args);
 			}
 
-			public string EventFormat (string name, IEnumerable<KeyValuePair<string, string>> args)
+			public string EventFormat (string name, IEnumerable<Argument> args)
 			{
-				return string.Empty;
-				//return evtDeleg(name, args);
+				return evtDeleg(name, args);
 			}
 			
 			public string DictionaryFormat(string type1, string type2)

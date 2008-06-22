@@ -110,11 +110,21 @@ namespace DBusExplorer
 		
 		public IElement FromSignalDefinition(string name, IEnumerable<Argument> args)
 		{
-			/*string spec = "signal " + name + " : " + MakeArgumentList(args, ", ", "{T}", false);
-			//string cdecl = "event EventHandler<" + MakeArgumentList(args, ", ", "{T}", true) + "> " + name;
+			string spec = "signal " + name + " : " + MakeArgumentList(args, ", ", "{T}");
+			Dictionary<string, LangProcesser> temp = new Dictionary<string,LangProcesser>();
 			
-			return new Element(name, new ElementRepresentation(spec, cdecl), signalPb, 2);*/
-			return null;
+			foreach (KeyValuePair<ILangDefinition, IParserVisitor<string>> visitor in visitors) {
+				temp.Add(visitor.Key.Name, delegate {
+					List<Argument> argsReal = new List<Argument>();
+					if (args != null) {
+						foreach (Argument arg in args)
+							argsReal.Add(new Argument(Parser.ParseDBusTypeExpression(arg.Type, visitor.Value), arg.Name));
+					}
+					return visitor.Key.EventFormat(name, argsReal); 
+				});
+			}
+			
+			return new Element(name, new ElementRepresentation(spec, temp), signalPb, 2);
 		}
 		
 		public IElement FromPropertyDefinition(string name, Argument type, PropertyAccess access)
