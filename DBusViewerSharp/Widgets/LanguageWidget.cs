@@ -26,30 +26,19 @@ namespace DBusExplorer
 					 AddLangage(tuple.Key, string.Empty);
 				} catch {}
 			}
-			menu = MakeMenu(LangDefinitionService.DefaultPool.Languages.Keys);
-		}
-		
-		Menu MakeMenu(IEnumerable<string> defs)
-		{
-			Menu tmp = new Menu();
-			foreach (string langDef in defs) {
-				CheckMenuItem cmi = new CheckMenuItem(langDef);
-				cmi.Activated += delegate { ToggleLangage(langDef); };
-				tmp.Append(cmi);
-			}
-			return tmp;
 		}
 		
 		public void AddLangage(string langKey, string prototype)
 		{
 			Label temp = new Label();
 			temp.UseMarkup = true;
-			temp.Markup = FormatPrototype(prototype);
+			temp.Markup = FormatPrototype(langKey, prototype);
 			temp.Selectable = true;
+			temp.Layout.Alignment = Pango.Alignment.Left;
 			
 			try {
 				langs.Add(langKey, temp);
-				langsVbox.Add(temp);
+				langsVbox.PackEnd(temp, false, false, 0);
 			} catch {}
 		}
 		
@@ -58,7 +47,7 @@ namespace DBusExplorer
 			Label temp;
 			if (!langs.TryGetValue(langKey, out temp))
 				return;
-			temp.Markup = FormatPrototype(newPrototype);
+			temp.Markup = FormatPrototype(langKey, newPrototype);
 		}
 		
 		public void ToggleLangage(string langKey)
@@ -67,27 +56,14 @@ namespace DBusExplorer
 			if (!langs.TryGetValue(langKey, out temp))
 				return;
 			
-			if (temp.Parent != null) langsVbox.Remove(temp); else { langsVbox.PackEnd(temp); temp.ShowAll(); };
+			if (temp.Parent != null) langsVbox.Remove(temp); else { langsVbox.PackEnd(temp, false, false, 0); temp.ShowAll(); };
 		}
 		
-		string FormatPrototype(string proto)
+		string FormatPrototype(string lang, string proto)
 		{
 			if (string.IsNullOrEmpty(proto))
 				return string.Empty;
-			return "<tt>" + proto.Replace("<", "&lt;") + "</tt>";
-		}
-		
-		protected override bool OnButtonReleaseEvent (EventButton evnt)
-		{
-			//right click
-			if (evnt.Button == 3) {
-				
-				menu.Popup (null, null, null, 3, Gtk.Global.CurrentEventTime);
-				// TODO: use Menu subclass which adapt to model.GetValue(iter) type (path, interface...)
-				// and make the generation dialog
-			}
-			
-			return base.OnButtonReleaseEvent (evnt);
+			return "<b>" + lang + " : </b><tt>" + proto.Replace("<", "&lt;") + "</tt>";
 		}
 	}
 }

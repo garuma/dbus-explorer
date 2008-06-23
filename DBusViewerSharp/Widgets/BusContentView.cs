@@ -150,12 +150,14 @@ namespace DBusExplorer
 				case 2:
 					menu = new GenerationMenuWidget((Interface)target);
 					break;
-				case 3:
+				/*case 3:
 					menu = new GenerationMenuWidget((IElement)target);
-					break;
+					break;*/
 				}
 				if (menu == null)
 					return base.OnButtonReleaseEvent (evnt);
+				
+				menu.ShowAll();
 				menu.Popup (null, null, null, 3, Gtk.Global.CurrentEventTime);
 				// TODO: use Menu subclass which adapt to model.GetValue(iter) type (path, interface...)
 				// and make the generation dialog

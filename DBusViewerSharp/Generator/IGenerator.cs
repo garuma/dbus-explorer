@@ -12,8 +12,8 @@ namespace DBusExplorer
 {
 	public interface IGenerator
 	{
-		void Generate(Interface @interface, TextWriter tw);
-		void Generate(PathContainer path, TextWriter tw);
-		void Generate(IElement element, TextWriter tw);
+		void Generate(Interface @interface, string path);
+		void Generate(PathContainer path, string file_path);
+		void Generate(IElement element, string path);
 	}
 }

@@ -93,9 +93,8 @@ namespace DBusExplorer {
             w5.Expand = false;
             w5.Fill = false;
             // Container child vbox3.Gtk.Box+BoxChild
-            this.langsPh = new Gtk.Alignment(0.5F, 0.5F, 1F, 1F);
+            this.langsPh = new Gtk.Alignment(1F, 0.5F, 1F, 1F);
             this.langsPh.Name = "langsPh";
-            this.langsPh.LeftPadding = ((uint)(7));
             this.langsPh.TopPadding = ((uint)(4));
             this.langsPh.BottomPadding = ((uint)(7));
             this.vbox3.Add(this.langsPh);
