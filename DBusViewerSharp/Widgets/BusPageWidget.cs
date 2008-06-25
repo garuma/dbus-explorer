@@ -14,13 +14,15 @@ namespace DBusExplorer
 	{
 		BusContentView busContent = new BusContentView();
 		InformationView infoView = new InformationView();
+		TabWidget tab;
 		DBusExplorator explorator;
 		string currentSelectedBus;
 		ComboBox currentComboBox;
 		
-		public BusPageWidget()
+		public BusPageWidget(TabWidget tab)
 		{
 			this.Build();
+			this.tab = tab;
 			this.informationViewPlaceholder.Add(infoView);
 			this.tvPlaceholder.Add(busContent);
 			
@@ -65,6 +67,12 @@ namespace DBusExplorer
 		public InformationView InfoView {
 			get {
 				return infoView;
+			}
+		}
+
+		public TabWidget Tab {
+			get {
+				return tab;
 			}
 		}
 	

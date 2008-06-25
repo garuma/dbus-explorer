@@ -52,20 +52,5 @@ namespace DBusExplorer
 			this.Append(path);
 			path.ShowAll();
 		}
-		
-		void OnPathGenerate(object sender, EventArgs e)
-		{
-				
-		}
-			
-		void OnInterfaceGenerate(object sender, EventArgs e)
-		{
-				
-		}
-		
-		void OnElementGenerate(object sender, EventArgs e)
-		{
-				
-		}
 	}
 }

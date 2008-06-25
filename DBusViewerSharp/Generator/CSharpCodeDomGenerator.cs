@@ -28,7 +28,6 @@ namespace DBusExplorer
 		{
 			int index = i.Name.LastIndexOf(".");
 			string name = index != - 1 ? i.Name.Substring(index + 1) : i.Name;
-			Console.WriteLine("Type name : " + name);
 			CodeTypeDeclaration type = new CodeTypeDeclaration(name);
 			type.Attributes = MemberAttributes.Public;
 			type.IsInterface = true;
@@ -42,8 +41,6 @@ namespace DBusExplorer
 			foreach (IElement e in i.Symbols) {
 				type.Members.Add(new CodeSnippetTypeMember(e.Visual["C#"]));
 			}
-			
-			Console.WriteLine("Type member num : " + type.Members.Count);
 			
 			return type;
 		}

@@ -139,10 +139,9 @@ namespace DBusExplorer
 		            return true;
 				if (!model.GetIter(out iter, path))
 					return true;
-				Console.WriteLine("Rightclicked for Generation");
 				object target = model.GetValue(iter, 2);
 				GenerationMenuWidget menu = null;
-				Console.WriteLine("Depth : " + path.Depth);
+				
 				switch (path.Depth) {
 				case 1:
 					menu = new GenerationMenuWidget((PathContainer)target);
@@ -159,8 +158,6 @@ namespace DBusExplorer
 				
 				menu.ShowAll();
 				menu.Popup (null, null, null, 3, Gtk.Global.CurrentEventTime);
-				// TODO: use Menu subclass which adapt to model.GetValue(iter) type (path, interface...)
-				// and make the generation dialog
 			}
 			
 			return base.OnButtonReleaseEvent (evnt);

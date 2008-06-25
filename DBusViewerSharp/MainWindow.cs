@@ -18,7 +18,6 @@ namespace DBusExplorer
 		//BusContentView tv;
 	
 		ImageAnimation spinner;
-		Entry sentry = new Entry();
 		BusPageWidget currentPageWidget = null;
 	
 		public MainWindow (): base (Gtk.WindowType.Toplevel)
@@ -81,20 +80,15 @@ namespace DBusExplorer
 		{
 			BusContentView view = this.currentPageWidget.BusContent;
 			DBusExplorator explorator = currentPageWidget.Explorator;
-			buses_Nb.SetTabLabelText(currentPageWidget, busName);
+			TabWidget tab = this.currentPageWidget.Tab;
+			tab.TabName = busName;
+			
 			view.Reinitialize();
 			
 			spinnerBox.ShowAll();
 			spinner.Active = true;
 		
-			foreach (PathContainer path in explorator.GetElementsFromBus(busName)) {
-				view.AddPath(path);
-				//Console.WriteLine(path.Path);
-			}
-				
-			spinnerBox.HideAll();
-			spinner.Active = false;
-			/*explorator.BeginGetElementsFromBus(busName, delegate (IAsyncResult result) {
+			explorator.BeginGetElementsFromBus(busName, delegate (IAsyncResult result) {
 				IEnumerable<PathContainer> elements = explorator.EndGetElementsFromBus(result);
 				Application.Invoke(delegate {
 					foreach (PathContainer path in elements) {
@@ -104,7 +98,7 @@ namespace DBusExplorer
 					spinnerBox.HideAll();
 					spinner.Active = false;
 				});
-			});*/
+			});
 		}	
 		
 		void ReinitBus (DBusExplorator exp)
@@ -197,11 +191,12 @@ namespace DBusExplorer
 
 		protected virtual void OnNewTabActionActivated (object sender, System.EventArgs e)
 		{
-			BusPageWidget page = new BusPageWidget();
+			TabWidget tab = new TabWidget(Mono.Unix.Catalog.GetString("(No Title)"), buses_Nb, buses_Nb.NPages);
+			BusPageWidget page = new BusPageWidget(tab);
 			page.ShowAll();
 			page.Explorator = DBusExplorator.SessionExplorator;
 			FeedBusComboBox(page.Explorator.AvalaibleBusNames, page);
-			buses_Nb.AppendPage(page, new TabWidget(Mono.Unix.Catalog.GetString("(No Title)"), buses_Nb, buses_Nb.NPages));
+			buses_Nb.AppendPage(page, tab);
 			// Switch to the newly append page which trigger the normal events
 			buses_Nb.CurrentPage = buses_Nb.NPages - 1;
 		}

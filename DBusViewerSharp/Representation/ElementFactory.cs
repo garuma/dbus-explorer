@@ -69,15 +69,12 @@ namespace DBusExplorer
 			}
 		}
 		
-		IEnumerable<ILangDefinition> langs;
 		IDictionary<ILangDefinition, IParserVisitor<string>> visitors = new Dictionary<ILangDefinition, IParserVisitor<string>>();
 		
 		public ElementFactory(IEnumerable<ILangDefinition> langs)
 		{
 			if (langs == null)
 				throw new ArgumentNullException("langs");
-			
-			this.langs = langs;
 			
 			foreach (ILangDefinition def in langs) {
 				visitors.Add(def, new LangDefVisitor(def, Parser.RealParser));

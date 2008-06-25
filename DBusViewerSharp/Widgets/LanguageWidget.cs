@@ -16,7 +16,6 @@ namespace DBusExplorer
 	public partial class LanguageWidget : Gtk.Bin
 	{
 		Dictionary<string, Label> langs = new Dictionary<string,Label>();
-		Menu menu;
 		
 		public LanguageWidget()
 		{
