@@ -15,7 +15,7 @@ namespace DBusExplorer {
         
         private Gtk.EventBox evts;
         
-        private Gtk.VBox langsVbox;
+        private Gtk.Table table;
         
         protected virtual void Build() {
             Stetic.Gui.Initialize(this);
@@ -26,11 +26,11 @@ namespace DBusExplorer {
             this.evts = new Gtk.EventBox();
             this.evts.Name = "evts";
             // Container child evts.Gtk.Container+ContainerChild
-            this.langsVbox = new Gtk.VBox();
-            this.langsVbox.Name = "langsVbox";
-            this.langsVbox.Homogeneous = true;
-            this.langsVbox.Spacing = 6;
-            this.evts.Add(this.langsVbox);
+            this.table = new Gtk.Table(((uint)(1)), ((uint)(2)), false);
+            this.table.Name = "table";
+            this.table.RowSpacing = ((uint)(6));
+            this.table.ColumnSpacing = ((uint)(6));
+            this.evts.Add(this.table);
             this.Add(this.evts);
             if ((this.Child != null)) {
                 this.Child.ShowAll();

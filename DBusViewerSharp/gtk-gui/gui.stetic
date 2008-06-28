@@ -374,10 +374,15 @@
       <widget class="Gtk.EventBox" id="evts">
         <property name="MemberName" />
         <child>
-          <widget class="Gtk.VBox" id="langsVbox">
+          <widget class="Gtk.Table" id="table">
             <property name="MemberName" />
-            <property name="Homogeneous">True</property>
-            <property name="Spacing">6</property>
+            <property name="NRows">1</property>
+            <property name="NColumns">2</property>
+            <property name="RowSpacing">6</property>
+            <property name="ColumnSpacing">6</property>
+            <child>
+              <placeholder />
+            </child>
             <child>
               <placeholder />
             </child>
@@ -515,6 +520,7 @@
               <widget class="Gtk.Alignment" id="langsPh">
                 <property name="MemberName" />
                 <property name="Xalign">1</property>
+                <property name="LeftPadding">24</property>
                 <property name="TopPadding">4</property>
                 <property name="BottomPadding">7</property>
                 <child>

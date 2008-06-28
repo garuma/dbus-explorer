@@ -22,8 +22,6 @@ namespace DBusExplorer
 		{
 			this.Build();
 			this.langsPh.Add(evt);
-			langsPh.Xalign = 0.20f;
-			langsPh.Xscale = 0.01f;
 			
 			evt.Add(languageRepresentation);
 			evt.ShowAll();
@@ -37,6 +35,8 @@ namespace DBusExplorer
 		Menu MakeMenu(IEnumerable<string> defs)
 		{
 			Menu tmp = new Menu();
+			tmp.Append(new MenuItem("Toggle language"));
+			tmp.Append(new SeparatorMenuItem());
 			foreach (string langDef in defs) {
 				CheckMenuItem cmi = new CheckMenuItem(langDef);
 				cmi.Activated += delegate { languageRepresentation.ToggleLangage(langDef); };

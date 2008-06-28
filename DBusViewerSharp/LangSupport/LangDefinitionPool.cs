@@ -30,5 +30,14 @@ namespace DBusExplorer
 				}
 			}
 		}
+		
+		public void Add(ILangDefinition def)
+		{
+			if (def == null)
+				throw new ArgumentNullException("def");
+			try {
+				langs.Add(def.Name, def);	
+			} catch {}
+		}
 	}
 }

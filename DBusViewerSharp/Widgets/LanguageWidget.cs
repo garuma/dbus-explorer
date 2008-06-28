@@ -15,7 +15,49 @@ namespace DBusExplorer
 	// TODO: How hard would it be to use GtkSourceView2 theme for beautyfying the prototypes ?
 	public partial class LanguageWidget : Gtk.Bin
 	{
-		Dictionary<string, Label> langs = new Dictionary<string,Label>();
+		class LangTableChild
+		{
+			Label name;
+			Label prototype;
+			
+			public LangTableChild(Label name, Label prototype)
+			{
+				this.name = name;
+				this.prototype = prototype;
+			}
+			
+			public void Show()
+			{
+				name.Show();
+				prototype.Show();
+			}
+			
+			public void Hide()
+			{
+				name.Hide();
+				prototype.Hide();
+			}
+			
+			public Label Name {
+				get {
+					return name;	
+				}
+			}
+			
+			public Label Prototype {
+				get {
+					return prototype;	
+				}
+			}
+			
+			public bool HasParent {
+				get {
+					return name.Parent != null && prototype.Parent != null;	
+				}
+			}
+		}
+		
+		Dictionary<string, LangTableChild> langs = new Dictionary<string,LangTableChild>();
 		
 		public LanguageWidget()
 		{
@@ -27,42 +69,68 @@ namespace DBusExplorer
 			}
 		}
 		
-		public void AddLangage(string langKey, string prototype)
+		public void AddLangage(string langKey, string proto)
 		{
-			Label temp = new Label();
-			temp.UseMarkup = true;
-			temp.Markup = FormatPrototype(langKey, prototype);
-			temp.Selectable = true;
-			temp.Layout.Alignment = Pango.Alignment.Left;
+			Label prototype = new Label();
+			prototype.UseMarkup = true;
+			prototype.Markup = FormatPrototype(proto);
+			prototype.Selectable = true;
+			prototype.Layout.Alignment = Pango.Alignment.Left;
+			
+			Label lang = new Label();
+			lang.UseMarkup = true;
+			lang.Markup = FormatName(langKey);
+			lang.Selectable = false;
+			lang.Layout.Alignment = Pango.Alignment.Left;
+			
+			LangTableChild child = new LangTableChild(lang, prototype);
 			
 			try {
-				langs.Add(langKey, temp);
-				langsVbox.PackEnd(temp, false, false, 0);
+				langs.Add(langKey, child);
+				PackEnd(child);
 			} catch {}
 		}
 		
 		public void UpdateLangage(string langKey, string newPrototype)
 		{
-			Label temp;
+			LangTableChild temp;
 			if (!langs.TryGetValue(langKey, out temp))
 				return;
-			temp.Markup = FormatPrototype(langKey, newPrototype);
+			temp.Prototype.Markup = FormatPrototype(newPrototype);
 		}
 		
 		public void ToggleLangage(string langKey)
 		{
-			Label temp;
+			LangTableChild temp;
 			if (!langs.TryGetValue(langKey, out temp))
 				return;
 			
-			if (temp.Parent != null) langsVbox.Remove(temp); else { langsVbox.PackEnd(temp, false, false, 0); temp.ShowAll(); };
+			if (!temp.HasParent)
+				temp.Hide();
+			else
+				temp.Show();
 		}
 		
-		string FormatPrototype(string lang, string proto)
+		uint rowTrack = 0;
+		
+		void PackEnd(LangTableChild child)
+		{
+			uint row = rowTrack++;
+			
+			table.Attach(child.Name, (uint)0, (uint)1, row, row + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+			table.Attach(child.Prototype, (uint)1, (uint)2, row, row + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+		}
+		
+		string FormatPrototype(string proto)
 		{
 			if (string.IsNullOrEmpty(proto))
 				return string.Empty;
-			return "<b>" + lang + " : </b><tt>" + proto.Replace("<", "&lt;") + "</tt>";
+			return "<tt>" + proto.Replace("<", "&lt;") + "</tt>";
+		}
+		
+		string FormatName (string lang)
+		{
+			return "<b>" + lang + " : </b>";
 		}
 	}
 }
