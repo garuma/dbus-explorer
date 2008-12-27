@@ -1,5 +1,5 @@
 /* TabWidget.cs
- * Copyright (C) 2007  LAVAL Jérémie
+ * Copyright (C) 2007-2009 LAVAL Jérémie
  *
  * This file is licensed under the terms of the LGPL.
  * 

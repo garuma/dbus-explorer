@@ -1,6 +1,8 @@
 // Main.cs
-// Copyright (c) 2007 Jérémie Laval <jeremie.laval@gmail.com>
-// See COPYING file for license information. 
+// Copyright (c) 2007-2009 Jérémie Laval <jeremie.laval@gmail.com>
+//
+// See COPYING file for license information.
+
 using System;
 using System.Diagnostics;
 

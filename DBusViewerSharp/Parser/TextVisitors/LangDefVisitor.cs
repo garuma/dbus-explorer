@@ -1,5 +1,5 @@
 // LangDefVisitor.cs
-// Copyright (c) 2008 Jérémie Laval <jeremie.laval@gmail.com>
+// Copyright (c) 2008-2009 Jérémie Laval <jeremie.laval@gmail.com>
 //
 // See COPYING file for license information.
 // 

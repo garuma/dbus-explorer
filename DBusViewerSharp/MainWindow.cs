@@ -1,5 +1,6 @@
 // MainWindow.cs
-// Copyright (c) 2007 Jérémie Laval <jeremie.laval@gmail.com>
+// Copyright (c) 2007-2009 Jérémie Laval <jeremie.laval@gmail.com>
+//
 // See COPYING file for license information.
 
 using System;
@@ -160,7 +161,7 @@ namespace DBusExplorer
 		{
 			AboutDialog ad = new AboutDialog();
 			ad.Authors = new string[] { "Jérémie \"Garuma\" Laval" };
-			ad.Copyright = "Copyright (c) 2007 Jérémie Laval <jeremie.laval@gmail.com>";
+			ad.Copyright = "Copyright (c) 2007-2009 Jérémie Laval <jeremie.laval@gmail.com>";
 			ad.License = "See the COPYING file";
 			ad.Version = "0.4";
 		

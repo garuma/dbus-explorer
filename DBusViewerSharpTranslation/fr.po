@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "X-Generator: MonoDevelop Gettext addin\n"
 "Language-Team: \n"
-"PO-Revision-Date: 2008-12-27 16:42:29+0100\n"
-"POT-Creation-Date: 2008-12-27 16:31:19+0100\n"
+"PO-Revision-Date: 2008-12-27 21:01:40+0100\n"
+"POT-Creation-Date: 2008-12-27 21:01:25+0100\n"
 "Project-Id-Version: \n"
 "MIME-Version: 1.0\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -94,7 +94,6 @@ msgstr "C#"
 
 #: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:119
 #: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:120
-#, fuzzy
 msgid "New _tab"
 msgstr "Nouvel ongle_t"
 
@@ -119,15 +118,14 @@ msgstr "Entrez le nom du bus"
 msgid "<b>Informations on : </b>"
 msgstr "<b>Informations sur : </b>"
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.GenerationDialog.cs:29
-msgid "Stub generator"
-msgstr "Générateur de squelette"
-
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.GenerationDialog.cs:44
-msgid "Where do you want to save the stubbed source ?"
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.GenerationDialog.cs:27
+msgid "Where do you want to save stubbed source ?"
 msgstr ""
 "Où voulez-vous sauver le fichier généré ?Où voulez-vous sauver le fichier "
 "généré ?Où voulez-vous sauver le fichier généré ?Où kkfff"
+
+#~ msgid "Stub generator"
+#~ msgstr "Générateur de squelette"
 
 #~ msgid "New Bus"
 #~ msgstr "Nouveau bus"
