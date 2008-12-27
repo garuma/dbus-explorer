@@ -16,7 +16,7 @@ namespace DBusExplorer
 		{
 			Application.Init ();
 			BusG.Init();
-			Mono.Unix.Catalog.Init("dbus-explorer", string.Empty);
+			Mono.Unix.Catalog.Init("dbus-explorer", "/usr/share/locale");
 			
 			MainWindow win = new MainWindow ();
 			

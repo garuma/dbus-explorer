@@ -1,8 +1,8 @@
-// LangDefinitionService.cs created with MonoDevelop
-// User: jeremie at 19:24 18/04/2008
+// LangDefinitionService.cs
+// Copyright (c) 2007 Jérémie Laval <jeremie.laval@gmail.com>
 //
-// To change standard headers go to Edit->Preferences->Coding->Standard Headers
-//
+// See COPYING file for license information.
+// 
 
 using System;
 using System.IO;

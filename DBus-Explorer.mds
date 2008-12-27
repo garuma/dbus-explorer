@@ -1,25 +1,25 @@
-<Combine releaseversion="0.3.1" name="DBus-Explorer" fileversion="2.0">
+<Combine name="DBus-Explorer" fileversion="2.0" description="D-Bus Explorer is a GTK+ application written in C# which use NDesk’s managed D-Bus library to display the API of D-Bus services. In summary, it’s a clone of dbus-viewer with a GTK+ interface." releaseversion="0.5" deployversion="0.5">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="CombineConfiguration">
       <Entry build="True" name="DBus-Explorer" configuration="Debug" />
-      <Entry build="True" name="DBusViewerSharpTranslation" configuration="" />
-      <Entry build="True" name="Packaging" configuration="" />
+      <Entry build="True" name="DBusViewerSharpTranslation" configuration="Debug" />
+      <Entry build="True" name="Deployement" configuration="Debug" />
     </Configuration>
     <Configuration name="Release" ctype="CombineConfiguration">
       <Entry build="True" name="DBus-Explorer" configuration="Release" />
-      <Entry build="True" name="DBusViewerSharpTranslation" configuration="" />
-      <Entry build="True" name="Packaging" configuration="" />
+      <Entry build="True" name="DBusViewerSharpTranslation" configuration="Release" />
+      <Entry build="True" name="Deployement" configuration="Release" />
     </Configuration>
   </Configurations>
   <StartMode startupentry="DBus-Explorer" single="True">
     <Execute type="None" entry="DBus-Explorer" />
     <Execute type="None" entry="DBusViewerSharpTranslation" />
-    <Execute type="None" entry="Packaging" />
+    <Execute type="None" entry="Deployement" />
   </StartMode>
   <MonoDevelop.ChangeLogAddIn.ChangeLogInfo policy="UpdateNearestChangeLog" />
   <Entries>
     <Entry filename="DBusViewerSharp/DBusViewerSharp.mdp" />
     <Entry filename="DBusViewerSharpTranslation/DBusViewerSharpTranslation.mdse" />
-    <Entry filename="Packaging/Packaging.mdse" />
+    <Entry filename="Deployement/Deployement.mdse" />
   </Entries>
 </Combine>

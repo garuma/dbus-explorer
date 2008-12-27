@@ -1,2 +1,6 @@
-DBusViewerSharp.userprefs
-DBusViewerSharp.usertasks
+*.userprefs
+*.usertasks
+*.dll
+*.exe
+*~
+#*#

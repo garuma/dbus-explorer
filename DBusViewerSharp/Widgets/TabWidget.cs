@@ -1,15 +1,11 @@
-#region License
-/* Circ.Frontend.GtkSharp : GTK# frontend for Circ
+/* TabWidget.cs
  * Copyright (C) 2007  LAVAL Jérémie
  *
  * This file is licensed under the terms of the LGPL.
- *
- * For the complete licence see the file COPYING.
  * 
  * Code adapted from Stetic which is Copyright (c) 2004 Novell, Inc
  * 
  */
-#endregion
 
 using Gtk;
 using System;

@@ -31,8 +31,6 @@
     <File name="Parser" subtype="Directory" buildaction="Compile" />
     <File name="Parser/Mapper.cs" subtype="Code" buildaction="Compile" />
     <File name="Parser/Parser.cs" subtype="Code" buildaction="Compile" />
-    <File name="InvocationLayer" subtype="Directory" buildaction="Nothing" />
-    <File name="InvocationLayer/MethodInvokator.cs" subtype="Code" buildaction="Nothing" />
     <File name="../data/process-working.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="Representation/ElementRepresentation.cs" subtype="Code" buildaction="Compile" />
     <File name="Representation/Interface.cs" subtype="Code" buildaction="Compile" />
@@ -41,7 +39,6 @@
     <File name="Representation/ElementFactory.cs" subtype="Code" buildaction="Compile" />
     <File name="Representation/Argument.cs" subtype="Code" buildaction="Compile" />
     <File name="Representation/Enums.cs" subtype="Code" buildaction="Compile" />
-    <File name="InvocationLayer/InvocationData.cs" subtype="Code" buildaction="Nothing" />
     <File name="LangSupport" subtype="Directory" buildaction="Nothing" />
     <File name="LangSupport/LangParser.cs" subtype="Code" buildaction="Compile" />
     <File name="Widgets" subtype="Directory" buildaction="Compile" />
