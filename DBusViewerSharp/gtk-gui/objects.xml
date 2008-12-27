@@ -1,18 +1,2 @@
-<objects>
-  <object type="DBusExplorer.BusPageWidget" palette-category="DBus-Explorer" allow-children="false" base-type="Gtk.Bin">
-    <itemgroups>
-      <itemgroup label="BusPageWidget Properties">
-        <property name="CurrentSelectedBus" />
-      </itemgroup>
-    </itemgroups>
-    <signals />
-  </object>
-  <object type="DBusExplorer.InformationView" palette-category="DBus-Explorer" allow-children="false" base-type="Gtk.Bin">
-    <itemgroups />
-    <signals />
-  </object>
-  <object type="DBusExplorer.LanguageWidget" palette-category="DBus-Explorer" allow-children="false" base-type="Gtk.Bin">
-    <itemgroups />
-    <signals />
-  </object>
+<objects attr-sync="on">
 </objects>

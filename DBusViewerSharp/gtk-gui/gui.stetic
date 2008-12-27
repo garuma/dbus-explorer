@@ -2,7 +2,6 @@
 <stetic-interface>
   <configuration>
     <images-root-path>..</images-root-path>
-    <target-gtk-version>2.12.2</target-gtk-version>
   </configuration>
   <import>
     <widget-library name="../bin/Debug/DBusExplorer.exe" internal="true" />
@@ -376,7 +375,6 @@
         <child>
           <widget class="Gtk.Table" id="table">
             <property name="MemberName" />
-            <property name="NRows">1</property>
             <property name="NColumns">2</property>
             <property name="RowSpacing">6</property>
             <property name="ColumnSpacing">6</property>
@@ -493,7 +491,6 @@
                         <child>
                           <widget class="Gtk.Label" id="specstyleDecl">
                             <property name="MemberName" />
-                            <property name="LabelProp" translatable="yes" />
                             <property name="UseMarkup">True</property>
                             <property name="Selectable">True</property>
                           </widget>
@@ -555,7 +552,6 @@
             <child>
               <widget class="Gtk.Label" id="informationLabel">
                 <property name="MemberName" />
-                <property name="LabelProp" translatable="yes" />
                 <property name="Selectable">True</property>
               </widget>
               <packing>
@@ -575,7 +571,7 @@
   </widget>
   <widget class="Gtk.Dialog" id="DBusExplorer.GenerationDialog" design-size="680 518">
     <property name="MemberName" />
-    <property name="Title" translatable="yes">Stub generator</property>
+    <property name="Title" translatable="yes">Where do you want to save stubbed source ?</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Buttons">2</property>
     <property name="HelpButton">False</property>
@@ -590,26 +586,13 @@
             <property name="Spacing">6</property>
             <property name="BorderWidth">9</property>
             <child>
-              <widget class="Gtk.Label" id="label2">
-                <property name="MemberName" />
-                <property name="LabelProp" translatable="yes">Where do you want to save the stubbed source ?</property>
-              </widget>
-              <packing>
-                <property name="Position">0</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-                <property name="Padding">12</property>
-              </packing>
-            </child>
-            <child>
               <widget class="Gtk.FileChooserWidget" id="filechooserwidget1">
                 <property name="MemberName" />
                 <property name="Action">Save</property>
                 <property name="DoOverwriteConfirmation">True</property>
               </widget>
               <packing>
-                <property name="Position">1</property>
+                <property name="Position">0</property>
                 <property name="AutoSize">True</property>
               </packing>
             </child>
