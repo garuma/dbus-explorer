@@ -20,6 +20,7 @@ namespace DBusExplorer
 			// For comparison
 			int type;
 			Interface parent;
+			InvocationData data = null;
 			
 			public ElementRepresentation Visual {
 				get {
@@ -45,6 +46,15 @@ namespace DBusExplorer
 				}
 				set {
 					parent = value;
+				}
+			}
+			
+			public InvocationData Data {
+				get {
+					return data;
+				}
+				internal set {
+					data = value;
 				}
 			}
 			
@@ -102,7 +112,10 @@ namespace DBusExplorer
 				});
 			}
 			
-			return new Element(name, new ElementRepresentation(specDesc, temp), methodPb, 0);
+			Element elem = new Element(name, new ElementRepresentation(specDesc, temp), methodPb, 0);
+			elem.Data = new InvocationData (returnType, args);
+			
+			return elem;
 		}
 		
 		public IElement FromSignalDefinition(string name, IEnumerable<Argument> args)

@@ -153,7 +153,7 @@ namespace DBusExplorer
 		
 		Interface MakeInterfaceFromNode(XmlReader reader, string name)
 		{
-			List<IElement> entries = new List<IElement>(50);
+			List<IElement> entries = new List<IElement>(20);
 			
 			while (reader.Read()) {
 				if (reader.NodeType == XmlNodeType.EndElement)
@@ -203,7 +203,8 @@ namespace DBusExplorer
 			
 			method.Close();
 			
-			return elementFactory.FromMethodDefinition(returnArg, name, args != null ? (IEnumerable<Argument>)args : null);
+			return elementFactory.FromMethodDefinition(returnArg, name, 
+			                                           args != null ? (IEnumerable<Argument>)args : null);
 		}
 		
 		IElement ParseSignal(XmlReader signal)

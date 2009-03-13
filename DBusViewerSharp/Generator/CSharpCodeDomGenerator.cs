@@ -50,8 +50,10 @@ namespace DBusExplorer
 			CodeTypeDeclaration type = GenerateCodeDom(@interface);
 
 			StringBuilder sb = new StringBuilder();
+			sb.AppendLine();
 			provider.GenerateCodeFromType(type, new StringWriter(sb), opt);
-			File.WriteAllText(path, sb.ToString());
+			sb.AppendLine();
+			File.AppendAllText(path, sb.ToString());
 		}
 
 		public void Generate (PathContainer path, string file_path)

@@ -14,6 +14,6 @@ namespace DBusExplorer
 		// The symbol name
 		string Name { get; }
 		Interface Parent { get; set; }
-		//InvocationData Data { get; }
+		InvocationData Data { get; }
 	}
 }

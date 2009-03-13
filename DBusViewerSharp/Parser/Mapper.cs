@@ -36,6 +36,37 @@ namespace DBusExplorer
 			return temp;
 		}
 		
+		public static object Convert (DType type, string value)
+		{
+			switch (type) {
+			case DType.Boolean:
+				return bool.Parse (value);
+			case DType.Byte:
+				return byte.Parse (value);
+			case DType.Int16:
+				return short.Parse (value);
+			case DType.Int32:
+				return int.Parse (value);
+			case DType.Int64:
+				return long.Parse (value);
+			case DType.UInt32:
+				return uint.Parse (value);
+			case DType.UInt64:
+				return ulong.Parse (value);
+			case DType.UInt16:
+				return ushort.Parse (value);
+			default:
+				return value;
+			}
+		}
+		
+		public static DType DTypeFromString (string baseType)
+		{
+			if (baseType.Length > 1)
+				throw new ArgumentException ("baseType has more than one character", "baseType");
+			return (DType)baseType[0];
+		}
+		
 		public static string DTypeToStr(DType type)
 		{
 			return type.ToString();

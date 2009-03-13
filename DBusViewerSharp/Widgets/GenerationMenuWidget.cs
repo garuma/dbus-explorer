@@ -8,6 +8,8 @@ using System;
 using System.IO;
 using Gtk;
 
+using NDesk.DBus;
+
 namespace DBusExplorer
 {
 	public class GenerationMenuWidget: Menu
@@ -45,12 +47,24 @@ namespace DBusExplorer
 			path.ShowAll();
 		}
 		
-		public GenerationMenuWidget(IElement referer)
+		public GenerationMenuWidget(IElement referer, Bus bus, string busName)
 		{
-			MenuItem path = new MenuItem("Generate element " + referer.Name + " ...");
-			
-			this.Append(path);
-			path.ShowAll();
+			if (referer.Data != null) {
+				MenuItem path = new MenuItem("Call " + referer.Name + "...");
+				path.Activated += delegate {
+					InvokeDialog diag
+						= new InvokeDialog (bus, busName,
+						                    new ObjectPath(referer.Parent.Parent.Path), referer);
+					
+					//int response = 0;
+					while (diag.Run () == (int)ResponseType.None);
+					
+					diag.Destroy();
+				};
+				
+				this.Append(path);
+				path.ShowAll();
+			}
 		}
 	}
 }

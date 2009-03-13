@@ -29,11 +29,13 @@ namespace DBusExplorer
 	public class BusContentView: TreeView
 	{
 		TreeStore model;
+		BusPageWidget page;
 		static Gdk.Pixbuf empty = Gdk.Pixbuf.LoadFromResource("empty.png");
 		public event EventHandler<ElementUpdatedEventArgs> ElementUpdated;
 		
-		public BusContentView()
+		public BusContentView(BusPageWidget page)
 		{
+			this.page = page;
 			this.Model = this.model = new TreeStore(typeof(string), typeof(Gdk.Pixbuf), typeof(object));
 			CellRendererText textCell = new CellRendererText();
 			TreeViewColumn col = this.AppendColumn("Name", textCell, "text", 0);
@@ -149,9 +151,10 @@ namespace DBusExplorer
 				case 2:
 					menu = new GenerationMenuWidget((Interface)target);
 					break;
-				/*case 3:
-					menu = new GenerationMenuWidget((IElement)target);
-					break;*/
+				case 3:
+					menu = new GenerationMenuWidget((IElement)target,
+					                                page.Explorator.BusUsed, page.CurrentSelectedBus);
+					break;
 				}
 				if (menu == null)
 					return base.OnButtonReleaseEvent (evnt);

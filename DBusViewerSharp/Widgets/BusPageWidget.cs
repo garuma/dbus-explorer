@@ -12,7 +12,7 @@ namespace DBusExplorer
 	
 	public partial class BusPageWidget : Gtk.Bin
 	{
-		BusContentView busContent = new BusContentView();
+		BusContentView busContent;
 		InformationView infoView = new InformationView();
 		TabWidget tab;
 		DBusExplorator explorator;
@@ -22,6 +22,7 @@ namespace DBusExplorer
 		public BusPageWidget(TabWidget tab)
 		{
 			this.Build();
+			this.busContent = new BusContentView(this);
 			this.tab = tab;
 			this.informationViewPlaceholder.Add(infoView);
 			this.tvPlaceholder.Add(busContent);
@@ -48,7 +49,7 @@ namespace DBusExplorer
 
 		public string CurrentSelectedBus {
 			get {
-				return currentSelectedBus;
+				return currentComboBox.ActiveText;
 			}
 			set {
 				currentSelectedBus = value;
