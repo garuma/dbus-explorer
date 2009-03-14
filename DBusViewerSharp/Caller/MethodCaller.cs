@@ -51,11 +51,6 @@ namespace DBusExplorer
 		public MethodCaller(Bus bus, string busName, ObjectPath path,
 		                    string iname, string name, InvocationData data)
 		{
-			Console.WriteLine ("bus != null : " + bus == null);
-			Console.WriteLine (busName);
-			Console.WriteLine (path);
-			Console.WriteLine (name);
-			
 			this.bus = bus;
 			this.busName = busName;
 			this.path = path;
@@ -67,32 +62,46 @@ namespace DBusExplorer
 		}
 		
 		static ModuleBuilder mb;
+		static System.Reflection.ConstructorInfo ci
+			= typeof(InterfaceAttribute).GetConstructor (new Type[] { typeof(string) });
 		
 		static MethodCaller ()
 		{
 			AssemblyName aName = new AssemblyName("DBusExplorerProxies");
 			AssemblyBuilder ab = 
-				AppDomain.CurrentDomain.DefineDynamicAssembly(aName, 
-				                                              AssemblyBuilderAccess.Run);
+				AppDomain.CurrentDomain.DefineDynamicAssembly(aName, AssemblyBuilderAccess.Run);
 			
 			mb = ab.DefineDynamicModule(aName.Name);
 		}
 		
 		void SetupBuilder ()
 		{
-			System.Reflection.ConstructorInfo ci
-				= typeof(InterfaceAttribute).GetConstructor (new Type[] { typeof(string) });
-			builder = mb.DefineType ("IDBusExplorerProxy" + id++,
-			                         TypeAttributes.Interface | TypeAttributes.Public | TypeAttributes.Abstract);
+			TypeAttributes attrs = TypeAttributes.Interface | TypeAttributes.Public | TypeAttributes.Abstract;
+			builder = mb.DefineType ("IDBusExplorerProxy" + id++, attrs);
 			builder.SetCustomAttribute (new CustomAttributeBuilder (ci, new object [] { iname }));
 		}
 		
 		void CreateMethod (string name, string returnType, IEnumerable<Argument> argsType)
 		{
-			builder.DefineMethod (name, MethodAttributes.Abstract | MethodAttributes.Public | MethodAttributes.Virtual,
-			                      string.IsNullOrEmpty(returnType) || returnType == "e" ? typeof(void) : Parse(returnType),
-			                      argsType == null ? Type.EmptyTypes : argsType.Select (a => Parse(a.Type)).ToArray());
+			MethodAttributes attrs = MethodAttributes.Abstract | MethodAttributes.Public | MethodAttributes.Virtual;
+			builder.DefineMethod (name, attrs,
+			                      GetReturnType (returnType),
+			                      GetArgumentList (argsType));
 									                      
+		}
+		
+		Type GetReturnType (string returnType)
+		{
+			if (string.IsNullOrEmpty(returnType) || returnType == "e")
+				return typeof(void);
+			
+			return Parse(returnType);
+		}
+		
+		Type[] GetArgumentList (IEnumerable<Argument> argsType)
+		{
+			return argsType == null ?
+				Type.EmptyTypes : argsType.Select (a => Parse(a.Type)).ToArray();
 		}
 		
 		Type Parse (string type)
@@ -113,7 +122,6 @@ namespace DBusExplorer
 				callFunc = (os) => mi.Invoke (obj, os);
 			}
 			
-			Console.WriteLine("Calling method");
 			return callFunc(ps);
 		}
 	}

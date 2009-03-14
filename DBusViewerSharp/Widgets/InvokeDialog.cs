@@ -39,6 +39,8 @@ namespace DBusExplorer
 		MethodCaller caller;
 		Func<object>[] entries;
 		
+		const string message = "An error occured while converting parameter {0} which has type {1}\n\n{2}"; 
+		
 		public InvokeDialog (Bus bus, string busName, ObjectPath path, IElement element)
 		{
 			this.Build ();
@@ -51,39 +53,51 @@ namespace DBusExplorer
 		
 		void BuildInterface (IElement element)
 		{
-			if (element.Data.Args == null)
+			IEnumerable<Argument> args = element.Data.Args;
+			
+			if (args == null)
 				return;
-			entries = element.Data.Args.Select((a) => {
-				Label lbl = new Label (a.Name + " : ");
-				Entry ety = new Entry ();
-				HBox box = new HBox ();
-				box.Add(lbl);
-				box.Add(ety);
-				box.ShowAll ();
-				argsVb.Add (box);
-				argsVb.ShowAll ();
+			
+			entries = args.Select<Argument,Func<object>>(BuildArgumentEntry).ToArray();
+		}
+		
+		Func<object> BuildArgumentEntry (Argument a)
+		{
+			Label lbl = new Label ();
+			Entry ety = new Entry ();
+			HBox box = new HBox ();
+			box.Add(lbl);
+			box.Add(ety);
+			box.ShowAll ();
+			argsVb.Add (box);
+			argsVb.ShowAll ();
+			
+			return (Func<object>)delegate {
+				object result = null;
+				try {
+					DType t = Mapper.DTypeFromString(a.Type);
+					lbl.Text = string.Format ("{0} ({1}) : ", a.Name, Mapper.DTypeToStr (t));
+					result = Mapper.Convert(t, ety.Text);
+				} catch (Exception e) {
+					ShowErrorDialog (a, e.Message);
+					return null;
+				}
 				
-				return (Func<object>)delegate {
-					object result = null;
-					try {
-						result = Mapper.Convert(Mapper.DTypeFromString(a.Type), ety.Text);
-					} catch (Exception e) {
-						MessageDialog diag = new MessageDialog(this, DialogFlags.DestroyWithParent,
-						                                       MessageType.Error, ButtonsType.Ok,
-						                                       e.Message);
-						diag.Run();
-						diag.Destroy();
-						return null;
-					}
-					
-					return result;
-				};
-			}).ToArray();
+				return result;
+			};
+		}
+		
+		void ShowErrorDialog (Argument a, string error)
+		{
+			MessageDialog diag = new MessageDialog(this, DialogFlags.DestroyWithParent,
+			                                       MessageType.Error, ButtonsType.Ok,
+			                                       string.Format(message, a.Name, a.Type, error));
+			diag.Run();
+			diag.Destroy();
 		}
 		
 		protected virtual void OnButtonExecuteActivated (object sender, System.EventArgs e)
 		{
-			Console.WriteLine ("Meuh");
 			bool success = true;
 			object[] ps = (entries == null) ? null : entries
 				.Select((f) => { object tmp = f(); if (tmp == null) success = false; return tmp; })
@@ -93,7 +107,6 @@ namespace DBusExplorer
 			
 			object result = caller.Invoke (ps);
 			resultLabel.Text = result.ToString ();
-			Console.WriteLine("Result is " + result.ToString());
 		}
 	}
 }

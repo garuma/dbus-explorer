@@ -16,7 +16,6 @@ namespace DBusExplorer
 		InformationView infoView = new InformationView();
 		TabWidget tab;
 		DBusExplorator explorator;
-		string currentSelectedBus;
 		ComboBox currentComboBox;
 		
 		public BusPageWidget(TabWidget tab)
@@ -50,9 +49,6 @@ namespace DBusExplorer
 		public string CurrentSelectedBus {
 			get {
 				return currentComboBox.ActiveText;
-			}
-			set {
-				currentSelectedBus = value;
 			}
 		}
 
