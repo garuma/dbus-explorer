@@ -7,6 +7,7 @@
 using System;
 using System.IO;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
 
 namespace DBusExplorer
 {
@@ -14,6 +15,6 @@ namespace DBusExplorer
 	{
 		void Generate(Interface @interface, string path);
 		void Generate(PathContainer path, string file_path);
-		void Generate(IElement element, string path);
+		void Generate(IEnumerable<IElement> elements, string path);
 	}
 }

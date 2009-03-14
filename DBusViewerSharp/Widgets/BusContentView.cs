@@ -145,9 +145,9 @@ namespace DBusExplorer
 				GenerationMenuWidget menu = null;
 				
 				switch (path.Depth) {
-				case 1:
+				/*case 1:
 					menu = new GenerationMenuWidget((PathContainer)target);
-					break;
+					break;*/
 				case 2:
 					menu = new GenerationMenuWidget((Interface)target);
 					break;

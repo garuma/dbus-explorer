@@ -15,7 +15,7 @@ namespace DBusExplorer
 	public class GenerationMenuWidget: Menu
 	{
 		
-		public GenerationMenuWidget(PathContainer referer)
+		/*public GenerationMenuWidget(PathContainer referer)
 		{
 			MenuItem path = new MenuItem("Generate path " + referer.Path + " ...");
 			path.Activated += delegate {
@@ -29,17 +29,21 @@ namespace DBusExplorer
 			};
 			this.Append(path);
 			path.ShowAll();
-		}
+		}*/
 		
 		public GenerationMenuWidget(Interface referer)
 		{
-			MenuItem path = new MenuItem("Generate interface " + referer.Name + " ...");
+			MenuItem path = new MenuItem("Generate " + referer.Name + "...");
 			path.Activated += delegate {
-				GenerationDialog d = new GenerationDialog();
+				GenerationDialog d = new GenerationDialog(referer);
 				d.Modal = true;
 				if (d.Run() == (int)ResponseType.Ok) {
 					IGenerator generator = new CSharpCodeDomGenerator();
-					generator.Generate(referer, d.PathToSave);
+					string p = d.PathToSave;
+					if (!p.EndsWith (".cs"))
+						p += ".cs";
+					
+					generator.Generate(d.Selected, p);
 				}
 				d.Destroy();
 			};
@@ -52,13 +56,11 @@ namespace DBusExplorer
 			if (referer.Data != null) {
 				MenuItem path = new MenuItem("Call " + referer.Name + "...");
 				path.Activated += delegate {
-					InvokeDialog diag
-						= new InvokeDialog (bus, busName,
-						                    new ObjectPath(referer.Parent.Parent.Path), referer);
+					var p = new ObjectPath(referer.Parent.Parent.Path);
+					InvokeDialog diag = new InvokeDialog (bus, busName,
+					                                      p, referer);
 					
-					//int response = 0;
 					while (diag.Run () == (int)ResponseType.None);
-					
 					diag.Destroy();
 				};
 				

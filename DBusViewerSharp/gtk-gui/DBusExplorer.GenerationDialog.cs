@@ -15,6 +15,14 @@ namespace DBusExplorer {
         
         private Gtk.VBox vbox2;
         
+        private Gtk.Alignment alignment1;
+        
+        private Gtk.Label label1;
+        
+        private Gtk.ScrolledWindow GtkScrolledWindow;
+        
+        private Gtk.TreeView selectionTv;
+        
         private Gtk.FileChooserWidget filechooserwidget1;
         
         private Gtk.Button buttonCancel;
@@ -27,6 +35,10 @@ namespace DBusExplorer {
             this.Name = "DBusExplorer.GenerationDialog";
             this.Title = Mono.Unix.Catalog.GetString("Where do you want to save stubbed source ?");
             this.WindowPosition = ((Gtk.WindowPosition)(4));
+            this.Modal = true;
+            this.Resizable = false;
+            this.AllowGrow = false;
+            this.DefaultHeight = 300;
             this.HasSeparator = false;
             // Internal child DBusExplorer.GenerationDialog.VBox
             Gtk.VBox w1 = this.VBox;
@@ -38,21 +50,50 @@ namespace DBusExplorer {
             this.vbox2.Spacing = 6;
             this.vbox2.BorderWidth = ((uint)(9));
             // Container child vbox2.Gtk.Box+BoxChild
+            this.alignment1 = new Gtk.Alignment(0.5F, 0.5F, 1F, 1F);
+            this.alignment1.Name = "alignment1";
+            // Container child alignment1.Gtk.Container+ContainerChild
+            this.label1 = new Gtk.Label();
+            this.label1.Name = "label1";
+            this.label1.LabelProp = Mono.Unix.Catalog.GetString("<b>Select the members you want to export</b>");
+            this.label1.UseMarkup = true;
+            this.alignment1.Add(this.label1);
+            this.vbox2.Add(this.alignment1);
+            Gtk.Box.BoxChild w3 = ((Gtk.Box.BoxChild)(this.vbox2[this.alignment1]));
+            w3.Position = 0;
+            w3.Expand = false;
+            w3.Fill = false;
+            // Container child vbox2.Gtk.Box+BoxChild
+            this.GtkScrolledWindow = new Gtk.ScrolledWindow();
+            this.GtkScrolledWindow.HeightRequest = 210;
+            this.GtkScrolledWindow.Name = "GtkScrolledWindow";
+            this.GtkScrolledWindow.ShadowType = ((Gtk.ShadowType)(1));
+            // Container child GtkScrolledWindow.Gtk.Container+ContainerChild
+            this.selectionTv = new Gtk.TreeView();
+            this.selectionTv.CanFocus = true;
+            this.selectionTv.Name = "selectionTv";
+            this.GtkScrolledWindow.Add(this.selectionTv);
+            this.vbox2.Add(this.GtkScrolledWindow);
+            Gtk.Box.BoxChild w5 = ((Gtk.Box.BoxChild)(this.vbox2[this.GtkScrolledWindow]));
+            w5.Position = 1;
+            w5.Padding = ((uint)(10));
+            // Container child vbox2.Gtk.Box+BoxChild
             this.filechooserwidget1 = new Gtk.FileChooserWidget(((Gtk.FileChooserAction)(1)));
             this.filechooserwidget1.Name = "filechooserwidget1";
             this.filechooserwidget1.DoOverwriteConfirmation = true;
             this.vbox2.Add(this.filechooserwidget1);
-            Gtk.Box.BoxChild w2 = ((Gtk.Box.BoxChild)(this.vbox2[this.filechooserwidget1]));
-            w2.Position = 0;
+            Gtk.Box.BoxChild w6 = ((Gtk.Box.BoxChild)(this.vbox2[this.filechooserwidget1]));
+            w6.Position = 2;
             w1.Add(this.vbox2);
-            Gtk.Box.BoxChild w3 = ((Gtk.Box.BoxChild)(w1[this.vbox2]));
-            w3.Position = 0;
+            Gtk.Box.BoxChild w7 = ((Gtk.Box.BoxChild)(w1[this.vbox2]));
+            w7.Position = 0;
+            w7.Expand = false;
             // Internal child DBusExplorer.GenerationDialog.ActionArea
-            Gtk.HButtonBox w4 = this.ActionArea;
-            w4.Name = "dialog1_ActionArea";
-            w4.Spacing = 6;
-            w4.BorderWidth = ((uint)(5));
-            w4.LayoutStyle = ((Gtk.ButtonBoxStyle)(4));
+            Gtk.HButtonBox w8 = this.ActionArea;
+            w8.Name = "dialog1_ActionArea";
+            w8.Spacing = 6;
+            w8.BorderWidth = ((uint)(5));
+            w8.LayoutStyle = ((Gtk.ButtonBoxStyle)(4));
             // Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
             this.buttonCancel = new Gtk.Button();
             this.buttonCancel.CanDefault = true;
@@ -62,9 +103,9 @@ namespace DBusExplorer {
             this.buttonCancel.UseUnderline = true;
             this.buttonCancel.Label = "gtk-cancel";
             this.AddActionWidget(this.buttonCancel, -6);
-            Gtk.ButtonBox.ButtonBoxChild w5 = ((Gtk.ButtonBox.ButtonBoxChild)(w4[this.buttonCancel]));
-            w5.Expand = false;
-            w5.Fill = false;
+            Gtk.ButtonBox.ButtonBoxChild w9 = ((Gtk.ButtonBox.ButtonBoxChild)(w8[this.buttonCancel]));
+            w9.Expand = false;
+            w9.Fill = false;
             // Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
             this.buttonOk = new Gtk.Button();
             this.buttonOk.CanDefault = true;
@@ -74,15 +115,14 @@ namespace DBusExplorer {
             this.buttonOk.UseUnderline = true;
             this.buttonOk.Label = "gtk-ok";
             this.AddActionWidget(this.buttonOk, -5);
-            Gtk.ButtonBox.ButtonBoxChild w6 = ((Gtk.ButtonBox.ButtonBoxChild)(w4[this.buttonOk]));
-            w6.Position = 1;
-            w6.Expand = false;
-            w6.Fill = false;
+            Gtk.ButtonBox.ButtonBoxChild w10 = ((Gtk.ButtonBox.ButtonBoxChild)(w8[this.buttonOk]));
+            w10.Position = 1;
+            w10.Expand = false;
+            w10.Fill = false;
             if ((this.Child != null)) {
                 this.Child.ShowAll();
             }
             this.DefaultWidth = 680;
-            this.DefaultHeight = 518;
             this.Show();
         }
     }
