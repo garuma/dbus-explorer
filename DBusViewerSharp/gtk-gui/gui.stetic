@@ -152,6 +152,7 @@
                 <property name="AutoSize">True</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>
+                <property name="Padding">6</property>
               </packing>
             </child>
             <child>
@@ -585,7 +586,7 @@
   </widget>
   <widget class="Gtk.Dialog" id="DBusExplorer.GenerationDialog" design-size="680 772">
     <property name="MemberName" />
-    <property name="Title" translatable="yes">Where do you want to save stubbed source ?</property>
+    <property name="Title" translatable="yes">Generation dialog</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Modal">True</property>
     <property name="Resizable">False</property>
@@ -705,6 +706,7 @@
   </widget>
   <widget class="Gtk.Dialog" id="DBusExplorer.InvokeDialog" design-size="400 128">
     <property name="MemberName" />
+    <property name="Title" translatable="yes">Method call dialog</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Buttons">2</property>
     <property name="HelpButton">False</property>
@@ -717,6 +719,7 @@
           <widget class="Gtk.VBox" id="vbox2">
             <property name="MemberName" />
             <property name="Spacing">6</property>
+            <property name="BorderWidth">3</property>
             <child>
               <widget class="Gtk.HBox" id="hbox1">
                 <property name="MemberName" />
@@ -753,6 +756,7 @@
                 <property name="AutoSize">True</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>
+                <property name="Padding">4</property>
               </packing>
             </child>
             <child>
@@ -775,7 +779,8 @@
                 <child>
                   <widget class="Gtk.Label" id="label3">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">Result is : </property>
+                    <property name="LabelProp" translatable="yes">&lt;b&gt;Result : &lt;/b&gt;</property>
+                    <property name="UseMarkup">True</property>
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -802,13 +807,13 @@
                 <property name="AutoSize">True</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>
+                <property name="Padding">4</property>
               </packing>
             </child>
           </widget>
           <packing>
             <property name="Position">0</property>
             <property name="AutoSize">True</property>
-            <property name="Padding">6</property>
           </packing>
         </child>
       </widget>

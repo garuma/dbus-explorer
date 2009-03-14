@@ -45,7 +45,7 @@ namespace DBusExplorer
 		{
 			this.Build ();
 			this.methodName.Text = element.Name;
-			Console.WriteLine (path.ToString());
+			
 			caller = new MethodCaller(bus, busName, path, element.Parent.Name, element.Name, element.Data);
 			BuildInterface (element);
 			this.buttonExecute.Clicked += OnButtonExecuteActivated;
@@ -106,7 +106,7 @@ namespace DBusExplorer
 				return;
 			
 			object result = caller.Invoke (ps);
-			resultLabel.Text = result.ToString ();
+			resultLabel.Text = result != null ? result.ToString () : "nil";
 		}
 	}
 }

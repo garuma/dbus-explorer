@@ -33,7 +33,7 @@ namespace DBusExplorer {
             Stetic.Gui.Initialize(this);
             // Widget DBusExplorer.GenerationDialog
             this.Name = "DBusExplorer.GenerationDialog";
-            this.Title = Mono.Unix.Catalog.GetString("Where do you want to save stubbed source ?");
+            this.Title = Mono.Unix.Catalog.GetString("Generation dialog");
             this.WindowPosition = ((Gtk.WindowPosition)(4));
             this.Modal = true;
             this.Resizable = false;

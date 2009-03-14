@@ -1,16 +1,16 @@
 msgid ""
 msgstr ""
-"X-Generator: MonoDevelop Gettext addin\n"
-"Language-Team: \n"
-"PO-Revision-Date: 2008-12-27 21:01:26+0100\n"
-"POT-Creation-Date: 2008-12-27 21:01:25+0100\n"
 "Project-Id-Version: \n"
+"POT-Creation-Date: 2009-03-14 14:04:59+0100\n"
+"PO-Revision-Date: 2009-03-14 14:04:59+0100\n"
+"Last-Translator: Jérémie \"Garuma\" Laval <jeremie.laval@gmail.com>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Last-Translator: \n"
 "Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: MonoDevelop Gettext addin\n"
 
-#: ../DBusViewerSharp/MainWindow.cs:193
+#: ../DBusViewerSharp/MainWindow.cs:194
 #: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:219
 msgid "(No Title)"
 msgstr ""
@@ -118,7 +118,27 @@ msgstr ""
 msgid "<b>Informations on : </b>"
 msgstr ""
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.GenerationDialog.cs:27
-msgid "Where do you want to save stubbed source ?"
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.GenerationDialog.cs:35
+msgid "Generation dialog"
+msgstr ""
+
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.GenerationDialog.cs:57
+msgid "<b>Select the members you want to export</b>"
+msgstr ""
+
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.InvokeDialog.cs:39
+msgid "Method call dialog"
+msgstr ""
+
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.InvokeDialog.cs:58
+msgid "Invocation of method :"
+msgstr ""
+
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.InvokeDialog.cs:68
+msgid "label2"
+msgstr ""
+
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.InvokeDialog.cs:95
+msgid "<b>Result is : </b>"
 msgstr ""
 

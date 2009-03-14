@@ -155,6 +155,7 @@ namespace DBusExplorer {
             w3.Position = 0;
             w3.Expand = false;
             w3.Fill = false;
+            w3.Padding = ((uint)(6));
             // Container child hbox1.Gtk.Box+BoxChild
             this.busCbCont = new Gtk.Alignment(0.5F, 0.5F, 1F, 1F);
             this.busCbCont.Name = "busCbCont";
