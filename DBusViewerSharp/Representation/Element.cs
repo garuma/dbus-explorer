@@ -28,7 +28,7 @@ using System;
 
 namespace DBusExplorer
 {
-	 internal class Element: IElement, IComparable<IElement>
+	internal class Element: IElement, IComparable<IElement>
 	{
 		ElementRepresentation representation = null;
 		string name;

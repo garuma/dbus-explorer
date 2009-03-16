@@ -127,7 +127,8 @@ namespace DBusExplorer
 			Application.Invoke( delegate {
 				spinnerBox.HideAll();
 				spinner.Active = false;
-				string mess = ex == null ? message : message + Environment.NewLine + "Exception : " + ex.Message; 
+				string mess = ex == null ? message : 
+					message + Environment.NewLine + "Exception : " + ex.Message; 
 				MessageDialog diag = new MessageDialog(this, DialogFlags.DestroyWithParent,
 				                                       type == LogType.Error ? MessageType.Error : MessageType.Warning,
 				                                       ButtonsType.Ok, mess);
@@ -164,7 +165,7 @@ namespace DBusExplorer
 			ad.Authors = new string[] { "Jérémie \"Garuma\" Laval" };
 			ad.Copyright = "Copyright (c) 2007-2009 Jérémie Laval <jeremie.laval@gmail.com>";
 			ad.License = "See the COPYING file";
-			ad.Version = "0.4";
+			ad.Version = "0.5";
 		
 			ad.Run();
 			ad.Destroy();
