@@ -108,6 +108,7 @@ namespace DBusExplorer
 			// If it's a custom bus
 			if (exp != DBusExplorator.SessionExplorator && exp != DBusExplorator.SystemExplorator)
 				exp.DBusError += OnDBusError;
+			currentPageWidget.BusContent.Reinitialize ();
 			FeedBusComboBox(exp.AvalaibleBusNames);
 		}
 		
