@@ -29,7 +29,7 @@ namespace DBusExplorer
 				throw new ApplicationException("Error the XPathNavigator for the document ("+path+") is null");
 			
 			LangDefinition def = new LangDefinition(GetTypes(), GetName(), GetMethodFormating(), GetEventFormating(),
-			                                        GetDictionaryFormating(), GetStructFormating(), GetArrayFormating());
+			                                        GetPropertyFormating(), GetDictionaryFormating(), GetStructFormating(), GetArrayFormating());
 			return def;
 		}
 		
@@ -70,13 +70,46 @@ namespace DBusExplorer
 		{
 			XPathNavigator eventNode = nav.SelectSingleNode("//event");
 			if (eventNode == null)
-				throw new ApplicationException("Parsing error : there is no event node in the file");
+			  throw new ApplicationException("Parsing error : there is no event node in the file");
 			string general = eventNode.GetAttribute("general", string.Empty);
 			ArgsFormatingDelegate argsFormat = GetArgsFormating(eventNode.SelectSingleNode("arguments"));
 			
 			return delegate (string name, IEnumerable<Argument> args) {
 				return general.Replace("%{name}", name).Replace("%{types}", argsFormat(args));
 			};
+		}
+
+		static PropertyFormatDelegate GetPropertyFormating()
+		{
+			XPathNavigator propNode = nav.SelectSingleNode("//property");
+			if (propNode == null)
+				throw new ApplicationException("Parsing error : there is no property node in the file");
+			
+			string read = propNode.GetAttribute("read", string.Empty);
+			string write = propNode.GetAttribute("write", string.Empty);
+			string readwrite = propNode.GetAttribute("readwrite", string.Empty);
+			
+			return delegate (string name, string type, PropertyAccess access) {
+				switch (access) {
+				case PropertyAccess.Read:
+					return InternalPropertyFormat (name, type, read);
+					
+				case PropertyAccess.Write:
+					return InternalPropertyFormat (name, type, write);
+					
+				case PropertyAccess.ReadWrite:
+					return InternalPropertyFormat (name, type, readwrite);
+					
+				default:
+					return null;
+				}
+				
+			};
+		}
+		
+		static string InternalPropertyFormat (string name, string type, string format)
+		{
+			return format.Replace("%{type}", type).Replace("%{name}", name);
 		}
 		
 		static DictionaryFormatDelegate GetDictionaryFormating()
@@ -150,6 +183,7 @@ namespace DBusExplorer
 		
 		delegate string MethodFormatDelegate(string name, string returnType, IEnumerable<Argument> args);
 		delegate string EventFormatDelegate(string name, IEnumerable<Argument> args);
+		delegate string PropertyFormatDelegate(string name, string type, PropertyAccess access);
 		delegate string DictionaryFormatDelegate(string type1, string type2);
 		delegate string StructFormatDelegate(IEnumerable<string> types);
 		delegate string ArrayFormatDelegate(string type);
@@ -162,23 +196,26 @@ namespace DBusExplorer
 			string                    name;
 			MethodFormatDelegate      methDeleg;
 			EventFormatDelegate       evtDeleg;
+			PropertyFormatDelegate    propDelegate;
 			DictionaryFormatDelegate  dictDeleg;
 			StructFormatDelegate      structDeleg;
 			ArrayFormatDelegate       arrayDeleg;
 			
 			
 			public LangDefinition(Dictionary<DType, string>  types,
-									string                   name,
-									MethodFormatDelegate     methDeleg,
-			                        EventFormatDelegate      evtDeleg,
-			                        DictionaryFormatDelegate dictDeleg,
-			                        StructFormatDelegate     structDeleg,
-			                        ArrayFormatDelegate      arrayDeleg)
+			                      string                   name,
+			                      MethodFormatDelegate     methDeleg,
+			                      EventFormatDelegate      evtDeleg,
+			                      PropertyFormatDelegate     propDelegate,
+			                      DictionaryFormatDelegate dictDeleg,
+			                      StructFormatDelegate     structDeleg,
+			                      ArrayFormatDelegate      arrayDeleg)
 			{
 				this.types       = types;
 				this.name        = name;
 				this.methDeleg   = methDeleg;
 				this.evtDeleg    = evtDeleg;
+				this.propDelegate = propDelegate;
 				this.dictDeleg   = dictDeleg;
 				this.structDeleg = structDeleg;
 				this.arrayDeleg  = arrayDeleg;
@@ -195,7 +232,7 @@ namespace DBusExplorer
 					return types;
 				}
 			}
-
+			
 			public string MethodFormat (string name, string returnType, IEnumerable<Argument> args)
 			{
 				return methDeleg(name, returnType, args);
@@ -221,9 +258,9 @@ namespace DBusExplorer
 				return arrayDeleg(type);
 			}
 
-			public string PropertyFormat ()
+			public string PropertyFormat (string name, string type, PropertyAccess access)
 			{
-				throw new NotImplementedException();
+				return propDelegate(name, type, access);
 			}
 			
 			public override int GetHashCode()

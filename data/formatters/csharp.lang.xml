@@ -20,7 +20,7 @@
 		<event general="event EventHandler&lt;%{types}&gt; %{name};" >
 			<arguments accumulator=", " start="" end="" general="%{type}" />
 		</event>
-		<property read="%{type} %{name} { get; }" write="%{type} %{name} { set }" readwrite="%{type} %{name} { get; set; }" />
+		<property read="%{type} %{name} { get; }" write="%{type} %{name} { set; }" readwrite="%{type} %{name} { get; set; }" />
 
 		<struct prefix="struct { " suffix="}" general="%{type}" accumulator="; " />
 		<dictionary general="Dictionary&lt;%{type1}, %{type2}&gt;" />

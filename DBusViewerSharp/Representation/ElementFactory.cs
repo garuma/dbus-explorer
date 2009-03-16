@@ -105,10 +105,10 @@ namespace DBusExplorer
 					string retRealType = Parser.ParseDBusTypeExpression(returnType, visitor.Value);
 					List<Argument> argsReal = new List<Argument>();
 					if (args != null) {
-						foreach (Argument arg in args)
-							argsReal.Add(new Argument(Parser.ParseDBusTypeExpression(arg.Type, visitor.Value), arg.Name));
+					  foreach (Argument arg in args)
+						argsReal.Add(new Argument(Parser.ParseDBusTypeExpression(arg.Type, visitor.Value), arg.Name));
 					}
-					return visitor.Key.MethodFormat(name, retRealType, argsReal); 
+					return visitor.Key.MethodFormat(name, retRealType, argsReal);
 				});
 			}
 			
@@ -137,16 +137,19 @@ namespace DBusExplorer
 			return new Element(name, new ElementRepresentation(spec, temp), signalPb, 2);
 		}
 		
-		public IElement FromPropertyDefinition(string name, Argument type, PropertyAccess access)
+		public IElement FromPropertyDefinition(string name, string type, PropertyAccess access)
 		{
-			/*string spec = access.ToString().ToLowerInvariant() + "property " + name + " : " + type.Type;
-			//string cdecl = Parser.ParseDBusTypeExpression(type.Type) + " " + name + " { ";
-			if (access == PropertyAccess.Read  || access == PropertyAccess.ReadWrite) cdecl += "get; ";
-			if (access == PropertyAccess.Write || access == PropertyAccess.ReadWrite) cdecl += "set; ";
-			cdecl += "}";
-
-			return new Element(name, new ElementRepresentation(spec, cdecl), propertyPb, 1);*/
-			return null;
+		  string spec = access.ToString().ToLowerInvariant() + " property " + name + " : " + type;
+		  Dictionary<string, LangProcesser> temp = new Dictionary<string,LangProcesser>();
+		  
+		  foreach (KeyValuePair<ILangDefinition, IParserVisitor<string>> visitor in visitors) {
+			temp.Add(visitor.Key.Name, delegate {
+				string realType = Parser.ParseDBusTypeExpression(type, visitor.Value);
+				return visitor.Key.PropertyFormat(name, realType, access); 
+			  });
+			}
+		  
+		  return new Element(name, new ElementRepresentation(spec, temp), propertyPb, 3);
 		}
 		
 		StringBuilder sb = new StringBuilder(20);

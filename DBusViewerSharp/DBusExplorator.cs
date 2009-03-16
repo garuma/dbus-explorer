@@ -250,7 +250,7 @@ namespace DBusExplorer
 			
 			property.Close();
 			
-			return elementFactory.FromPropertyDefinition(name, type, access);
+			return elementFactory.FromPropertyDefinition(name, type.Type, access);
 		}
 		
 		static string JoinPath(string path1, string path2)
