@@ -79,7 +79,9 @@ namespace DBusExplorer
 			}
 		}
 		
-		IDictionary<ILangDefinition, IParserVisitor<string>> visitors = new Dictionary<ILangDefinition, IParserVisitor<string>>();
+		IDictionary<ILangDefinition, IParserVisitor<string>> visitors
+			= new Dictionary<ILangDefinition, IParserVisitor<string>>();
+		StringBuilder sb = new StringBuilder(20);
 		
 		public ElementFactory(IEnumerable<ILangDefinition> langs)
 		{
@@ -97,7 +99,8 @@ namespace DBusExplorer
 		
 		public IElement FromMethodDefinition(string returnType, string name, IEnumerable<Argument> args)
 		{
-			string specDesc = name + " (" + MakeArgumentList(args, ", ", "{N} : {T}") + ") : " + returnType;
+			string specDesc = Concat (name, " (", MakeArgumentList(args, ", ", "{N} : {T}"),
+			                          ") : ", returnType);
 			Dictionary<string, LangProcesser> temp = new Dictionary<string,LangProcesser>();
 			
 			foreach (KeyValuePair<ILangDefinition, IParserVisitor<string>> visitor in visitors) {
@@ -106,7 +109,8 @@ namespace DBusExplorer
 					List<Argument> argsReal = new List<Argument>();
 					if (args != null) {
 					  foreach (Argument arg in args)
-						argsReal.Add(new Argument(Parser.ParseDBusTypeExpression(arg.Type, visitor.Value), arg.Name));
+						argsReal.Add(new Argument(Parser.ParseDBusTypeExpression(arg.Type, visitor.Value),
+							                          arg.Name));
 					}
 					return visitor.Key.MethodFormat(name, retRealType, argsReal);
 				});
@@ -120,7 +124,7 @@ namespace DBusExplorer
 		
 		public IElement FromSignalDefinition(string name, IEnumerable<Argument> args)
 		{
-			string spec = "signal " + name + " : " + MakeArgumentList(args, ", ", "{T}");
+			string spec = Concat ("signal ", name, " : ", MakeArgumentList(args, ", ", "{T}"));
 			Dictionary<string, LangProcesser> temp = new Dictionary<string,LangProcesser>();
 			
 			foreach (KeyValuePair<ILangDefinition, IParserVisitor<string>> visitor in visitors) {
@@ -139,7 +143,8 @@ namespace DBusExplorer
 		
 		public IElement FromPropertyDefinition(string name, string type, PropertyAccess access)
 		{
-		  string spec = access.ToString().ToLowerInvariant() + " property " + name + " : " + type;
+		  string spec = Concat (access.ToString().ToLowerInvariant(),
+			                      " property ", name, " : ", type);
 		  Dictionary<string, LangProcesser> temp = new Dictionary<string,LangProcesser>();
 		  
 		  foreach (KeyValuePair<ILangDefinition, IParserVisitor<string>> visitor in visitors) {
@@ -151,8 +156,6 @@ namespace DBusExplorer
 		  
 		  return new Element(name, new ElementRepresentation(spec, temp), propertyPb, 3);
 		}
-		
-		StringBuilder sb = new StringBuilder(20);
 		
 		string MakeArgumentList(IEnumerable<Argument> args, string separator, string format)
 		{
@@ -166,6 +169,15 @@ namespace DBusExplorer
 				          .Replace("{N}", arg.Name));				
 			}
 			return sb.ToString();
+		}
+		
+		string Concat(params string[] strings)
+		{
+			sb.Remove(0, sb.Length);
+			foreach (var s in strings)
+				sb.Append (s);
+			
+			return sb.ToString ();
 		}
 	}
 }

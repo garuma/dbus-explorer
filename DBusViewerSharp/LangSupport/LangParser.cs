@@ -8,6 +8,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Xml;
+using System.Linq;
 using System.Xml.XPath;
 using System.Collections.Generic;
 
@@ -17,6 +18,7 @@ namespace DBusExplorer
 	{
 		static XPathDocument doc;
 		static XPathNavigator nav;
+		static StringBuilder sb = new StringBuilder(20);
 		
 		public static ILangDefinition ParseFromFile(string path)
 		{
@@ -53,33 +55,36 @@ namespace DBusExplorer
 			return nav.SelectSingleNode("language").GetAttribute("name", string.Empty);
 		}
 		
-		static MethodFormatDelegate GetMethodFormating()
+		static Func<string, string, IEnumerable<Argument>, string> GetMethodFormating()
 		{
 			XPathNavigator methodNode = nav.SelectSingleNode("//method");
 			if (methodNode == null)
 				throw new ApplicationException("Parsing error : there is no method node in the file");
+			
 			string general = methodNode.GetAttribute("general", string.Empty);
-			ArgsFormatingDelegate argsFormat = GetArgsFormating(methodNode.SelectSingleNode("arguments"));
+			Func<IEnumerable<Argument>, string> argsFormat = GetArgsFormating(methodNode.SelectSingleNode("arguments"));
 			
 			return delegate (string name, string returnType, IEnumerable<Argument> args) {
-				return general.Replace("%{return}", returnType).Replace("%{name}", name).Replace("%{args}", argsFormat(args));
+				return Replace(general, "%{return}", returnType,
+				               "%{name}", name, "%{args}", argsFormat(args));
 			};
 		}
 		
-		static EventFormatDelegate GetEventFormating()
+		static Func<string, IEnumerable<Argument>, string> GetEventFormating()
 		{
 			XPathNavigator eventNode = nav.SelectSingleNode("//event");
 			if (eventNode == null)
 			  throw new ApplicationException("Parsing error : there is no event node in the file");
+			
 			string general = eventNode.GetAttribute("general", string.Empty);
-			ArgsFormatingDelegate argsFormat = GetArgsFormating(eventNode.SelectSingleNode("arguments"));
+			Func<IEnumerable<Argument>, string> argsFormat = GetArgsFormating(eventNode.SelectSingleNode("arguments"));
 			
 			return delegate (string name, IEnumerable<Argument> args) {
-				return general.Replace("%{name}", name).Replace("%{types}", argsFormat(args));
+				return Replace (general, "%{name}", name, "%{types}", argsFormat(args));
 			};
 		}
 
-		static PropertyFormatDelegate GetPropertyFormating()
+		static Func<string, string, PropertyAccess, string> GetPropertyFormating()
 		{
 			XPathNavigator propNode = nav.SelectSingleNode("//property");
 			if (propNode == null)
@@ -109,49 +114,51 @@ namespace DBusExplorer
 		
 		static string InternalPropertyFormat (string name, string type, string format)
 		{
-			return format.Replace("%{type}", type).Replace("%{name}", name);
+			return Replace (format, "%{type}", type, "%{name}", name);
 		}
 		
-		static DictionaryFormatDelegate GetDictionaryFormating()
+		static Func<string, string, string> GetDictionaryFormating()
 		{
 			XPathNavigator dictNode = nav.SelectSingleNode("//dictionary");
 			string general = dictNode.GetAttribute("general", string.Empty);
 			
 			return delegate (string type1, string type2) {
-				return general.Replace("%{type1}", type1).Replace("%{type2}", type2);
+				return Replace (general, "%{type1}", type1, "%{type2}", type2);
 			};
 		}
 		
-		static StructFormatDelegate GetStructFormating()
+		static Func<IEnumerable<string>,string> GetStructFormating()
 		{
 			XPathNavigator structNode = nav.SelectSingleNode("//struct");
 			string prefix = structNode.GetAttribute("prefix", string.Empty);
 			string suffix = structNode.GetAttribute("suffix", string.Empty);
 			string general = structNode.GetAttribute("general", string.Empty);
 			string accumulator = structNode.GetAttribute("accumulator", string.Empty);
+			StringBuilder temp = new StringBuilder(20);
 			
 			return delegate (IEnumerable<string> types) {
-				string temp = prefix;
+				sb.Remove(0, temp.Length);
+				sb.Append(prefix);
 				foreach (var t in types) {
-					temp += general.Replace("%{type}", t);
-					temp += accumulator;
+					temp.Append(general.Replace("%{type}", t));
+					temp.Append(accumulator);
 				}
-				temp += suffix;
-				return temp;
+				temp.Append(suffix);
+				return temp.ToString();
 			};
 		}
 		
-		static ArrayFormatDelegate GetArrayFormating()
+		static Func<string, string> GetArrayFormating()
 		{
 			XPathNavigator arrayNode = nav.SelectSingleNode("//array");
 			string general = arrayNode.GetAttribute("general", string.Empty);
 			
 			return delegate (string type) {
-				return general.Replace("%{type}", type);
+				return Replace (general, "%{type}", type);
 			};
 		}
 		
-		static ArgsFormatingDelegate GetArgsFormating(XPathNavigator argsNode)
+		static Func<IEnumerable<Argument>, string> GetArgsFormating(XPathNavigator argsNode)
 		{
 			string accumulator = argsNode.GetAttribute("accumulator", string.Empty);
 			string start = argsNode.GetAttribute("start", string.Empty);
@@ -161,55 +168,66 @@ namespace DBusExplorer
 			return GetArgsFormating(accumulator, start, end, general);
 		}
 		
-		static ArgsFormatingDelegate GetArgsFormating(string accumulator, string start, string end, string general)
+		static Func<IEnumerable<Argument>, string> GetArgsFormating(string accumulator, string start,
+		                                              string end, string general)
 		{
+			StringBuilder temp = new StringBuilder(20);
 			return delegate (IEnumerable<Argument> args) {
-				// Should use Linq when Mono gets older
-				string temp = start;
-				bool isThereArgs = false;
-				foreach (Argument tuple in args) {
-					temp += general.Replace("%{type}", tuple.Type).Replace("%{name}", tuple.Name);
-					temp += accumulator;
-					isThereArgs = true;
-				}
-				// remove the last accumulator if there was args in the Enumerable (dirty)
-				if (isThereArgs)
-					temp = temp.Substring(0, temp.Length - accumulator.Length);
-				temp += end;
+				temp.Remove (0, temp.Length);
+				temp.Append(start);
+				args.Aggregate (temp, (acc, t) => { 
+					acc.Append (Replace(general, "%{type}", t.Type, "%{name}", t.Name));
+					acc.Append (accumulator);
+					return acc;
+				});
+				if (args.Any())
+					temp.Remove (temp.Length - accumulator.Length, accumulator.Length);
+					
+				temp.Append (end);
 				
-				return temp;
+				return temp.ToString();
 			};
 		}
 		
-		delegate string MethodFormatDelegate(string name, string returnType, IEnumerable<Argument> args);
-		delegate string EventFormatDelegate(string name, IEnumerable<Argument> args);
-		delegate string PropertyFormatDelegate(string name, string type, PropertyAccess access);
-		delegate string DictionaryFormatDelegate(string type1, string type2);
-		delegate string StructFormatDelegate(IEnumerable<string> types);
-		delegate string ArrayFormatDelegate(string type);
+		static void CleanSb ()
+		{
+			sb.Remove (0, sb.Length);
+		}
 		
-		delegate string ArgsFormatingDelegate(IEnumerable<Argument> args);
+		static string Replace (params string[] replacement)
+		{
+			if (replacement.Length % 2 != 1)
+				return string.Empty;
+			
+			CleanSb();
+			sb.Append(replacement[0]);
+			
+			for (int i = 1; i < replacement.Length - 1; i += 2)
+				sb.Replace (replacement[i], replacement[i + 1]);
+			
+			return sb.ToString ();
+		}
 		
 		class LangDefinition: ILangDefinition
 		{
 			Dictionary<DType, string> types;
 			string                    name;
-			MethodFormatDelegate      methDeleg;
-			EventFormatDelegate       evtDeleg;
-			PropertyFormatDelegate    propDelegate;
-			DictionaryFormatDelegate  dictDeleg;
-			StructFormatDelegate      structDeleg;
-			ArrayFormatDelegate       arrayDeleg;
+			Func<string, string, IEnumerable<Argument>, string>      methDeleg;
+			Func<string, IEnumerable<Argument>, string>       evtDeleg;
+			Func<string, string, PropertyAccess, string>    propDelegate;
+			Func<string, string, string>  dictDeleg;
+			Func<IEnumerable<string>, string>      structDeleg;
+			Func<string, string>       arrayDeleg;
 			
 			
 			public LangDefinition(Dictionary<DType, string>  types,
-			                      string                   name,
-			                      MethodFormatDelegate     methDeleg,
-			                      EventFormatDelegate      evtDeleg,
-			                      PropertyFormatDelegate     propDelegate,
-			                      DictionaryFormatDelegate dictDeleg,
-			                      StructFormatDelegate     structDeleg,
-			                      ArrayFormatDelegate      arrayDeleg)
+			                      string name,
+			                      Func<string, string, IEnumerable<Argument>, string> methDeleg,
+			                      Func<string, IEnumerable<Argument>, string> evtDeleg,
+			                      Func<string, string, PropertyAccess, string> propDelegate,
+			                      Func<string, string, string> dictDeleg,
+			                      Func<IEnumerable<string>, string> structDeleg,
+			                      Func<string, string> arrayDeleg)
 			{
 				this.types       = types;
 				this.name        = name;
