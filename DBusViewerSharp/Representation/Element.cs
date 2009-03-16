@@ -1,23 +1,52 @@
-// Element.cs
-// Copyright (c) 2007 Jérémie Laval <jeremie.laval@gmail.com>
-//
-// See COPYING file for license information.
 // 
+// Element.cs
+//  
+// Author:
+//       Jérémie "Garuma" Laval <jeremie.laval@gmail.com>
+// 
+// Copyright (c) 2009 Jérémie "Garuma" Laval
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
 
 using System;
 
-namespace DBusViewerSharp
+namespace DBusExplorer
 {
-	
-	
-	public class Element: IElement
+	 internal class Element: IElement, IComparable<IElement>
 	{
-		ElementRepresentation representation;
+		ElementRepresentation representation = null;
 		string name;
+		Gdk.Pixbuf image;
+		// For comparison
+		int type;
+		Interface parent;
+		InvocationData data = null;
 		
 		public ElementRepresentation Visual {
 			get {
 				return representation;
+			}
+		}
+		
+		public Gdk.Pixbuf Image {
+			get {
+				return image;
 			}
 		}
 
@@ -26,11 +55,43 @@ namespace DBusViewerSharp
 				return name;
 			}
 		}
+		
+		public Interface Parent { 
+			get {
+				return parent;
+			}
+			set {
+				parent = value;
+			}
+		}
+		
+		public InvocationData Data {
+			get {
+				return data;
+			}
+			internal set {
+				data = value;
+			}
+		}
+		
+		public int CompareTo(IElement other)
+		{
+			// First comparison
+			int comparison = String.Compare(this.name, other.Name, StringComparison.Ordinal);
+			// Then with the types
+			Element elem = (Element)other;
+			if (elem.type == this.type)
+				return comparison;
+			else
+				return this.type.CompareTo(elem.type);
+		}
 
-		public Element(string name, ElementRepresentation representation)
+		public Element(string name, ElementRepresentation representation, Gdk.Pixbuf image, int type)
 		{
 			this.name = name;
 			this.representation = representation;
+			this.image = image;
+			this.type = type;
 		}
 	}
 }

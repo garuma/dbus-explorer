@@ -137,8 +137,8 @@ namespace DBusExplorer
 			StringBuilder temp = new StringBuilder(20);
 			
 			return delegate (IEnumerable<string> types) {
-				sb.Remove(0, temp.Length);
-				sb.Append(prefix);
+				temp.Remove(0, temp.Length);
+				temp.Append(prefix);
 				foreach (var t in types) {
 					temp.Append(general.Replace("%{type}", t));
 					temp.Append(accumulator);
@@ -169,7 +169,7 @@ namespace DBusExplorer
 		}
 		
 		static Func<IEnumerable<Argument>, string> GetArgsFormating(string accumulator, string start,
-		                                              string end, string general)
+		                                                            string end, string general)
 		{
 			StringBuilder temp = new StringBuilder(20);
 			return delegate (IEnumerable<Argument> args) {
@@ -206,98 +206,6 @@ namespace DBusExplorer
 				sb.Replace (replacement[i], replacement[i + 1]);
 			
 			return sb.ToString ();
-		}
-		
-		class LangDefinition: ILangDefinition
-		{
-			Dictionary<DType, string> types;
-			string                    name;
-			Func<string, string, IEnumerable<Argument>, string>      methDeleg;
-			Func<string, IEnumerable<Argument>, string>       evtDeleg;
-			Func<string, string, PropertyAccess, string>    propDelegate;
-			Func<string, string, string>  dictDeleg;
-			Func<IEnumerable<string>, string>      structDeleg;
-			Func<string, string>       arrayDeleg;
-			
-			
-			public LangDefinition(Dictionary<DType, string>  types,
-			                      string name,
-			                      Func<string, string, IEnumerable<Argument>, string> methDeleg,
-			                      Func<string, IEnumerable<Argument>, string> evtDeleg,
-			                      Func<string, string, PropertyAccess, string> propDelegate,
-			                      Func<string, string, string> dictDeleg,
-			                      Func<IEnumerable<string>, string> structDeleg,
-			                      Func<string, string> arrayDeleg)
-			{
-				this.types       = types;
-				this.name        = name;
-				this.methDeleg   = methDeleg;
-				this.evtDeleg    = evtDeleg;
-				this.propDelegate = propDelegate;
-				this.dictDeleg   = dictDeleg;
-				this.structDeleg = structDeleg;
-				this.arrayDeleg  = arrayDeleg;
-			}
-			
-			public string Name {
-				get {
-					return name;
-				}
-			}
-
-			public IDictionary<DType, string> Types {
-				get {
-					return types;
-				}
-			}
-			
-			public string MethodFormat (string name, string returnType, IEnumerable<Argument> args)
-			{
-				return methDeleg(name, returnType, args);
-			}
-
-			public string EventFormat (string name, IEnumerable<Argument> args)
-			{
-				return evtDeleg(name, args);
-			}
-			
-			public string DictionaryFormat(string type1, string type2)
-			{
-				return dictDeleg(type1, type2);
-			}
-			
-			public string StructFormat(IEnumerable<string> types)
-			{
-				return structDeleg(types);
-			}
-			
-			public string ArrayFormat(string type)
-			{
-				return arrayDeleg(type);
-			}
-
-			public string PropertyFormat (string name, string type, PropertyAccess access)
-			{
-				return propDelegate(name, type, access);
-			}
-			
-			public override int GetHashCode()
-			{
-				return name.GetHashCode();
-			}
-			
-			public override string ToString()
-			{
-				string s = "LangDefinition of " + name;
-				s += Environment.NewLine;
-				s += "Types:";
-				s += Environment.NewLine;
-				foreach (var type in types) {
-					s += string.Format("\t{0} = > {1}", type.Key, type.Value);
-					s += Environment.NewLine;
-				}
-				return s;
-			}
 		}
 	}
 }
