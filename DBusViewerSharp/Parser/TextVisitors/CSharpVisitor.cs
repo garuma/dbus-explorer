@@ -29,12 +29,28 @@ namespace DBusExplorer
 			return temp;
 		}
 		
+		public string ParseStructDefinition(IEnumerator<string> exprs)
+		{
+			string temp = "struct { ";
+			foreach (string s in exprs) {
+				temp += s + "; ";
+			}
+			temp += "}";
+			
+			return temp;
+		}
+		
 		public string ParseArrayDefinition(IEnumerator<DType> exprs)
 		{
 			string tmp = parent.ConvertFromExprList(exprs, this, 1)[0];
 			tmp += "[]";
 			
 			return tmp;
+		}
+		
+		public string ParseArrayDefinition(string type)
+		{
+			return type + "[]";
 		}
 		
 		public string ParseDictDefinition(IEnumerator<DType> exprList)

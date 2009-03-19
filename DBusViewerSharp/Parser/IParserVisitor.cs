@@ -17,6 +17,12 @@ namespace DBusExplorer
 		
 		TReturn ParseDictDefinition(IEnumerator<DType> tokens);
 		
+		TReturn ParseDictDefinition(TReturn type1, TReturn type2);
+		
+		TReturn ParseArrayDefinition(TReturn type);
+		
+		TReturn ParseStructDefinition(IEnumerable<TReturn> tokens);
+		
 		TReturn ParseBaseTypeDefinition(DType type);
 		
 		TReturn Default { get; }
