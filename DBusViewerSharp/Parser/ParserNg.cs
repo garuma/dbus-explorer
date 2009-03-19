@@ -36,8 +36,10 @@ namespace DBusExplorer
 		{
 			DType current = tokens.Current;
 			
-			if (current == DType.DictEntryEnd || current == DType.StructEnd)
-				return Enumerable.Empty<TReturn> ();
+			if (current == DType.DictEntryEnd || current == DType.StructEnd) {
+				tokens.MoveNext ();
+				return null;
+			}
 			
 			// May be an array or a dict
 			if (current == DType.Array) {
@@ -57,7 +59,10 @@ namespace DBusExplorer
 				return Wrap(ParseStruct (tokens, visitor));
 			}
 			
-			return Wrap(visitor.ParseBaseTypeDefinition (current));
+			IEnumerable<TReturn> result = Wrap(visitor.ParseBaseTypeDefinition (current));
+			tokens.MoveNext ();
+			
+			return result;
 		}
 		
 		TReturn ParseDict (IEnumerator<DType> tokens, IParserVisitor<TReturn> visitor)
@@ -67,6 +72,7 @@ namespace DBusExplorer
 			
 			IEnumerable<TReturn> type1 = Parse(tokens, visitor);
 			IEnumerable<TReturn> type2 = Parse(tokens, visitor);
+			tokens.MoveNext ();
 			
 			return visitor.ParseDictDefinition (type1.First(), type2.First());
 		}
@@ -74,9 +80,10 @@ namespace DBusExplorer
 		TReturn ParseStruct (IEnumerator<DType> tokens, IParserVisitor<TReturn> visitor)
 		{
 			IEnumerable<TReturn> result = Parse (tokens, visitor);
+			IEnumerable<TReturn> temp = null;
 			
-			while (tokens.MoveNext()) {
-				result = Enumerable.Concat (result, Parse (tokens, visitor));
+			while ((temp = Parse (tokens, visitor)) != null) {
+				result = Enumerable.Concat (result, temp);
 			}
 			
 			return visitor.ParseStructDefinition (result);

@@ -4,6 +4,7 @@
 // See COPYING file for license information.
 
 using System;
+using System.IO;
 using System.Diagnostics;
 
 using Gtk;
