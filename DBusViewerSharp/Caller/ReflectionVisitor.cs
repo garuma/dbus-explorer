@@ -33,40 +33,17 @@ using System.Collections.Generic;
 namespace DBusExplorer
 {
 	public class ReflectionVisitor : IParserVisitor<Type>
-	{
-		ParserNg<Type> parent;
-		
-		public ReflectionVisitor (ParserNg<Type> parent)
-		{
-			this.parent = parent;
-		}
-
+	{	
 		#region IParserVisitor<Type> implementation
-		public Type ParseStructDefinition (IEnumerator<DType> tokens)
-		{
-			return null;
-		}
 		
 		public Type ParseStructDefinition (IEnumerable<Type> tokens)
 		{
 			return null;
 		}
 		
-		public Type ParseArrayDefinition (IEnumerator<DType> tokens)
-		{
-			IList<Type> tmp = parent.ConvertFromExprList(tokens, this, 1);
-			
-			return tmp.Count > 0 ? tmp[0].MakeArrayType() : Error;
-		}
-		
 		public Type ParseArrayDefinition (Type baseType)
 		{
 			return baseType != null ? baseType.MakeArrayType() : Error;
-		}
-		
-		public Type ParseDictDefinition (IEnumerator<DType> tokens)
-		{
-			return null;
 		}
 		
 		public Type ParseDictDefinition (Type type1, Type type2)
@@ -91,8 +68,5 @@ namespace DBusExplorer
 			}
 		}
 		#endregion
-		public ReflectionVisitor()
-		{
-		}
 	}
 }

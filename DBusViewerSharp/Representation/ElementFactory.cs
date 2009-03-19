@@ -22,7 +22,7 @@ namespace DBusExplorer
 				throw new ArgumentNullException("langs");
 			
 			foreach (ILangDefinition def in langs) {
-				visitors.Add(def, new LangDefVisitor(def, Parser.RealParser));
+				visitors.Add(def, new LangDefVisitor(def));
 			}
 		}
 		

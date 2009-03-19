@@ -12,22 +12,13 @@ namespace DBusExplorer
 {
 	public class LangDefVisitor: IParserVisitor<string>
 	{
-		ParserNg<string> parent;
 		ILangDefinition lang;
 		IDictionary<DType, string> types;
 		
-		public LangDefVisitor(ILangDefinition lang, ParserNg<string> parent)
+		public LangDefVisitor(ILangDefinition lang)
 		{
 			this.lang = lang;
-			this.parent = parent;
 			this.types = lang.Types;
-		}
-		
-		public string ParseStructDefinition(IEnumerator<DType> exprs)
-		{
-			IList<string> tmp = parent.ConvertFromExprList(exprs, this);
-
-			return tmp.Count > 0 ? lang.StructFormat(tmp) : Error;
 		}
 		
 		public string ParseStructDefinition(IEnumerable<string> exprs)
@@ -35,23 +26,9 @@ namespace DBusExplorer
 			return exprs.Any () ? lang.StructFormat(exprs) : Error;
 		}
 		
-		public string ParseArrayDefinition(IEnumerator<DType> exprs)
-		{
-			IList<string> tmp = parent.ConvertFromExprList(exprs, this, 1);
-			
-			return lang.ArrayFormat(tmp.Count > 0 ? tmp[0] : Error);
-		}
-		
 		public string ParseArrayDefinition(string type)
 		{
 			return lang.ArrayFormat(string.IsNullOrEmpty(type) ? Error : type);
-		}
-		
-		public string ParseDictDefinition(IEnumerator<DType> exprList)
-		{
-			IList<string> list = parent.ConvertFromExprList(exprList, this, 2);
-			
-			return lang.DictionaryFormat((list.Count > 0) ? list[0] : Error, (list.Count > 1) ? list[1] : Error);
 		}
 		
 		public string ParseDictDefinition(string type1, string type2)

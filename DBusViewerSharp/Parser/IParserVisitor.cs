@@ -11,11 +11,9 @@ namespace DBusExplorer
 {
 	public interface IParserVisitor<TReturn>
 	{
-		TReturn ParseStructDefinition(IEnumerator<DType> tokens);
-		
+		/*TReturn ParseStructDefinition(IEnumerator<DType> tokens);
 		TReturn ParseArrayDefinition(IEnumerator<DType> tokens);
-		
-		TReturn ParseDictDefinition(IEnumerator<DType> tokens);
+		TReturn ParseDictDefinition(IEnumerator<DType> tokens);*/
 		
 		TReturn ParseDictDefinition(TReturn type1, TReturn type2);
 		
