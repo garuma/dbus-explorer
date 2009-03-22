@@ -313,6 +313,7 @@
               <packing>
                 <property name="Position">1</property>
                 <property name="AutoSize">True</property>
+                <property name="Padding">5</property>
               </packing>
             </child>
           </widget>
@@ -321,7 +322,7 @@
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
-            <property name="Padding">11</property>
+            <property name="Padding">16</property>
           </packing>
         </child>
       </widget>
@@ -704,7 +705,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Dialog" id="DBusExplorer.InvokeDialog" design-size="400 128">
+  <widget class="Gtk.Dialog" id="DBusExplorer.InvokeDialog" design-size="400 164">
     <property name="MemberName" />
     <property name="Title" translatable="yes">Method call dialog</property>
     <property name="WindowPosition">CenterOnParent</property>
@@ -724,6 +725,7 @@
               <widget class="Gtk.HBox" id="hbox1">
                 <property name="MemberName" />
                 <property name="Spacing">6</property>
+                <property name="BorderWidth">6</property>
                 <child>
                   <widget class="Gtk.Label" id="label1">
                     <property name="MemberName" />
@@ -763,6 +765,7 @@
               <widget class="Gtk.VBox" id="argsVb">
                 <property name="MemberName" />
                 <property name="Spacing">6</property>
+                <property name="BorderWidth">6</property>
                 <child>
                   <placeholder />
                 </child>
@@ -776,6 +779,7 @@
               <widget class="Gtk.HBox" id="hbox2">
                 <property name="MemberName" />
                 <property name="Spacing">6</property>
+                <property name="BorderWidth">6</property>
                 <child>
                   <widget class="Gtk.Label" id="label3">
                     <property name="MemberName" />

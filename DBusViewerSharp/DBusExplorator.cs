@@ -21,7 +21,8 @@ namespace DBusExplorer
 		static readonly string rootPath = "/";
 		public static readonly DBusExplorator sessionExplorator = new DBusExplorator();
 		public static readonly DBusExplorator systemExplorator = new DBusExplorator(Bus.System);
-		static ElementFactory elementFactory = new ElementFactory(LangDefinitionService.DefaultPool.Languages.Values);
+		static ElementFactory elementFactory 
+			= new ElementFactory(LangDefinitionService.DefaultPool.Languages.Values);
 		
 		public event EventHandler<DBusErrorEventArgs> DBusError;
 		
@@ -68,8 +69,7 @@ namespace DBusExplorer
 			}
 		}
 		
-		delegate IEnumerable<PathContainer> UpdateDelegate(string busName);
-		UpdateDelegate updater;
+		Func<string, IEnumerable<PathContainer>> updater;
 		
 		public IAsyncResult BeginGetElementsFromBus(string busName, AsyncCallback callback)
 		{
@@ -172,7 +172,7 @@ namespace DBusExplorer
 			}
 			
 			reader.Close();
-			entries.RemoveAll(delegate (IElement elem) { return elem == null; });
+			entries.RemoveAll((e) => e == null);
 			
 			return new Interface(name, (IEnumerable<IElement>)entries);
 		}

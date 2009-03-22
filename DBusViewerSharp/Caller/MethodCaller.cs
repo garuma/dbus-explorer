@@ -48,6 +48,8 @@ namespace DBusExplorer
 		ObjectPath path;
 		Func<object[], object> callFunc;
 		
+		// Some caching
+		
 		public MethodCaller(Bus bus, string busName, ObjectPath path,
 		                    string iname, string name, InvocationData data)
 		{
@@ -106,10 +108,7 @@ namespace DBusExplorer
 		
 		Type Parse (string type)
 		{
-			Console.WriteLine (type);
 			Type t = parser.ParseDBusTypeExpression (type, visitor);
-			Console.WriteLine (t);
-			
 			return t;
 		}
 		

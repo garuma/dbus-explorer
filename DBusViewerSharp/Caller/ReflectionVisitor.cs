@@ -48,7 +48,10 @@ namespace DBusExplorer
 		
 		public Type ParseDictDefinition (Type type1, Type type2)
 		{
-			return null;
+			string t = string.Format("System.Collections.Generic.Dictionary`2[{0},{1}]",
+			                         type1.AssemblyQualifiedName,
+			                         type2.AssemblyQualifiedName);
+			return Type.GetType (t);
 		}
 		
 		public Type ParseBaseTypeDefinition (DType type)

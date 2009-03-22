@@ -49,6 +49,7 @@ namespace DBusExplorer
 			caller = new MethodCaller(bus, busName, path, element.Parent.Name, element.Name, element.Data);
 			BuildInterface (element);
 			this.buttonExecute.Clicked += OnButtonExecuteActivated;
+			this.ShowAll ();
 		}
 		
 		void BuildInterface (IElement element)
@@ -66,17 +67,18 @@ namespace DBusExplorer
 			Label lbl = new Label ();
 			Entry ety = new Entry ();
 			HBox box = new HBox ();
+			DType t = Mapper.DTypeFromString(a.Type);
+			lbl.Text = string.Format ("{0} ({1}) : ", a.Name, Mapper.DTypeToStr (t));
+			
 			box.Add(lbl);
 			box.Add(ety);
-			box.ShowAll ();
 			argsVb.Add (box);
+			box.ShowAll ();
 			argsVb.ShowAll ();
 			
 			return (Func<object>)delegate {
 				object result = null;
 				try {
-					DType t = Mapper.DTypeFromString(a.Type);
-					lbl.Text = string.Format ("{0} ({1}) : ", a.Name, Mapper.DTypeToStr (t));
 					result = Mapper.Convert(t, ety.Text);
 				} catch (Exception e) {
 					ShowErrorDialog (a, e.Message);

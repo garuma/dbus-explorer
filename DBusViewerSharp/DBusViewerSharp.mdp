@@ -55,7 +55,6 @@
     <File name="Parser/ParserNg.cs" subtype="Code" buildaction="Compile" />
     <File name="Parser/IParserVisitor.cs" subtype="Code" buildaction="Compile" />
     <File name="Parser/TextVisitors" subtype="Directory" buildaction="Compile" />
-    <File name="Parser/TextVisitors/CSharpVisitor.cs" subtype="Code" buildaction="Nothing" />
     <File name="Parser/TextVisitors/LangDefVisitor.cs" subtype="Code" buildaction="Compile" />
     <File name="Logging.cs" subtype="Code" buildaction="Compile" />
     <File name="Widgets/BusContentView.cs" subtype="Code" buildaction="Compile" />

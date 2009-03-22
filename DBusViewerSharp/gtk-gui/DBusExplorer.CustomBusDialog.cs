@@ -58,12 +58,13 @@ namespace DBusExplorer {
             this.hbox3.Add(this.busName);
             Gtk.Box.BoxChild w3 = ((Gtk.Box.BoxChild)(this.hbox3[this.busName]));
             w3.Position = 1;
+            w3.Padding = ((uint)(5));
             w1.Add(this.hbox3);
             Gtk.Box.BoxChild w4 = ((Gtk.Box.BoxChild)(w1[this.hbox3]));
             w4.Position = 0;
             w4.Expand = false;
             w4.Fill = false;
-            w4.Padding = ((uint)(11));
+            w4.Padding = ((uint)(16));
             // Internal child DBusExplorer.CustomBusDialog.ActionArea
             Gtk.HButtonBox w5 = this.ActionArea;
             w5.Name = "dialog1_ActionArea";
