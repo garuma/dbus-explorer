@@ -49,9 +49,15 @@ namespace DBusExplorer
 		Func<object[], object> callFunc;
 		
 		// Some caching
-		
 		public MethodCaller(Bus bus, string busName, ObjectPath path,
 		                    string iname, string name, InvocationData data)
+			: this (bus, busName, path, iname, name, data, true)
+		{
+		}
+		
+		public MethodCaller(Bus bus, string busName, ObjectPath path,
+		                    string iname, string name, InvocationData data,
+		                    bool isMethod)
 		{
 			this.bus = bus;
 			this.busName = busName;
@@ -60,7 +66,10 @@ namespace DBusExplorer
 			this.iname = iname;
 			
 			SetupBuilder ();
-			CreateMethod(name, data.ReturnType, data.Args);
+			if (isMethod)
+				CreateMethod (name, data.ReturnType, data.Args);
+			else
+				CreateProperty (name, data.ReturnType, PropertyAccess.Read);
 		}
 		
 		static ModuleBuilder mb;
@@ -92,12 +101,20 @@ namespace DBusExplorer
 									                      
 		}
 		
+		void CreateProperty (string name, string returnType, PropertyAccess access)
+		{
+			PropertyAttributes attrs = PropertyAttributes.None;
+			
+			builder.DefineProperty (name, attrs,
+			                        GetReturnType (returnType), null);
+		}
+		
 		Type GetReturnType (string returnType)
 		{
 			if (string.IsNullOrEmpty(returnType) || returnType == "e")
 				return typeof(void);
 			
-			return Parse(returnType);
+			return Parse (returnType);
 		}
 		
 		Type[] GetArgumentList (IEnumerable<Argument> argsType)

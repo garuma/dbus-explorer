@@ -645,6 +645,7 @@
             <child>
               <widget class="Gtk.FileChooserWidget" id="filechooserwidget1">
                 <property name="MemberName" />
+                <property name="HeightRequest">400</property>
                 <property name="Action">Save</property>
                 <property name="DoOverwriteConfirmation">True</property>
               </widget>

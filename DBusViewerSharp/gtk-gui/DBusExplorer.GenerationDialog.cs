@@ -79,6 +79,7 @@ namespace DBusExplorer {
             w5.Padding = ((uint)(10));
             // Container child vbox2.Gtk.Box+BoxChild
             this.filechooserwidget1 = new Gtk.FileChooserWidget(((Gtk.FileChooserAction)(1)));
+            this.filechooserwidget1.HeightRequest = 400;
             this.filechooserwidget1.Name = "filechooserwidget1";
             this.filechooserwidget1.DoOverwriteConfirmation = true;
             this.vbox2.Add(this.filechooserwidget1);

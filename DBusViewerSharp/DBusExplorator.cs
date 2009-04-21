@@ -25,11 +25,12 @@ namespace DBusExplorer
 			= new ElementFactory(LangDefinitionService.DefaultPool.Languages.Values);
 		
 		public event EventHandler<DBusErrorEventArgs> DBusError;
+		public event EventHandler AvailableNamesUpdated;
 		
 		IBus ibus;
 		Bus bus;
 		
-		string[] avalaibleBusNames = null;
+		List<string> availableBusNames = null;
 		
 		static bool dump = Environment.CommandLine.Contains("--dump");
 
@@ -41,13 +42,36 @@ namespace DBusExplorer
 		{
 			this.bus = bus;
 			ibus = this.bus.GetObject<IBus>(DBusName, DBusPath);
-			updater =  GetElementsFromBus;
+			SetupEvents (ibus);
+			updater = GetElementsFromBus;
 		}
 		
-		public string[] AvalaibleBusNames {
+		void SetupEvents (IBus b)
+		{
+			b.NameOwnerChanged += delegate(string name, string old_owner, string new_owner) {
+				if (string.IsNullOrEmpty (new_owner))
+					return;
+				
+				availableBusNames.Remove (string.IsNullOrEmpty (old_owner) ?
+				                          name : old_owner);
+				availableBusNames.Add (string.IsNullOrEmpty (new_owner) ?
+				                       name : new_owner);
+				
+				if (AvailableNamesUpdated != null)
+					AvailableNamesUpdated (this, EventArgs.Empty);
+			};
+		}
+		
+		public IEnumerable<string> AvailableBusNames {
 			get {
-				return avalaibleBusNames == null ? 
-					(avalaibleBusNames = ibus.ListNames()) : avalaibleBusNames;
+				if (availableBusNames == null) {
+					try {
+						availableBusNames = new List<string> (ibus.ListNames ());
+					} catch {
+						DBusError (this, new DBusErrorEventArgs ("Error while retrieving bus entries"));
+					}
+				}
+				return availableBusNames.AsReadOnly ();
 			}
 		}
 		

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2009-03-14 14:02:47+0100\n"
-"PO-Revision-Date: 2009-03-14 14:04:31+0100\n"
+"POT-Creation-Date: 2009-03-23 09:10:50+0100\n"
+"PO-Revision-Date: 2009-03-23 09:11:40+0100\n"
 "Last-Translator: Jérémie \"Garuma\" Laval <jeremie.laval@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -10,8 +10,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: MonoDevelop Gettext addin\n"
 
-#: ../DBusViewerSharp/MainWindow.cs:194
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:219
+#: ../DBusViewerSharp/MainWindow.cs:196
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:220
 msgid "(No Title)"
 msgstr "(Sans Titre)"
 
@@ -106,7 +106,7 @@ msgstr "D-Bus Explorer"
 msgid "Bus name : "
 msgstr "Nom du Bus : "
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:190
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.MainWindow.cs:191
 msgid "Parsing ..."
 msgstr "Traitement ..."
 
@@ -130,17 +130,17 @@ msgstr "<b>Sélectionnez les membres que vous voulez exporter</b>"
 msgid "Method call dialog"
 msgstr "Fenêtre d'appel de méthode"
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.InvokeDialog.cs:58
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.InvokeDialog.cs:59
 msgid "Invocation of method :"
 msgstr "Appel de la méthode : "
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.InvokeDialog.cs:68
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.InvokeDialog.cs:69
 msgid "label2"
 msgstr ""
 
-#: ../DBusViewerSharp/gtk-gui/DBusExplorer.InvokeDialog.cs:95
-msgid "<b>Result is : </b>"
-msgstr "Résultat :"
+#: ../DBusViewerSharp/gtk-gui/DBusExplorer.InvokeDialog.cs:98
+msgid "<b>Result : </b>"
+msgstr "<b>Résultat : </b>"
 
 #~ msgid "Where do you want to save stubbed source ?"
 #~ msgstr "Où voulez-vous sauver le fichier généré ?"

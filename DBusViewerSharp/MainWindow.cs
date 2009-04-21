@@ -26,7 +26,9 @@ namespace DBusExplorer
 			Logging.AddWatcher(LoggingEventHandler);
 			this.DeleteEvent += OnDeleteEvent;
 			DBusExplorator.SessionExplorator.DBusError += OnDBusError;
+			DBusExplorator.SessionExplorator.AvailableNamesUpdated += OnAvailableNamesUpdated;
 			DBusExplorator.SystemExplorator.DBusError += OnDBusError;
+			DBusExplorator.SystemExplorator.AvailableNamesUpdated += OnAvailableNamesUpdated;
 		
 			// Graphical setup
 			Build ();
@@ -44,12 +46,12 @@ namespace DBusExplorer
 			spinnerBox.HideAll();
 		}
 	
-		void FeedBusComboBox(string[] buses)
+		void FeedBusComboBox(IEnumerable<string> buses)
 		{
 			FeedBusComboBox(buses, currentPageWidget);
 		}
 		
-		void FeedBusComboBox(string[] buses, BusPageWidget page)
+		void FeedBusComboBox(IEnumerable<string> buses, BusPageWidget page)
 		{
 			ComboBox cb = ComboBox.NewText();
 		
@@ -90,15 +92,19 @@ namespace DBusExplorer
 			spinner.Active = true;
 		
 			explorator.BeginGetElementsFromBus(busName, delegate (IAsyncResult result) {
-				IEnumerable<PathContainer> elements = explorator.EndGetElementsFromBus(result);
-				Application.Invoke(delegate {
-					foreach (PathContainer path in elements) {
-						view.AddPath(path);
-					}
-				
-					spinnerBox.HideAll();
-					spinner.Active = false;
-				});
+				try {
+					IEnumerable<PathContainer> elements = explorator.EndGetElementsFromBus(result);
+					Application.Invoke(delegate {
+						foreach (PathContainer path in elements) {
+							view.AddPath(path);
+						}
+						
+						spinnerBox.HideAll();
+						spinner.Active = false;
+					});
+				} catch (Exception e) {
+					LoggingEventHandler (LogType.Error, "Error while retrieving bus elements", e);
+				}
 			});
 		}	
 		
@@ -106,10 +112,12 @@ namespace DBusExplorer
 		{
 			this.currentPageWidget.Explorator = exp;
 			// If it's a custom bus
-			if (exp != DBusExplorator.SessionExplorator && exp != DBusExplorator.SystemExplorator)
+			if (exp != DBusExplorator.SessionExplorator && exp != DBusExplorator.SystemExplorator) {
 				exp.DBusError += OnDBusError;
+				exp.AvailableNamesUpdated += OnAvailableNamesUpdated;
+			}
 			currentPageWidget.BusContent.Reinitialize ();
-			FeedBusComboBox(exp.AvalaibleBusNames);
+			FeedBusComboBox(exp.AvailableBusNames);
 		}
 		
 		void OnDBusError(object sender, DBusErrorEventArgs e)
@@ -121,6 +129,23 @@ namespace DBusExplorer
 				diag.Run();
 				diag.Destroy();
 			});
+		}
+		
+		void OnAvailableNamesUpdated(object sender, EventArgs e)
+		{
+			DBusExplorator exp = sender as DBusExplorator;
+			if (exp == null)
+				return;
+			
+			for (int i = 0; i < buses_Nb.NPages; i++) {
+				BusPageWidget page = buses_Nb.GetNthPage (i) as BusPageWidget;
+				if (page == null)
+					continue;
+				if (page.Explorator != exp)
+					continue;
+				
+				FeedBusComboBox (exp.AvailableBusNames, page);
+			}
 		}
 		
 		void LoggingEventHandler(LogType type, string message, Exception ex) {
@@ -198,7 +223,7 @@ namespace DBusExplorer
 			BusPageWidget page = new BusPageWidget(tab);
 			page.ShowAll();
 			page.Explorator = DBusExplorator.SessionExplorator;
-			FeedBusComboBox(page.Explorator.AvalaibleBusNames, page);
+			FeedBusComboBox(page.Explorator.AvailableBusNames, page);
 			buses_Nb.AppendPage(page, tab);
 			// Switch to the newly append page which trigger the normal events
 			buses_Nb.CurrentPage = buses_Nb.NPages - 1;
