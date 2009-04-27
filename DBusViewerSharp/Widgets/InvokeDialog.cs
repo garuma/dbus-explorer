@@ -93,12 +93,15 @@ namespace DBusExplorer
 		
 		protected virtual void OnButtonExecuteActivated (object sender, System.EventArgs e)
 		{
-			bool success = true;
-			object[] ps = (entries == null) ? null : entries
-				.Select((f) => { object tmp = f(); if (tmp == null) success = false; return tmp; })
-					.ToArray();
-			if (!success)
+			object[] ps = null;
+			
+			try {
+				ps = (entries == null) ? null : entries
+					.Select((f) => f()).ToArray();
+			} catch (Exception ex) {
+				Logging.Error ("Parsing error, check that you entered correct values", ex);
 				return;
+			}
 			
 			object result = null;
 			

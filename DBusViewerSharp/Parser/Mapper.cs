@@ -9,22 +9,29 @@ namespace DBusExplorer
 {
 	public static class Mapper
 	{
+		class Signature
+		{
+		}
+		
 		static Dictionary<DType,Type> fundamentalTypes = new Dictionary<DType,Type>();
 		
-		static Mapper()
+		static Mapper ()
 		{
-			fundamentalTypes.Add(DType.Boolean, typeof(bool));
-			fundamentalTypes.Add(DType.Byte, typeof(byte));
-			fundamentalTypes.Add(DType.Double, typeof(double));
-			fundamentalTypes.Add(DType.Int16, typeof(short));
-			fundamentalTypes.Add(DType.Int32, typeof(int));
-			fundamentalTypes.Add(DType.Int64, typeof(long));
-			fundamentalTypes.Add(DType.Single, typeof(float));
-			fundamentalTypes.Add(DType.String, typeof(string));
-			fundamentalTypes.Add(DType.UInt16, typeof(ushort));
-			fundamentalTypes.Add(DType.UInt32, typeof(uint));
-			fundamentalTypes.Add(DType.UInt64, typeof(ulong));
-			fundamentalTypes.Add(DType.Variant, typeof(object));
+			fundamentalTypes.Add (DType.Boolean, typeof(bool));
+			fundamentalTypes.Add (DType.Byte, typeof(byte));
+			fundamentalTypes.Add (DType.Double, typeof(double));
+			fundamentalTypes.Add (DType.Int16, typeof(short));
+			fundamentalTypes.Add (DType.Int32, typeof(int));
+			fundamentalTypes.Add (DType.Int64, typeof(long));
+			fundamentalTypes.Add (DType.Single, typeof(float));
+			fundamentalTypes.Add (DType.String, typeof(string));
+			fundamentalTypes.Add (DType.UInt16, typeof(ushort));
+			fundamentalTypes.Add (DType.UInt32, typeof(uint));
+			fundamentalTypes.Add (DType.UInt64, typeof(ulong));
+			fundamentalTypes.Add (DType.Variant, typeof(object));
+			fundamentalTypes.Add (DType.ObjectPath, typeof (NDesk.DBus.ObjectPath));
+			fundamentalTypes.Add (DType.Signature, typeof (Signature));
+			fundamentalTypes.Add (DType.Void, typeof (void));
 		}
 		
 		public static Type DTypeToType(DType type)

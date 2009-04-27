@@ -1,5 +1,5 @@
 // 
-// MethodCaller.cs
+// PropertyCaller.cs
 //  
 // Author:
 //       Jérémie "Garuma" Laval <jeremie.laval@gmail.com>
@@ -34,7 +34,9 @@ using NDesk.DBus;
 
 namespace DBusExplorer
 {
-	public class MethodCaller : BaseCaller
+	
+	
+	public class PropertyCaller : BaseCaller
 	{
 		Bus bus;
 		string name;
@@ -42,10 +44,10 @@ namespace DBusExplorer
 		ObjectPath path;
 		InvocationData data;
 		
-		Func<object[], object> callFunc;
+		Func<object, object> callFunc;
 		
-		public MethodCaller(Bus bus, string busName, ObjectPath path,
-		                    string iname, string name, InvocationData data)
+		public PropertyCaller(Bus bus, string busName, ObjectPath path,
+		                      string iname, string name, InvocationData data)
 			: base (iname)
 		{
 			this.bus = bus;
@@ -56,16 +58,23 @@ namespace DBusExplorer
 		}
 		
 		protected override void CreateMember (TypeBuilder builder)
-		{	
-			MethodAttributes attrs = MethodAttributes.Abstract | MethodAttributes.Public | MethodAttributes.Virtual;
-			builder.DefineMethod (name, attrs,
-			                      GetReturnType (data.ReturnType),
-			                      GetArgumentList (data.Args));
+		{
+			PropertyAttributes attrs = PropertyAttributes.None;
+			
+			builder.DefineProperty (name, attrs,
+			                        GetReturnType (data.ReturnType), null);
 			
 			Type proxyType = builder.CreateType ();
 			object obj = bus.GetObject (proxyType, busName, path);
-			MethodInfo mi = proxyType.GetMethod (name);
-			callFunc = (os) => mi.Invoke (obj, os);
+			PropertyInfo pi = proxyType.GetProperty (name);
+			callFunc = delegate (object o) {
+				if (o == null) {
+					return pi.GetValue (obj, null);
+				} else {
+					pi.SetValue (obj, o, null);
+					return null;
+				}
+			};
 		}
 		
 		Type GetReturnType (string returnType)
@@ -76,16 +85,9 @@ namespace DBusExplorer
 			return Parse (returnType);
 		}
 		
-		Type[] GetArgumentList (IEnumerable<Argument> argsType)
-		{
-			return argsType == null ?
-				Type.EmptyTypes : argsType.Select (a => Parse(a.Type)).ToArray();
-		}
-		
 		public override object Invoke (object[] ps)
-		{			
-			return callFunc(ps);
+		{
+			return callFunc (ps != null && ps.Length > 0 ? ps[0] : null);
 		}
-		
 	}
 }

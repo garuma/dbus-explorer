@@ -153,9 +153,10 @@ namespace DBusExplorer
 					break;
 				case 3:
 					IElement element = (IElement)target;
-					if (element.Data != null) 
+					if (element.Data != null) {
 						menu = new GenerationMenuWidget(element, page.Explorator.BusUsed, 
-						                                page.CurrentSelectedBus);
+							                                page.CurrentSelectedBus);
+					}
 					break;
 				}
 				if (menu == null)

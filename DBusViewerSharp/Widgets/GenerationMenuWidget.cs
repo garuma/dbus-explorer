@@ -55,14 +55,26 @@ namespace DBusExplorer
 		{
 			if (referer.Data != null) {
 				MenuItem path = new MenuItem("Call " + referer.Name + "...");
-				path.Activated += delegate {
-					var p = new ObjectPath(referer.Parent.Parent.Path);
-					InvokeDialog diag = new InvokeDialog (bus, busName,
-					                                      p, referer);
-					
-					while (diag.Run () == (int)ResponseType.None);
-					diag.Destroy();
-				};
+				
+				if (!referer.Data.IsProperty) {
+					path.Activated += delegate {
+						var p = new ObjectPath(referer.Parent.Parent.Path);
+						InvokeDialog diag = new InvokeDialog (bus, busName,
+						                                      p, referer);
+						
+						while (diag.Run () == (int)ResponseType.None);
+						diag.Destroy();
+					};
+				} else {
+					path.Activated += delegate {
+						var p = new ObjectPath(referer.Parent.Parent.Path);
+						PropertyInvokeDialog diag = new PropertyInvokeDialog (bus, busName,
+						                                              p, referer);
+						
+						while (diag.Run () == (int)ResponseType.None);
+						diag.Destroy();
+					};
+				}
 				
 				this.Append(path);
 				path.ShowAll();

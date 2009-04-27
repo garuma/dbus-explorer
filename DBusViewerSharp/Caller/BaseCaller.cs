@@ -1,5 +1,5 @@
 // 
-// MethodCaller.cs
+// BaseCaller.cs
 //  
 // Author:
 //       Jérémie "Garuma" Laval <jeremie.laval@gmail.com>
@@ -34,58 +34,52 @@ using NDesk.DBus;
 
 namespace DBusExplorer
 {
-	public class MethodCaller : BaseCaller
+	
+	
+	public abstract class BaseCaller
 	{
-		Bus bus;
-		string name;
-		string busName;
-		ObjectPath path;
-		InvocationData data;
+		static readonly ReflectionVisitor visitor = new ReflectionVisitor ();
+		static readonly ParserNg<Type> parser = new ParserNg<Type> ();
+		static int id = int.MinValue;
 		
-		Func<object[], object> callFunc;
+		TypeBuilder builder;
+		readonly string iname;
 		
-		public MethodCaller(Bus bus, string busName, ObjectPath path,
-		                    string iname, string name, InvocationData data)
-			: base (iname)
+		static ModuleBuilder mb;
+		static System.Reflection.ConstructorInfo ci
+			= typeof(InterfaceAttribute).GetConstructor (new Type[] { typeof(string) });
+		
+		protected BaseCaller (string iname)
 		{
-			this.bus = bus;
-			this.busName = busName;
-			this.path = path;
-			this.name = name;
-			this.data = data;
+			this.iname = iname;
+			SetupBuilder ();
 		}
 		
-		protected override void CreateMember (TypeBuilder builder)
-		{	
-			MethodAttributes attrs = MethodAttributes.Abstract | MethodAttributes.Public | MethodAttributes.Virtual;
-			builder.DefineMethod (name, attrs,
-			                      GetReturnType (data.ReturnType),
-			                      GetArgumentList (data.Args));
+		static BaseCaller ()
+		{
+			AssemblyName aName = new AssemblyName("DBusExplorerProxies");
+			AssemblyBuilder ab = 
+				AppDomain.CurrentDomain.DefineDynamicAssembly(aName, AssemblyBuilderAccess.Run);
 			
-			Type proxyType = builder.CreateType ();
-			object obj = bus.GetObject (proxyType, busName, path);
-			MethodInfo mi = proxyType.GetMethod (name);
-			callFunc = (os) => mi.Invoke (obj, os);
+			mb = ab.DefineDynamicModule(aName.Name);
 		}
 		
-		Type GetReturnType (string returnType)
+		void SetupBuilder ()
 		{
-			if (string.IsNullOrEmpty(returnType) || returnType == "e")
-				return typeof(void);
-			
-			return Parse (returnType);
+			TypeAttributes attrs = TypeAttributes.Interface | TypeAttributes.Public | TypeAttributes.Abstract;
+			builder = mb.DefineType ("IDBusExplorerProxy" + id++, attrs);
+			builder.SetCustomAttribute (new CustomAttributeBuilder (ci, new object [] { iname }));
 		}
 		
-		Type[] GetArgumentList (IEnumerable<Argument> argsType)
+		protected Type Parse (string type)
 		{
-			return argsType == null ?
-				Type.EmptyTypes : argsType.Select (a => Parse(a.Type)).ToArray();
+			Type t = parser.ParseDBusTypeExpression (type, visitor);
+			return t;
 		}
 		
-		public override object Invoke (object[] ps)
-		{			
-			return callFunc(ps);
-		}
+		protected abstract void CreateMember (TypeBuilder builder);
+		
+		public abstract object Invoke (object[] ps);
 		
 	}
 }

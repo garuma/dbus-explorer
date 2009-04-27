@@ -1,5 +1,5 @@
 // 
-// InvocationData.cs
+// PropertyInvokeDialog.cs
 //  
 // Author:
 //       Jérémie "Garuma" Laval <jeremie.laval@gmail.com>
@@ -25,45 +25,42 @@
 // THE SOFTWARE.
 
 using System;
+using Gtk;
+using NDesk.DBus;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DBusExplorer
 {
-	public class InvocationData
+	
+	
+	public partial class PropertyInvokeDialog : Gtk.Dialog
 	{
-		string returnType;
-		IEnumerable<Argument> args;
-		bool isProperty;
-
-		public IEnumerable<Argument> Args {
-			get {
-				return args;
-			}
-		}		
+		PropertyCaller caller;
 		
-		public string ReturnType {
-			get {
-				return returnType;
-			}
-		}
-		
-		public bool IsProperty {
-			get {
-				return isProperty;
-			}
-		}
-		
-		public InvocationData(string returnType, IEnumerable<Argument> args)
-			: this (returnType, args, false)
+		public PropertyInvokeDialog(Bus bus, string busName, ObjectPath path, IElement element)
 		{
+			this.Build();
+			this.caller = new PropertyCaller (bus, busName, path, element.Parent.Name,
+			                                  element.Name, element.Data);
 			
 		}
 		
-		public InvocationData(string returnType, IEnumerable<Argument> args, bool isProp)
+		protected virtual void OnGetBtnToggled (object sender, System.EventArgs e)
 		{
-			this.returnType = returnType;
-			this.args = args;
-			this.isProperty = isProp;
+			setAlign.HideAll ();
+			getAlign.ShowAll ();
+		}
+
+		protected virtual void OnSetBtnToggled (object sender, System.EventArgs e)
+		{
+			getAlign.HideAll ();
+			setAlign.ShowAll ();
+		}
+
+		protected virtual void OnButtonExecuteClicked (object sender, System.EventArgs e)
+		{
+			
 		}
 	}
 }
