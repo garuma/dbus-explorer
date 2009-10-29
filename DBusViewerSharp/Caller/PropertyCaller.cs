@@ -57,7 +57,7 @@ namespace DBusExplorer
 			this.data = data;
 		}
 		
-		protected override void CreateMember (TypeBuilder builder)
+		protected override void CreateMember ()
 		{
 			PropertyAttributes attrs = PropertyAttributes.None;
 			
@@ -85,7 +85,7 @@ namespace DBusExplorer
 			return Parse (returnType);
 		}
 		
-		public override object Invoke (object[] ps)
+		protected override object InvokeInternal (object[] ps)
 		{
 			return callFunc (ps != null && ps.Length > 0 ? ps[0] : null);
 		}

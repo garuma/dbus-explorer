@@ -55,7 +55,7 @@ namespace DBusExplorer
 			this.data = data;
 		}
 		
-		protected override void CreateMember (TypeBuilder builder)
+		protected override void CreateMember ()
 		{	
 			MethodAttributes attrs = MethodAttributes.Abstract | MethodAttributes.Public | MethodAttributes.Virtual;
 			builder.DefineMethod (name, attrs,
@@ -82,7 +82,7 @@ namespace DBusExplorer
 				Type.EmptyTypes : argsType.Select (a => Parse(a.Type)).ToArray();
 		}
 		
-		public override object Invoke (object[] ps)
+		protected override object InvokeInternal (object[] ps)
 		{			
 			return callFunc(ps);
 		}

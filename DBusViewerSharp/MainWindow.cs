@@ -103,7 +103,7 @@ namespace DBusExplorer
 						spinner.Active = false;
 					});
 				} catch (Exception e) {
-					LoggingEventHandler (LogType.Error, "Error while retrieving bus elements", e);
+					LoggingEventHandler (LogType.Error, "Error while retrieving bus elements", e, null);
 				}
 			});
 		}	
@@ -122,13 +122,7 @@ namespace DBusExplorer
 		
 		void OnDBusError(object sender, DBusErrorEventArgs e)
 		{
-			Application.Invoke( delegate {
-				spinnerBox.HideAll();
-				spinner.Active = false;
-				MessageDialog diag = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Ok, e.ErrorMessage);
-				diag.Run();
-				diag.Destroy();
-			});
+			LoggingEventHandler (LogType.Error, e.ErrorMessage, null, null);
 		}
 		
 		void OnAvailableNamesUpdated(object sender, EventArgs e)
@@ -148,15 +142,17 @@ namespace DBusExplorer
 			}
 		}
 		
-		void LoggingEventHandler(LogType type, string message, Exception ex) {
+		void LoggingEventHandler(LogType type, string message, Exception ex, Window parent) {
 			Application.Invoke( delegate {
 				spinnerBox.HideAll();
 				spinner.Active = false;
 				string mess = ex == null ? message : 
-					message + Environment.NewLine + "Exception : " + ex.Message; 
-				MessageDialog diag = new MessageDialog(this, DialogFlags.DestroyWithParent,
-				                                       type == LogType.Error ? MessageType.Error : MessageType.Warning,
-				                                       ButtonsType.Ok, mess);
+					message + Environment.NewLine + Environment.NewLine + "<b>Exception : </b>" + ex.Message; 
+				
+				MessageDialog diag = new MessageDialog (parent == null ? this : parent,
+				                                        DialogFlags.DestroyWithParent | DialogFlags.Modal,
+				                                        type == LogType.Error ? MessageType.Error : MessageType.Warning,
+				                                        ButtonsType.Ok, mess);
 				diag.Run();
 				diag.Destroy();
 			});

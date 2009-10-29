@@ -49,7 +49,7 @@ namespace DBusExplorer
 		void SetupEvents (IBus b)
 		{
 			b.NameOwnerChanged += delegate(string name, string old_owner, string new_owner) {
-				if (string.IsNullOrEmpty (new_owner))
+				if (string.IsNullOrEmpty (new_owner) || availableBusNames == null)
 					return;
 				
 				availableBusNames.Remove (string.IsNullOrEmpty (old_owner) ?

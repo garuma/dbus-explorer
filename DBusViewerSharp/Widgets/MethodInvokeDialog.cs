@@ -1,5 +1,5 @@
 // 
-// InvokeDialog.cs
+// MethodInvokeDialog.cs
 //  
 // Author:
 //       Jérémie "Garuma" Laval <jeremie.laval@gmail.com>
@@ -32,19 +32,23 @@ using System.Linq;
 
 namespace DBusExplorer
 {
-	public partial class InvokeDialog : Gtk.Dialog
+
+	public partial class MethodInvokeDialog : Gtk.Dialog
 	{
 		MethodCaller caller;
 		Func<object>[] entries;
+		uint rowIndex;
+		Window parent;
 		
 		const string errMessage
 			= "An error occured while converting parameter, check that the type parsing is supported"; 
 		
-		public InvokeDialog (Bus bus, string busName, ObjectPath path, IElement element)
+		public MethodInvokeDialog (Window parent, Bus bus, string busName, ObjectPath path, IElement element)
+			: base (element.Name, parent, DialogFlags.DestroyWithParent | DialogFlags.Modal)
 		{
 			this.Build ();
 			this.methodName.Text = element.Name;
-			this.buttonExecute.Clicked += OnButtonExecuteActivated;
+			this.parent = parent;
 			this.ShowAll ();
 			
 			try {
@@ -52,7 +56,8 @@ namespace DBusExplorer
 				caller = new MethodCaller(bus, busName, path, element.Parent.Name,
 				                          element.Name, element.Data);
 			} catch (Exception e) {
-				Logging.Error ("Error while creating the invocation proxy", e);
+				Logging.Error ("Error while creating the invocation proxy", e, parent);
+				Console.WriteLine (e);
 				buttonExecute.Sensitive = false;
 			}
 		}
@@ -60,9 +65,14 @@ namespace DBusExplorer
 		void BuildInterface (IElement element)
 		{
 			IEnumerable<Argument> args = element.Data.Args;
+			uint count = 0;
 			
-			if (args == null)
+			if (args == null || (count = (uint)args.Count ()) == 0) {
+				argFrame.HideAll ();
 				return;
+			}
+			
+			argumentTable.Resize (count, 2);
 			
 			entries = args.Select<Argument,Func<object>>(BuildArgumentEntry).ToArray();
 		}
@@ -71,16 +81,18 @@ namespace DBusExplorer
 		{
 			Label lbl = new Label ();
 			Entry ety = new Entry ();
-			HBox box = new HBox ();
+
 			DType t = Mapper.DTypeFromString(a.Type);
 			
 			lbl.Text = string.Format ("{0} ({1}) : ", a.Name, Mapper.DTypeToStr (t));
 			
-			box.Add(lbl);
-			box.Add(ety);
-			argsVb.Add (box);
-			box.ShowAll ();
-			argsVb.ShowAll ();
+			argumentTable.Attach (lbl, 0, 1, rowIndex, rowIndex + 1);
+			argumentTable.Attach (ety, 1, 2, rowIndex, rowIndex + 1);
+			rowIndex++;
+			
+			lbl.Show ();
+			ety.Show ();
+			argumentTable.ShowAll ();
 			
 			return (Func<object>)delegate {
 				object result = Mapper.Convert(t, ety.Text);
@@ -89,7 +101,7 @@ namespace DBusExplorer
 			};
 		}
 		
-		protected virtual void OnButtonExecuteActivated (object sender, System.EventArgs e)
+		protected virtual void OnButtonExecuteClicked (object sender, System.EventArgs e)
 		{
 			object[] ps = null;
 			
@@ -97,7 +109,7 @@ namespace DBusExplorer
 				ps = (entries == null) ? null : entries
 					.Select((f) => f()).ToArray();
 			} catch (Exception ex) {
-				Logging.Error ("Parsing error, check that you entered correct values", ex);
+				Logging.Error ("Parsing error, check that you entered correct values", ex, parent);
 				return;
 			}
 			
@@ -107,10 +119,17 @@ namespace DBusExplorer
 				result = caller.Invoke (ps);
 			} catch (Exception ex) {
 				result = "Error";
-				Logging.Error ("Error while invoking method", ex);
+				Logging.Error ("Error while invoking method", ex, parent);
+				Console.WriteLine (ex);
 			}
 			
 			resultLabel.Text = result != null ? result.ToString () : "nil";
+		}
+		
+		protected virtual void OnButtonCloseClicked (object sender, System.EventArgs e)
+		{
+			HideAll ();
+			Destroy ();
 		}
 	}
 }

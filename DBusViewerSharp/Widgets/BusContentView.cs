@@ -145,19 +145,16 @@ namespace DBusExplorer
 				GenerationMenuWidget menu = null;
 				
 				switch (path.Depth) {
-				/*case 1:
-					menu = new GenerationMenuWidget((PathContainer)target);
-					break;*/
-				case 2:
-					menu = new GenerationMenuWidget((Interface)target);
-					break;
-				case 3:
-					IElement element = (IElement)target;
-					if (element.Data != null) {
-						menu = new GenerationMenuWidget(element, page.Explorator.BusUsed, 
-							                                page.CurrentSelectedBus);
-					}
-					break;
+					case 2:
+						menu = new GenerationMenuWidget (ToplevelWindow, (Interface)target);
+						break;
+					case 3:
+						IElement element = (IElement)target;
+						if (element.Data != null)
+							menu = new GenerationMenuWidget (ToplevelWindow ,element,
+							                                 page.Explorator.BusUsed, 
+							                                 page.CurrentSelectedBus);
+						break;
 				}
 				if (menu == null)
 					return base.OnButtonReleaseEvent (evnt);
@@ -169,5 +166,11 @@ namespace DBusExplorer
 			return base.OnButtonReleaseEvent (evnt);
 		}
 
+		Gtk.Window ToplevelWindow {
+			get {
+				Gtk.Window win = Toplevel as Gtk.Window;
+				return win;
+			}
+		}
 	}
 }

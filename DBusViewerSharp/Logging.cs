@@ -5,6 +5,7 @@
 // 
 
 using System;
+using Gtk;
 using System.Collections.Generic;
 
 namespace DBusExplorer
@@ -14,7 +15,7 @@ namespace DBusExplorer
 		Error
 	}
 	
-	public delegate void WatcherDelegate(LogType type, string message, Exception ex);
+	public delegate void WatcherDelegate(LogType type, string message, Exception ex, Window parent);
 	
 	public static class Logging
 	{
@@ -22,30 +23,34 @@ namespace DBusExplorer
 		
 		public static void AddWatcher(WatcherDelegate watcher)
 		{
-			watchers.Add(watcher);
+			watchers.Add (watcher);
 		}
 		
-		static void Propagate(LogType type, string message, Exception ex)
+		static void Propagate (LogType type, string message, Exception ex, Window parent)
 		{
-			watchers.ForEach(delegate (WatcherDelegate watcher) {
-				watcher(type, Mono.Unix.Catalog.GetString(type.ToString()) + 
-				        Mono.Unix.Catalog.GetString(message), ex);
+			watchers.ForEach (delegate (WatcherDelegate watcher) {
+				watcher(type, Mono.Unix.Catalog.GetString(message), ex, parent);
 			});
 		}
 		
-		public static void Warning(string message)
+		public static void Warning (string message)
 		{
-			Propagate(LogType.Warning, message, null);
+			Propagate(LogType.Warning, message, null, null);
 		}
 		
 		public static void Error (string message)
 		{
-			Propagate(LogType.Error, message, null);
+			Propagate (LogType.Error, message, null, null);
 		}
 		
-		public static void Error(string message, Exception ex)
+		public static void Error (string message, Exception ex)
 		{
-			Propagate(LogType.Error, message, ex);
+			Propagate (LogType.Error, message, ex, null);
+		}
+		
+		public static void Error (string message, Exception ex, Window parent)
+		{
+			Propagate (LogType.Error, message, ex, parent);
 		}
 	}
 }

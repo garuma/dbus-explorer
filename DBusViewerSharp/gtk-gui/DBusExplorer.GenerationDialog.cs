@@ -10,7 +10,6 @@
 
 namespace DBusExplorer {
     
-    
     public partial class GenerationDialog {
         
         private Gtk.VBox vbox2;
@@ -39,7 +38,6 @@ namespace DBusExplorer {
             this.Resizable = false;
             this.AllowGrow = false;
             this.DefaultHeight = 300;
-            this.HasSeparator = false;
             // Internal child DBusExplorer.GenerationDialog.VBox
             Gtk.VBox w1 = this.VBox;
             w1.Name = "dialog1_VBox";

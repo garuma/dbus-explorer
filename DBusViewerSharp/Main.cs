@@ -4,6 +4,7 @@
 // See COPYING file for license information.
 
 using System;
+
 using System.IO;
 using System.Diagnostics;
 
@@ -19,7 +20,7 @@ namespace DBusExplorer
 		{
 			Application.Init ();
 			BusG.Init();
-			Mono.Unix.Catalog.Init("dbus-explorer", "/usr/share/locale");
+			Mono.Unix.Catalog.Init("dbus-explorer", "/usr/share/local");
 			
 			MainWindow win = new MainWindow ();
 			

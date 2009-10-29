@@ -10,7 +10,6 @@
 
 namespace DBusExplorer {
     
-    
     public partial class LanguageWidget {
         
         private Gtk.EventBox evts;

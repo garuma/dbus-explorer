@@ -17,7 +17,8 @@ namespace DBusExplorer
 		List<IElement> elements;
 		ListStore model;
 		
-		public GenerationDialog(Interface referer)
+		public GenerationDialog(Window parent, Interface referer)
+			: base (referer.Name, parent, DialogFlags.Modal | DialogFlags.DestroyWithParent)
 		{
 			this.Build();
 			
@@ -36,6 +37,7 @@ namespace DBusExplorer
 			filter.AddPattern ("*.cs");
 			filter.Name = "C# source file";
 			filechooserwidget1.AddFilter (filter);
+			filechooserwidget1.SetCurrentFolder (Environment.GetFolderPath (Environment.SpecialFolder.Personal));			
 		}
 		
 		void SetupModel (Interface referer)

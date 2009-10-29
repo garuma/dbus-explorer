@@ -10,28 +10,15 @@ using System.IO;
 namespace DBusExplorer
 {
 	public static class LangDefinitionService
-	{
+	{		
 		static LangDefinitionPool defaultPool;
+		static string defaultPath = GetDefaultPath ();
 		
-		static LangDefinitionService()
+		static LangDefinitionService ()
 		{
-			char s = Path.DirectorySeparatorChar;
-			string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + s +
-				".dbus-explorer";
-			string path2 = path + s + "langs" + s + "csharp.lang.xml";
-			FileInfo fileInfo = new FileInfo(path2);
-			if (!fileInfo.Exists) {
-				if (!fileInfo.Directory.Exists)
-					fileInfo.Directory.Create();
-				StreamWriter sw = new StreamWriter(fileInfo.OpenWrite());
-				Type t = typeof(LangDefinitionService);
-				StreamReader sr = new StreamReader(t.Assembly.GetManifestResourceStream("csharp.lang.xml"));
-				sw.Write(sr.ReadToEnd());
-				sw.Dispose();
-				sr.Dispose();
-			}
+			InitLangDirectory ();
 			
-			defaultPool = new LangDefinitionPool(path);
+			defaultPool = new LangDefinitionPool (defaultPath);
 		}
 		
 		public static LangDefinitionPool DefaultPool {
@@ -40,5 +27,33 @@ namespace DBusExplorer
 			}
 		}
 		
+		static string GetDefaultPath ()
+		{
+			return Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.Personal),
+			                     ".dbus-explorer");
+		}
+		
+		static void InitLangDirectory ()
+		{
+			char s = Path.DirectorySeparatorChar;
+			
+			string filePath = defaultPath + s + "langs" + s + "csharp.lang.xml";
+			
+			FileInfo fileInfo = new FileInfo (filePath);
+			
+			if (fileInfo.Exists)
+				return;
+			
+			if (!fileInfo.Directory.Exists)
+				fileInfo.Directory.Create ();
+			
+			StreamWriter sw = new StreamWriter (fileInfo.OpenWrite());
+			Type t = typeof (LangDefinitionService);
+			StreamReader sr = new StreamReader (t.Assembly.GetManifestResourceStream ("csharp.lang.xml"));
+			sw.Write (sr.ReadToEnd ());
+			
+			sw.Dispose ();
+			sr.Dispose ();
+		}
 	}
 }

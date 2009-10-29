@@ -42,7 +42,7 @@ namespace DBusExplorer
 		static readonly ParserNg<Type> parser = new ParserNg<Type> ();
 		static int id = int.MinValue;
 		
-		TypeBuilder builder;
+		protected TypeBuilder builder;
 		readonly string iname;
 		
 		static ModuleBuilder mb;
@@ -71,15 +71,19 @@ namespace DBusExplorer
 			builder.SetCustomAttribute (new CustomAttributeBuilder (ci, new object [] { iname }));
 		}
 		
+		public object Invoke (object[] ps)
+		{
+			CreateMember ();
+			return InvokeInternal (ps);
+		}
+		
 		protected Type Parse (string type)
 		{
 			Type t = parser.ParseDBusTypeExpression (type, visitor);
 			return t;
 		}
 		
-		protected abstract void CreateMember (TypeBuilder builder);
-		
-		public abstract object Invoke (object[] ps);
-		
+		protected abstract void CreateMember ();
+		protected abstract object InvokeInternal (object[] ps);
 	}
 }

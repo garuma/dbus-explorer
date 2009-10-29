@@ -10,7 +10,6 @@
 
 namespace DBusExplorer {
     
-    
     public partial class BusPageWidget {
         
         private Gtk.VBox vbox3;
