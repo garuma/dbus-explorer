@@ -19,8 +19,7 @@ namespace DBusExplorer
 		static readonly string DBusName = "org.freedesktop.DBus";
 		static readonly ObjectPath DBusPath = new ObjectPath ("/org/freedesktop/DBus");
 		static readonly string rootPath = "/";
-		public static readonly DBusExplorator sessionExplorator = new DBusExplorator();
-		public static readonly DBusExplorator systemExplorator = new DBusExplorator(Bus.System);
+
 		static ElementFactory elementFactory 
 			= new ElementFactory(LangDefinitionService.DefaultPool.Languages.Values);
 		
@@ -83,13 +82,13 @@ namespace DBusExplorer
 
 		public static DBusExplorator SessionExplorator {
 			get {
-				return sessionExplorator;
+				return new DBusExplorator ();
 			}
 		}
 
 		public static DBusExplorator SystemExplorator {
 			get {
-				return systemExplorator;
+				return new DBusExplorator (Bus.System);
 			}
 		}
 		

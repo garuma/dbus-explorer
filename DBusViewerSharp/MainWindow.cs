@@ -25,10 +25,6 @@ namespace DBusExplorer
 		{
 			Logging.AddWatcher(LoggingEventHandler);
 			this.DeleteEvent += OnDeleteEvent;
-			DBusExplorator.SessionExplorator.DBusError += OnDBusError;
-			DBusExplorator.SessionExplorator.AvailableNamesUpdated += OnAvailableNamesUpdated;
-			DBusExplorator.SystemExplorator.DBusError += OnDBusError;
-			DBusExplorator.SystemExplorator.AvailableNamesUpdated += OnAvailableNamesUpdated;
 		
 			// Graphical setup
 			Build ();
@@ -85,17 +81,18 @@ namespace DBusExplorer
 			DBusExplorator explorator = currentPageWidget.Explorator;
 			TabWidget tab = this.currentPageWidget.Tab;
 			tab.TabName = busName;
-			
 			view.Reinitialize();
 			
-			spinnerBox.ShowAll();
+			/*spinnerBox.ShowAll();
 			spinner.Active = true;
 		
 			explorator.BeginGetElementsFromBus(busName, delegate (IAsyncResult result) {
 				try {
 					IEnumerable<PathContainer> elements = explorator.EndGetElementsFromBus(result);
 					Application.Invoke(delegate {
+						view.Reinitialize();
 						foreach (PathContainer path in elements) {
+							Console.WriteLine ("Viewing " + path.Path);
 							view.AddPath(path);
 						}
 						
@@ -105,17 +102,24 @@ namespace DBusExplorer
 				} catch (Exception e) {
 					LoggingEventHandler (LogType.Error, "Error while retrieving bus elements", e, null);
 				}
-			});
+			});*/
+			try {
+				IEnumerable<PathContainer> elements = explorator.GetElementsFromBus (busName);
+				foreach (PathContainer path in elements) {
+					view.AddPath(path);
+				}
+			} catch (Exception e) {
+				LoggingEventHandler (LogType.Error, "Error while retrieving bus elements", e, null);
+			}
 		}	
 		
 		void ReinitBus (DBusExplorator exp)
 		{
 			this.currentPageWidget.Explorator = exp;
-			// If it's a custom bus
-			if (exp != DBusExplorator.SessionExplorator && exp != DBusExplorator.SystemExplorator) {
-				exp.DBusError += OnDBusError;
-				exp.AvailableNamesUpdated += OnAvailableNamesUpdated;
-			}
+			
+			exp.DBusError += OnDBusError;
+			exp.AvailableNamesUpdated += OnAvailableNamesUpdated;
+			
 			currentPageWidget.BusContent.Reinitialize ();
 			FeedBusComboBox(exp.AvailableBusNames);
 		}
