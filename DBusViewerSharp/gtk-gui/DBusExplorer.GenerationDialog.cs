@@ -10,6 +10,7 @@
 
 namespace DBusExplorer {
     
+    
     public partial class GenerationDialog {
         
         private Gtk.VBox vbox2;

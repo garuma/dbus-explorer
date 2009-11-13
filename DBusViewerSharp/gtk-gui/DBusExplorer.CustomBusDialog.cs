@@ -10,6 +10,7 @@
 
 namespace DBusExplorer {
     
+    
     public partial class CustomBusDialog {
         
         private Gtk.HBox hbox3;

@@ -10,6 +10,7 @@
 
 namespace DBusExplorer {
     
+    
     public partial class InformationView {
         
         private Gtk.Expander expander2;

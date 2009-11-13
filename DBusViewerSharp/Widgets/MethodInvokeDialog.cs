@@ -49,6 +49,7 @@ namespace DBusExplorer
 			this.Build ();
 			this.methodName.Text = element.Name;
 			this.parent = parent;
+			this.TransientFor = parent;
 			this.ShowAll ();
 			
 			try {

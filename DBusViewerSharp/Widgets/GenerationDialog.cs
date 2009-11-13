@@ -20,6 +20,7 @@ namespace DBusExplorer
 		public GenerationDialog(Window parent, Interface referer)
 			: base (referer.Name, parent, DialogFlags.Modal | DialogFlags.DestroyWithParent)
 		{
+			this.TransientFor = parent;
 			this.Build();
 			
 			elements = new List<IElement> (referer.Symbols);

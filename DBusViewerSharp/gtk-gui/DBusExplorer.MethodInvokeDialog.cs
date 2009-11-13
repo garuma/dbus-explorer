@@ -10,6 +10,7 @@
 
 namespace DBusExplorer {
     
+    
     public partial class MethodInvokeDialog {
         
         private Gtk.Alignment alignment2;

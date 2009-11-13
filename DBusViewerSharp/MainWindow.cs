@@ -198,7 +198,7 @@ namespace DBusExplorer
 
 		protected virtual void OnCustomBusActivated (object sender, System.EventArgs e)
 		{
-			CustomBusDialog d = new CustomBusDialog();
+			CustomBusDialog d = new CustomBusDialog(this);
 			d.ShowAll();
 			if (d.Run() == (int)ResponseType.Ok) {
 				if (!string.IsNullOrEmpty(d.RequestedBus))

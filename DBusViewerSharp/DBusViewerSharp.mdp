@@ -69,6 +69,7 @@
     <File subtype="Code" buildaction="Compile" name="Representation/Element.cs" />
     <File subtype="Code" buildaction="Compile" name="Caller/BaseCaller.cs" />
     <File subtype="Code" buildaction="Compile" name="Caller/PropertyCaller.cs" />
+    <File subtype="Code" buildaction="Compile" name="Widgets/MethodInvokeDialog.cs" />
     <File subtype="Code" buildaction="EmbedAsResource" name="gtk-gui/gui.stetic" />
     <File subtype="Code" buildaction="Compile" name="gtk-gui/generated.cs" />
     <File subtype="Code" buildaction="Compile" name="gtk-gui/DBusExplorer.MainWindow.cs" />
@@ -78,7 +79,6 @@
     <File subtype="Code" buildaction="Compile" name="gtk-gui/DBusExplorer.InformationView.cs" />
     <File subtype="Code" buildaction="Compile" name="gtk-gui/DBusExplorer.GenerationDialog.cs" />
     <File subtype="Code" buildaction="Compile" name="gtk-gui/DBusExplorer.MethodInvokeDialog.cs" />
-    <File subtype="Code" buildaction="Compile" name="Widgets/MethodInvokeDialog.cs" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
@@ -87,10 +87,10 @@
     <ProjectReference type="Gac" localcopy="True" refto="NDesk.DBus.GLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099" />
     <ProjectReference type="Gac" localcopy="True" refto="System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <ProjectReference type="Gac" localcopy="True" refto="NDesk.DBus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099" />
-    <ProjectReference type="Gac" localcopy="True" refto="glib-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <ProjectReference type="Gac" localcopy="True" refto="gtk-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <ProjectReference type="Gac" localcopy="True" refto="gdk-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <ProjectReference type="Gac" localcopy="True" refto="pango-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </References>
   <LanguageParameters ApplicationIcon="." ctype="CSharpProjectParameters" />
   <Deployment.LinuxDeployData scriptName="dbus-explorer" />

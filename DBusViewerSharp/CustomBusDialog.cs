@@ -5,14 +5,17 @@
 // 
 
 using System;
+using Gtk;
 
 namespace DBusExplorer
 {
 	public partial class CustomBusDialog : Gtk.Dialog
 	{
 		
-		public CustomBusDialog()
+		public CustomBusDialog (Window parent)
+			: base ("Custom bus", parent, DialogFlags.DestroyWithParent | DialogFlags.Modal)
 		{
+			this.TransientFor = parent;
 			this.Build();
 		}
 		
