@@ -86,6 +86,7 @@ namespace DBusExplorer
 			DType t = Mapper.DTypeFromString(a.Type);
 			
 			lbl.Text = string.Format ("{0} ({1}) : ", a.Name, Mapper.DTypeToStr (t));
+			lbl.Xalign = 0;
 			
 			argumentTable.Attach (lbl, 0, 1, rowIndex, rowIndex + 1);
 			argumentTable.Attach (ety, 1, 2, rowIndex, rowIndex + 1);
