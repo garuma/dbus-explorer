@@ -1,4 +1,4 @@
-<Combine fileversion="2.0" description="D-Bus Explorer is a GTK+ application written in C# which use NDesk’s managed D-Bus library to display the API of D-Bus services. In summary, it’s a clone of dbus-viewer with a GTK+ interface." name="DBus-Explorer" releaseversion="0.5" deployversion="0.5">
+<Combine fileversion="2.0" description="D-Bus Explorer is a GTK+ application written in C# which use NDesk’s managed D-Bus library to display the API of D-Bus services. In summary, it’s a clone of dbus-viewer with a GTK+ interface." version="0.6" name="DBus-Explorer" releaseversion="0.5" deployversion="0.5">
   <Policies>
     <ChangeLogPolicy UpdateMode="Nearest" inheritsSet="Mono">
       <MessageStyle LineAlign="0" />

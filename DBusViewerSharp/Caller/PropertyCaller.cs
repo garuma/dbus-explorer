@@ -34,8 +34,6 @@ using NDesk.DBus;
 
 namespace DBusExplorer
 {
-	
-	
 	public class PropertyCaller : BaseCaller
 	{
 		Bus bus;

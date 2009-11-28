@@ -83,26 +83,6 @@ namespace DBusExplorer
 			tab.TabName = busName;
 			view.Reinitialize();
 			
-			/*spinnerBox.ShowAll();
-			spinner.Active = true;
-		
-			explorator.BeginGetElementsFromBus(busName, delegate (IAsyncResult result) {
-				try {
-					IEnumerable<PathContainer> elements = explorator.EndGetElementsFromBus(result);
-					Application.Invoke(delegate {
-						view.Reinitialize();
-						foreach (PathContainer path in elements) {
-							Console.WriteLine ("Viewing " + path.Path);
-							view.AddPath(path);
-						}
-						
-						spinnerBox.HideAll();
-						spinner.Active = false;
-					});
-				} catch (Exception e) {
-					LoggingEventHandler (LogType.Error, "Error while retrieving bus elements", e, null);
-				}
-			});*/
 			try {
 				IEnumerable<PathContainer> elements = explorator.GetElementsFromBus (busName);
 				foreach (PathContainer path in elements) {
@@ -190,7 +170,7 @@ namespace DBusExplorer
 			ad.Authors = new string[] { "Jérémie \"Garuma\" Laval" };
 			ad.Copyright = "Copyright (c) 2007-2009 Jérémie Laval <jeremie.laval@gmail.com>";
 			ad.License = "See the COPYING file";
-			ad.Version = "0.5";
+			ad.Version = "0.6";
 		
 			ad.Run();
 			ad.Destroy();

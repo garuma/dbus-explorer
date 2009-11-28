@@ -1,4 +1,4 @@
-<CombineEntry name="DBusViewerSharpTranslation" fileversion="2.0" packageName="dbus-explorer" outputType="SystemPath" absPath="" ctype="TranslationProject">
+<CombineEntry name="DBusViewerSharpTranslation" fileversion="2.0" releaseVersion="0.6" packageName="dbus-explorer" outputType="SystemPath" absPath="" ctype="TranslationProject">
   <translations>
     <Translation isoCode="fr" />
   </translations>

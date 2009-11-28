@@ -1,4 +1,4 @@
-<Project name="DBus-Explorer" fileversion="2.0" description="D-Bus Explorer is a GTK+ application written in C# which use NDesk’s managed D-Bus library to display the API of D-Bus services. In summary, it’s a clone of dbus-viewer with a GTK+ interface. " DefaultNamespace="DBusExplorer" language="C#" UseParentDirectoryAsNamespace="True" clr-version="Net_2_0" targetFramework="3.5" ctype="DotNetProject">
+<Project name="DBus-Explorer" fileversion="2.0" releaseVersion="0.6" description="D-Bus Explorer is a GTK+ application written in C# which use NDesk’s managed D-Bus library to display the API of D-Bus services. In summary, it’s a clone of dbus-viewer with a GTK+ interface. " DefaultNamespace="DBusExplorer" language="C#" UseParentDirectoryAsNamespace="True" clr-version="Net_2_0" targetFramework="3.5" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="bin/Debug" assembly="DBusExplorer" assemblyKeyFile="/home/jeremie/Projects/DbusViewerSharp/DBusViewerSharp/DBusViewerSharp/." />
