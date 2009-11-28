@@ -1405,6 +1405,8 @@
   <widget class="Gtk.Dialog" id="DBusExplorer.MethodInvokeDialog" design-size="400 189">
     <property name="MemberName" />
     <property name="WindowPosition">CenterOnParent</property>
+    <property name="Resizable">False</property>
+    <property name="AllowGrow">False</property>
     <property name="Buttons">2</property>
     <property name="HelpButton">False</property>
     <child internal-child="VBox">
@@ -1416,7 +1418,7 @@
             <property name="MemberName" />
             <property name="BorderWidth">10</property>
             <child>
-              <widget class="Gtk.VBox" id="vbox2">
+              <widget class="Gtk.VBox" id="containerVbox">
                 <property name="MemberName" />
                 <property name="Spacing">6</property>
                 <child>
@@ -1431,7 +1433,7 @@
                         <child>
                           <widget class="Gtk.Label" id="label1">
                             <property name="MemberName" />
-                            <property name="LabelProp" translatable="yes">&lt;b&gt;Method Name : &lt;/b&gt;</property>
+                            <property name="LabelProp" translatable="yes">&lt;b&gt;Method name : &lt;/b&gt;</property>
                             <property name="UseMarkup">True</property>
                           </widget>
                           <packing>
@@ -1469,11 +1471,12 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="Gtk.Alignment" id="alignment3">
+                  <widget class="Gtk.Alignment" id="argAlign">
                     <property name="MemberName" />
                     <child>
                       <widget class="Gtk.Frame" id="argFrame">
                         <property name="MemberName" />
+                        <property name="Visible">False</property>
                         <property name="ShadowType">None</property>
                         <child>
                           <widget class="Gtk.Alignment" id="GtkAlignment2">
@@ -1534,7 +1537,7 @@
                         <child>
                           <widget class="Gtk.Label" id="label3">
                             <property name="MemberName" />
-                            <property name="LabelProp" translatable="yes">&lt;b&gt;Return Value :&lt;/b&gt;</property>
+                            <property name="LabelProp" translatable="yes">&lt;b&gt;Return value :&lt;/b&gt;</property>
                             <property name="UseMarkup">True</property>
                           </widget>
                           <packing>

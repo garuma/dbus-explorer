@@ -15,7 +15,7 @@ namespace DBusExplorer {
         
         private Gtk.Alignment alignment2;
         
-        private Gtk.VBox vbox2;
+        private Gtk.VBox containerVbox;
         
         private Gtk.Alignment alignment4;
         
@@ -27,7 +27,7 @@ namespace DBusExplorer {
         
         private Gtk.Label methodName;
         
-        private Gtk.Alignment alignment3;
+        private Gtk.Alignment argAlign;
         
         private Gtk.Frame argFrame;
         
@@ -58,6 +58,8 @@ namespace DBusExplorer {
             // Widget DBusExplorer.MethodInvokeDialog
             this.Name = "DBusExplorer.MethodInvokeDialog";
             this.WindowPosition = ((Gtk.WindowPosition)(4));
+            this.Resizable = false;
+            this.AllowGrow = false;
             // Internal child DBusExplorer.MethodInvokeDialog.VBox
             Gtk.VBox w1 = this.VBox;
             w1.Name = "dialog1_VBox";
@@ -67,10 +69,10 @@ namespace DBusExplorer {
             this.alignment2.Name = "alignment2";
             this.alignment2.BorderWidth = ((uint)(10));
             // Container child alignment2.Gtk.Container+ContainerChild
-            this.vbox2 = new Gtk.VBox();
-            this.vbox2.Name = "vbox2";
-            this.vbox2.Spacing = 6;
-            // Container child vbox2.Gtk.Box+BoxChild
+            this.containerVbox = new Gtk.VBox();
+            this.containerVbox.Name = "containerVbox";
+            this.containerVbox.Spacing = 6;
+            // Container child containerVbox.Gtk.Box+BoxChild
             this.alignment4 = new Gtk.Alignment(0.5F, 0.5F, 1F, 1F);
             this.alignment4.Name = "alignment4";
             this.alignment4.LeftPadding = ((uint)(5));
@@ -82,7 +84,7 @@ namespace DBusExplorer {
             // Container child hbox2.Gtk.Box+BoxChild
             this.label1 = new Gtk.Label();
             this.label1.Name = "label1";
-            this.label1.LabelProp = Mono.Unix.Catalog.GetString("<b>Method Name : </b>");
+            this.label1.LabelProp = Mono.Unix.Catalog.GetString("<b>Method name : </b>");
             this.label1.UseMarkup = true;
             this.hbox2.Add(this.label1);
             Gtk.Box.BoxChild w2 = ((Gtk.Box.BoxChild)(this.hbox2[this.label1]));
@@ -103,15 +105,15 @@ namespace DBusExplorer {
             w4.Expand = false;
             w4.Fill = false;
             this.alignment4.Add(this.hbox2);
-            this.vbox2.Add(this.alignment4);
-            Gtk.Box.BoxChild w6 = ((Gtk.Box.BoxChild)(this.vbox2[this.alignment4]));
+            this.containerVbox.Add(this.alignment4);
+            Gtk.Box.BoxChild w6 = ((Gtk.Box.BoxChild)(this.containerVbox[this.alignment4]));
             w6.Position = 0;
             w6.Expand = false;
             w6.Fill = false;
-            // Container child vbox2.Gtk.Box+BoxChild
-            this.alignment3 = new Gtk.Alignment(0.5F, 0.5F, 1F, 1F);
-            this.alignment3.Name = "alignment3";
-            // Container child alignment3.Gtk.Container+ContainerChild
+            // Container child containerVbox.Gtk.Box+BoxChild
+            this.argAlign = new Gtk.Alignment(0.5F, 0.5F, 1F, 1F);
+            this.argAlign.Name = "argAlign";
+            // Container child argAlign.Gtk.Container+ContainerChild
             this.argFrame = new Gtk.Frame();
             this.argFrame.Name = "argFrame";
             this.argFrame.ShadowType = ((Gtk.ShadowType)(0));
@@ -136,11 +138,11 @@ namespace DBusExplorer {
             this.GtkLabel2.LabelProp = Mono.Unix.Catalog.GetString("<b>Arguments</b>");
             this.GtkLabel2.UseMarkup = true;
             this.argFrame.LabelWidget = this.GtkLabel2;
-            this.alignment3.Add(this.argFrame);
-            this.vbox2.Add(this.alignment3);
-            Gtk.Box.BoxChild w11 = ((Gtk.Box.BoxChild)(this.vbox2[this.alignment3]));
+            this.argAlign.Add(this.argFrame);
+            this.containerVbox.Add(this.argAlign);
+            Gtk.Box.BoxChild w11 = ((Gtk.Box.BoxChild)(this.containerVbox[this.argAlign]));
             w11.Position = 1;
-            // Container child vbox2.Gtk.Box+BoxChild
+            // Container child containerVbox.Gtk.Box+BoxChild
             this.alignment7 = new Gtk.Alignment(0.5F, 0.5F, 1F, 1F);
             this.alignment7.Name = "alignment7";
             this.alignment7.LeftPadding = ((uint)(5));
@@ -153,7 +155,7 @@ namespace DBusExplorer {
             // Container child hbox3.Gtk.Box+BoxChild
             this.label3 = new Gtk.Label();
             this.label3.Name = "label3";
-            this.label3.LabelProp = Mono.Unix.Catalog.GetString("<b>Return Value :</b>");
+            this.label3.LabelProp = Mono.Unix.Catalog.GetString("<b>Return value :</b>");
             this.label3.UseMarkup = true;
             this.hbox3.Add(this.label3);
             Gtk.Box.BoxChild w12 = ((Gtk.Box.BoxChild)(this.hbox3[this.label3]));
@@ -173,12 +175,12 @@ namespace DBusExplorer {
             w14.Expand = false;
             w14.Fill = false;
             this.alignment7.Add(this.hbox3);
-            this.vbox2.Add(this.alignment7);
-            Gtk.Box.BoxChild w16 = ((Gtk.Box.BoxChild)(this.vbox2[this.alignment7]));
+            this.containerVbox.Add(this.alignment7);
+            Gtk.Box.BoxChild w16 = ((Gtk.Box.BoxChild)(this.containerVbox[this.alignment7]));
             w16.Position = 2;
             w16.Expand = false;
             w16.Fill = false;
-            this.alignment2.Add(this.vbox2);
+            this.alignment2.Add(this.containerVbox);
             w1.Add(this.alignment2);
             Gtk.Box.BoxChild w18 = ((Gtk.Box.BoxChild)(w1[this.alignment2]));
             w18.Position = 0;
@@ -218,6 +220,7 @@ namespace DBusExplorer {
             }
             this.DefaultWidth = 400;
             this.DefaultHeight = 189;
+            this.argFrame.Hide();
             this.Show();
             this.buttonExecute.Clicked += new System.EventHandler(this.OnButtonExecuteClicked);
             this.buttonClose.Clicked += new System.EventHandler(this.OnButtonCloseClicked);

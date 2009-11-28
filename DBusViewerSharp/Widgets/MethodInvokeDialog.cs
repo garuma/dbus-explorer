@@ -47,10 +47,10 @@ namespace DBusExplorer
 			: base (element.Name, parent, DialogFlags.DestroyWithParent | DialogFlags.Modal)
 		{
 			this.Build ();
+			this.SetDefaultSize (-1, -1);
 			this.methodName.Text = element.Name;
 			this.parent = parent;
 			this.TransientFor = parent;
-			this.ShowAll ();
 			
 			try {
 				BuildInterface (element);
@@ -61,6 +61,9 @@ namespace DBusExplorer
 				Console.WriteLine (e);
 				buttonExecute.Sensitive = false;
 			}
+			
+			this.ShowAll ();
+			
 		}
 		
 		void BuildInterface (IElement element)
@@ -69,10 +72,13 @@ namespace DBusExplorer
 			uint count = 0;
 			
 			if (args == null || (count = (uint)args.Count ()) == 0) {
+				argAlign.HideAll ();
 				argFrame.HideAll ();
+				containerVbox.Remove (argAlign);
 				return;
 			}
 			
+			argAlign.ShowAll ();
 			argumentTable.Resize (count, 2);
 			
 			entries = args.Select<Argument,Func<object>>(BuildArgumentEntry).ToArray();
