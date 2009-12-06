@@ -44,6 +44,7 @@ namespace DBusExplorer
 		
 		protected TypeBuilder builder;
 		readonly string iname;
+		bool memberCreated;
 		
 		static ModuleBuilder mb;
 		static System.Reflection.ConstructorInfo ci
@@ -73,7 +74,10 @@ namespace DBusExplorer
 		
 		public object Invoke (object[] ps)
 		{
-			CreateMember ();
+			if (!memberCreated) {
+				CreateMember ();
+				memberCreated = true;
+			}
 			return InvokeInternal (ps);
 		}
 		
