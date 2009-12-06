@@ -5,6 +5,8 @@
 		<map src="Int64" to="long" />
 		<map src="UInt32" to="uint" />
 		<map src="UInt64" to="ulong" />
+		<map src="Int16" to="short" />
+		<map src="UInt16" to="ushort" />
 		<map src="Single" to="float" />
 		<map src="Double" to="double" />
 		<map src="String" to="string" />
