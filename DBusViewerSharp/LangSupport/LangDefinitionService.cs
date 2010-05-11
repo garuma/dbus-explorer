@@ -29,7 +29,7 @@ namespace DBusExplorer
 		
 		static string GetDefaultPath ()
 		{
-			return Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.Personal),
+			return Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData),
 			                     ".dbus-explorer");
 		}
 		

@@ -14,7 +14,7 @@
 		<map src="Boolean" to="bool" />
 		<map src="Void"    to="void" />
 		<map src="ObjectPath" to="ObjectPath" />
-		<map src="Object" to="Object" />
+		<map src="Signature" to="Signature" />
 	</types>
 	
 	<syntax>
