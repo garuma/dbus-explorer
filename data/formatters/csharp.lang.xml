@@ -13,13 +13,15 @@
 		<map src="Variant" to="object" />
 		<map src="Boolean" to="bool" />
 		<map src="Void"    to="void" />
+		<map src="ObjectPath" to="ObjectPath" />
+		<map src="Object" to="Object" />
 	</types>
 	
 	<syntax>
 		<method general="%{return} %{name}(%{args});">
 			<arguments accumulator=", " start="" end="" general="%{type} %{name}" />
 		</method>
-		<event general="event EventHandler&lt;%{types}&gt; %{name};" >
+		<event general="event Action&lt;%{types}&gt; %{name};" >
 			<arguments accumulator=", " start="" end="" general="%{type}" />
 		</event>
 		<property read="%{type} %{name} { get; }" write="%{type} %{name} { set; }" readwrite="%{type} %{name} { get; set; }" />
