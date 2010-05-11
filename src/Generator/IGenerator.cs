@@ -13,8 +13,8 @@ namespace DBusExplorer
 {
 	public interface IGenerator
 	{
-		void Generate(Interface @interface, string path);
-		void Generate(PathContainer path, string file_path);
-		void Generate(IEnumerable<IElement> elements, string path);
+		string Generate(Interface @interface);
+		string Generate(PathContainer path);
+		string Generate(IEnumerable<IElement> elements);
 	}
 }

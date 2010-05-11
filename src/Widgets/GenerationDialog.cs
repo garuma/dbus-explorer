@@ -10,35 +10,26 @@ using Gtk;
 
 namespace DBusExplorer
 {
-	
-	
 	public partial class GenerationDialog : Gtk.Dialog
-	{	
+	{
+		Func<IEnumerable<IElement>, string> renderer;
 		List<IElement> elements;
 		ListStore model;
+		int selectedCount;
 		
-		public GenerationDialog(Window parent, Interface referer)
+		public GenerationDialog(Window parent, Interface referer, Func<IEnumerable<IElement>, string> renderer)
 			: base (referer.Name, parent, DialogFlags.Modal | DialogFlags.DestroyWithParent)
 		{
 			this.TransientFor = parent;
 			this.Build();
 			
+			this.renderer = renderer;
 			elements = new List<IElement> (referer.Symbols);
 			model = new ListStore (typeof (bool), typeof (string), typeof (IElement));
 			selectionTv.Model = model;
 			
-			SetupFileWidget ();
 			SetupModel (referer);
 			SetupTreeview ();			
-		}
-		
-		void SetupFileWidget ()
-		{
-			FileFilter filter = new FileFilter();
-			filter.AddPattern ("*.cs");
-			filter.Name = "C# source file";
-			filechooserwidget1.AddFilter (filter);
-			filechooserwidget1.SetCurrentFolder (Environment.GetFolderPath (Environment.SpecialFolder.Personal));			
 		}
 		
 		void SetupModel (Interface referer)
@@ -46,6 +37,9 @@ namespace DBusExplorer
 			foreach (IElement elem in referer.Symbols) {
 				model.AppendValues (true, elem.Name, elem);
 			}
+			
+			selectedCount = model.IterNChildren ();
+			countLabel.Text = selectedCount.ToString ();
 		}
 		
 		void SetupTreeview ()
@@ -61,27 +55,51 @@ namespace DBusExplorer
 				bool oldValue = (bool)model.GetValue (iter, 0);
 				
 				if (oldValue) {
+					countLabel.Text = (--selectedCount).ToString ();
 					elements.Remove (e);
 				} else {
+					countLabel.Text = (++selectedCount).ToString ();
 					elements.Add (e);
 				}
 				
 				model.SetValue (iter, 0, !oldValue);
+				codeTextView.Buffer.Text = renderer (elements);
 			};
 			selectionTv.AppendColumn (string.Empty, crToggle, "active", 0);
 			selectionTv.AppendColumn ("Name", new CellRendererText (), "text", 1);
 		}
 		
-		public IEnumerable<IElement> Selected {
-			get {
-				return elements.AsReadOnly ();
-			}
+		protected virtual void OnSelectAllButtonClicked (object sender, System.EventArgs e)
+		{
+			SelectChange (true);
 		}
 		
-		public string PathToSave {
-			get {
-				return filechooserwidget1.Filename;
+		protected virtual void OnUnselectAllButtonClicked (object sender, System.EventArgs e)
+		{
+			SelectChange (false);
+		}
+		
+		void SelectChange (bool setSelect)
+		{
+			foreach (object[] row in model) {
+				CellRendererToggle crToggle = row[0] as CellRendererToggle;
+				if (crToggle == null)
+					continue;
+				if (crToggle.Active && !setSelect) {
+					crToggle.Active = false;
+				} else if (!crToggle.Active && setSelect) {
+					crToggle.Active = true;
+				}
 			}
+		}	
+		
+		protected virtual void OnClipboardCopyClicked (object sender, System.EventArgs e)
+		{
+			Clipboard clipboard = Clipboard.Get (Gdk.Atom.Intern ("CLIPBOARD", true));
+			if (clipboard == null)
+				return;
+			
+			clipboard.Text = codeTextView.Buffer.Text;
 		}
 	}
 }

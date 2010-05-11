@@ -50,7 +50,7 @@ namespace DBusExplorer
 			}
 		}
 		
-		public void Generate (Interface @interface, string path)
+		public string Generate (Interface @interface)
 		{
 			CodeTypeDeclaration type = GenerateCodeDom(@interface);
 			PopulateWithElements (@interface.Symbols, type);
@@ -59,21 +59,26 @@ namespace DBusExplorer
 			sb.AppendLine();
 			provider.GenerateCodeFromType(type, new StringWriter(sb), opt);
 			sb.AppendLine();
-			File.AppendAllText(path, sb.ToString());
+			
+			return sb.ToString ();
 		}
 
-		public void Generate (PathContainer path, string file_path)
+		public string Generate (PathContainer path)
 		{
+			StringBuilder sb = new StringBuilder ();
+			
 			foreach (Interface inter in path.Interfaces) {
-				Generate(inter, file_path);
+				sb.AppendLine (Generate (inter));
 			}
+			
+			return sb.ToString ();
 		}
 
-		public void Generate (IEnumerable<IElement> elements, string path)
+		public string Generate (IEnumerable<IElement> elements)
 		{
 			IElement elem = elements.FirstOrDefault ();
 			if (elem == null)
-				return;
+				return string.Empty;
 			
 			CodeTypeDeclaration type = GenerateCodeDom(elem.Parent);
 			PopulateWithElements (elements, type);
@@ -82,7 +87,8 @@ namespace DBusExplorer
 			sb.AppendLine();
 			provider.GenerateCodeFromType(type, new StringWriter(sb), opt);
 			sb.AppendLine();
-			File.AppendAllText(path, sb.ToString());
+			
+			return sb.ToString ();
 		}
 	}
 }

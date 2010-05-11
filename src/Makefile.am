@@ -69,7 +69,7 @@ FILES = \
 	./LangSupport/LangDefinition.cs \
 	./LangSupport/ILangDefinition.cs \
 	./LangSupport/LangDefinitionService.cs \
-	./Logging.cs \
+	./Base/Logging.cs \
 	./gtk-gui/DBusExplorer.MainWindow.cs \
 	./gtk-gui/DBusExplorer.LanguageWidget.cs \
 	./gtk-gui/DBusExplorer.InformationView.cs \
@@ -78,17 +78,17 @@ FILES = \
 	./gtk-gui/DBusExplorer.GenerationDialog.cs \
 	./gtk-gui/DBusExplorer.MethodInvokeDialog.cs \
 	./gtk-gui/DBusExplorer.BusPageWidget.cs \
-	./MainWindow.cs \
-	./AssemblyInfo.cs \
+	./Base/MainWindow.cs \
+	./Base/AssemblyInfo.cs \
 	./Parser/Parser.cs \
 	./Parser/TextVisitors/LangDefVisitor.cs \
 	./Parser/ParserNg.cs \
 	./Parser/Mapper.cs \
 	./Parser/IParserVisitor.cs \
-	./Main.cs \
-	./DBusExplorator.cs \
-	./CustomBusDialog.cs \
-	./Common.cs \
+	./Base/Main.cs \
+	./Base/DBusExplorator.cs \
+	./Base/CustomBusDialog.cs \
+	./Base/Common.cs \
 	./Representation/PathContainer.cs \
 	./Representation/ElementFactory.cs \
 	./Representation/IElement.cs \

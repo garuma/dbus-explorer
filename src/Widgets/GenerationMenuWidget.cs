@@ -6,6 +6,8 @@
 
 using System;
 using System.IO;
+using System.Collections.Generic;
+
 using Gtk;
 
 using NDesk.DBus;
@@ -34,23 +36,24 @@ namespace DBusExplorer
 		public GenerationMenuWidget (Window parent, Interface referer)
 		{
 			MenuItem path = new MenuItem("Generate " + referer.Name + "...");
-			path.Activated += delegate {
-				GenerationDialog d = new GenerationDialog (parent, referer);
-				d.Modal = true;
-				if (d.Run() == (int)ResponseType.Ok) {
-					IGenerator generator = new CSharpCodeDomGenerator();
-					string p = d.PathToSave;
-					if (!p.EndsWith (".cs"))
-						p += ".cs";
-					
-					try {
-						generator.Generate(d.Selected, p);
-					} catch (Exception e) {
-						Logging.Error ("Error during generation", e, parent);
-					}
+			
+			IGenerator generator = new CSharpCodeDomGenerator();
+			Func<IEnumerable<IElement>, string> renderer = (elements) => {
+				try {
+					return generator.Generate(elements);
+				} catch (Exception e) {
+					Logging.Error ("Error during generation", e, parent);
+					return string.Empty;
 				}
+			};
+			
+			path.Activated += delegate {
+				GenerationDialog d = new GenerationDialog (parent, referer, renderer);
+				d.Modal = true;
+				d.Run ();
 				d.Destroy();
 			};
+			
 			this.Append(path);
 			path.ShowAll();
 		}

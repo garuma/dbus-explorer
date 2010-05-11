@@ -53,9 +53,9 @@ dnl package checks, per config
 
 
 AC_CONFIG_FILES([
-DBusViewerSharp/Makefile
+src/Makefile
 Makefile
-DBusViewerSharp/dbus-explorer
+src/dbus-explorer
 
 ])
 
