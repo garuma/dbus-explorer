@@ -51,14 +51,17 @@ FILES = \
 	./Caller/BaseCaller.cs \
 	./Caller/ReflectionVisitor.cs \
 	./Caller/MethodCaller.cs \
+	./Caller/Json.cs \
 	./Caller/InvocationData.cs \
 	./Caller/PropertyCaller.cs \
+	./Caller/JsonChecker.cs \
 	./Widgets/ImageAnimation.cs \
 	./Widgets/TabWidget.cs \
 	./Widgets/InformationView.cs \
 	./Widgets/BusContentView.cs \
 	./Widgets/LanguageWidget.cs \
 	./Widgets/BusPageWidget.cs \
+	./Widgets/PropertyInvokeDialog.cs \
 	./Widgets/GenerationMenuWidget.cs \
 	./Widgets/MethodInvokeDialog.cs \
 	./Widgets/GenerationDialog.cs \
@@ -69,7 +72,6 @@ FILES = \
 	./LangSupport/LangDefinition.cs \
 	./LangSupport/ILangDefinition.cs \
 	./LangSupport/LangDefinitionService.cs \
-	./Base/Logging.cs \
 	./gtk-gui/DBusExplorer.MainWindow.cs \
 	./gtk-gui/DBusExplorer.LanguageWidget.cs \
 	./gtk-gui/DBusExplorer.InformationView.cs \
@@ -77,18 +79,20 @@ FILES = \
 	./gtk-gui/generated.cs \
 	./gtk-gui/DBusExplorer.GenerationDialog.cs \
 	./gtk-gui/DBusExplorer.MethodInvokeDialog.cs \
+	./gtk-gui/DBusExplorer.PropertyInvokeDialog.cs \
 	./gtk-gui/DBusExplorer.BusPageWidget.cs \
+	./Base/Logging.cs \
 	./Base/MainWindow.cs \
 	./Base/AssemblyInfo.cs \
+	./Base/Main.cs \
+	./Base/DBusExplorator.cs \
+	./Base/CustomBusDialog.cs \
+	./Base/Common.cs \
 	./Parser/Parser.cs \
 	./Parser/TextVisitors/LangDefVisitor.cs \
 	./Parser/ParserNg.cs \
 	./Parser/Mapper.cs \
 	./Parser/IParserVisitor.cs \
-	./Base/Main.cs \
-	./Base/DBusExplorator.cs \
-	./Base/CustomBusDialog.cs \
-	./Base/Common.cs \
 	./Representation/PathContainer.cs \
 	./Representation/ElementFactory.cs \
 	./Representation/IElement.cs \
