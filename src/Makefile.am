@@ -103,14 +103,14 @@ DATA_FILES = \
 
 RESOURCES = \
 	gtk-gui/gui.stetic \
-	../data/event.png \
-	../data/method.png \
-	../data/property.png \
-	../data/empty.png \
-	../data/dbus-explorer.png \
-	../data/process-working.png \
+	data/event.png \
+	data/method.png \
+	data/property.png \
+	data/empty.png \
+	data/dbus-explorer.png \
+	data/process-working.png \
 	gtk-gui/objects.xml \
-	../data/formatters/csharp.lang.xml 
+	data/formatters/csharp.lang.xml 
 
 EXTRAS = \
 	dbus-explorer.in 
