@@ -12,34 +12,31 @@ using Gtk;
 namespace DBusExplorer
 {
 	public partial class MainWindow: Gtk.Window
-	{	
-		//DBusExplorator explorator;
-	
-		//TreeStore model = new TreeStore(typeof(string), typeof(Gdk.Pixbuf), typeof(object)); 
-		//BusContentView tv;
-	
+	{
 		ImageAnimation spinner;
 		BusPageWidget currentPageWidget = null;
+		
+		const string DefaultTabName = "(No Title)";
 	
 		public MainWindow (): base (Gtk.WindowType.Toplevel)
 		{
-			Logging.AddWatcher(LoggingEventHandler);
+			Logging.AddWatcher (LoggingEventHandler);
 			this.DeleteEvent += OnDeleteEvent;
 		
 			// Graphical setup
 			Build ();
 			// Remove the page inital page imposed by the RAD
-			buses_Nb.RemovePage(0);
+			buses_Nb.RemovePage (0);
 			// Fake the action to create a nicely formated new page
-			OnNewTabActionActivated(this, EventArgs.Empty);
+			OnNewTabActionActivated (this, EventArgs.Empty);
 		
 			// Spinner
-			spinner = new ImageAnimation(
+			spinner = new ImageAnimation (
 				Gdk.Pixbuf.LoadFromResource("DBusExplorer.data.process-working.png"),
 				40, 32, 32, 32);
 			spinner.Active = false;
-			spinnerAlign.Add(spinner);
-			spinnerBox.HideAll();
+			spinnerAlign.Add (spinner);
+			spinnerBox.HideAll ();
 		}
 	
 		void FeedBusComboBox(IEnumerable<string> buses)
@@ -95,6 +92,7 @@ namespace DBusExplorer
 		
 		void ReinitBus (DBusExplorator exp)
 		{
+			this.currentPageWidget.Tab.TabName = DefaultTabName;
 			this.currentPageWidget.Explorator = exp;
 			
 			exp.DBusError += OnDBusError;
@@ -151,17 +149,17 @@ namespace DBusExplorer
 
 		protected virtual void OnBusComboChanged (object sender, System.EventArgs e)
 		{
-			UpdateView(busCb.ActiveText);
+			UpdateView (busCb.ActiveText);
 		}
 
 		protected virtual void OnSessionBusActivated (object sender, System.EventArgs e)
 		{
-			ReinitBus(DBusExplorator.SessionExplorator);
+			ReinitBus (DBusExplorator.SessionExplorator);
 		}
 
 		protected virtual void OnSystemBusActivated (object sender, System.EventArgs e)
 		{
-			ReinitBus(DBusExplorator.SystemExplorator);			
+			ReinitBus (DBusExplorator.SystemExplorator);			
 		}
 	
 		protected virtual void OnAboutActivated (object sender, System.EventArgs e)

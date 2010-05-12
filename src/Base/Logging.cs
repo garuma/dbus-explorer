@@ -21,7 +21,7 @@ namespace DBusExplorer
 	{
 		static List<WatcherDelegate> watchers = new List<WatcherDelegate>();
 		
-		public static void AddWatcher(WatcherDelegate watcher)
+		public static void AddWatcher (WatcherDelegate watcher)
 		{
 			watchers.Add (watcher);
 		}
@@ -29,7 +29,7 @@ namespace DBusExplorer
 		static void Propagate (LogType type, string message, Exception ex, Window parent)
 		{
 			watchers.ForEach (delegate (WatcherDelegate watcher) {
-				watcher(type, Mono.Unix.Catalog.GetString(message), ex, parent);
+				watcher (type, Mono.Unix.Catalog.GetString(message), ex, parent);
 			});
 		}
 		
