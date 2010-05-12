@@ -38,21 +38,24 @@ namespace DBusExplorer
 	/// 
 	/// JSON uses Arrays and Objects. These correspond here to the datatypes List<object> and Dictionary<object,object>.
 	/// All numbers are parsed to doubles.
+	/// We add support for struct delimited by ( and )
 	/// </summary>
 	public class JSON
 	{
-		public const int TOKEN_NONE = 0; 
-		public const int TOKEN_CURLY_OPEN = 1;
-		public const int TOKEN_CURLY_CLOSE = 2;
-		public const int TOKEN_SQUARED_OPEN = 3;
-		public const int TOKEN_SQUARED_CLOSE = 4;
-		public const int TOKEN_COLON = 5;
-		public const int TOKEN_COMMA = 6;
-		public const int TOKEN_STRING = 7;
-		public const int TOKEN_NUMBER = 8;
-		public const int TOKEN_TRUE = 9;
-		public const int TOKEN_FALSE = 10;
-		public const int TOKEN_NULL = 11;
+		const int TOKEN_NONE = 0; 
+		const int TOKEN_CURLY_OPEN = 1;
+		const int TOKEN_CURLY_CLOSE = 2;
+		const int TOKEN_SQUARED_OPEN = 3;
+		const int TOKEN_SQUARED_CLOSE = 4;
+		const int TOKEN_PAREN_OPEN = 12;
+		const int TOKEN_PAREN_CLOSE = 13;
+		const int TOKEN_COLON = 5;
+		const int TOKEN_COMMA = 6;
+		const int TOKEN_STRING = 7;
+		const int TOKEN_NUMBER = 8;
+		const int TOKEN_TRUE = 9;
+		const int TOKEN_FALSE = 10;
+		const int TOKEN_NULL = 11;
 
 		private const int BUILDER_CAPACITY = 2000;
 
@@ -63,18 +66,6 @@ namespace DBusExplorer
 		/// </summary>
 		protected int lastErrorIndex = -1;
 		protected string lastDecode = "";
-
-		public static bool TryJsonDecode<T> (string json, out T value)
-		{
-			value = default (T);
-			object result = JsonDecode (json);
-			if (!(result is T))
-				return false;
-
-			value = (T)result;
-
-			return true;
-		}
 
 		/// <summary>
 		/// Parses the string json into a value
@@ -201,7 +192,7 @@ namespace DBusExplorer
 			return table;
 		}
 
-		protected List<object> ParseArray(char[] json, ref int index)
+		List<object> ParseArray(char[] json, ref int index)
 		{
 			List<object> array = new List<object>();
 
@@ -231,29 +222,62 @@ namespace DBusExplorer
 
 			return array;
 		}
+		
+		object[] ParseStruct (char[] json, ref int index)
+		{
+			List<object> accumulator = new List<object> ();
+			
+			// (
+			NextToken(json, ref index);
+
+			bool done = false;
+			while (!done) {
+				int token = LookAhead(json, index);
+				if (token == JSON.TOKEN_NONE) {
+					return null;
+				} else if (token == JSON.TOKEN_COMMA) {
+					NextToken(json, ref index);
+				} else if (token == JSON.TOKEN_PAREN_CLOSE) {
+					NextToken(json, ref index);
+					break;
+				} else {
+					bool success = true;
+					object value = ParseValue(json, ref index, ref success);
+					if (!success) {
+						return null;
+					}
+
+					accumulator.Add(value);
+				}
+			}
+			
+			return accumulator.ToArray ();
+		}
 
 		protected object ParseValue(char[] json, ref int index, ref bool success)
 		{
 			switch (LookAhead (json, index)) {
-				case JSON.TOKEN_STRING:
-					return ParseString (json, ref index);
-				case JSON.TOKEN_NUMBER:
-					return ParseNumber (json, ref index);
-				case JSON.TOKEN_CURLY_OPEN:
-					return ParseObject (json, ref index);
-				case JSON.TOKEN_SQUARED_OPEN:
-					return ParseArray (json, ref index);
-				case JSON.TOKEN_TRUE:
-					NextToken(json, ref index);
-					return true;
-				case JSON.TOKEN_FALSE:
-					NextToken(json, ref index);
-					return false;
-				case JSON.TOKEN_NULL:
-					NextToken(json, ref index);
-					return null;
-				case JSON.TOKEN_NONE:
-					break;
+			case TOKEN_STRING:
+				return ParseString (json, ref index);
+			case TOKEN_NUMBER:
+				return ParseNumber (json, ref index);
+			case TOKEN_CURLY_OPEN:
+				return ParseObject (json, ref index);
+			case TOKEN_SQUARED_OPEN:
+				return ParseArray (json, ref index);
+			case TOKEN_PAREN_OPEN:
+				return ParseStruct (json, ref index);
+			case TOKEN_TRUE:
+				NextToken (json, ref index);
+				return true;
+			case TOKEN_FALSE:
+				NextToken (json, ref index);
+				return false;
+			case TOKEN_NULL:
+				NextToken (json, ref index);
+				return null;
+			case TOKEN_NONE:
+				break;
 			}
 
 			success = false;
@@ -262,10 +286,10 @@ namespace DBusExplorer
 
 		protected string ParseString(char[] json, ref int index)
 		{
-			StringBuilder s = new StringBuilder(BUILDER_CAPACITY);
+			StringBuilder s = new StringBuilder (BUILDER_CAPACITY);
 			char c;
 
-			EatWhitespace(json, ref index);
+			EatWhitespace (json, ref index);
 			
 			// "
 			c = json[index++];
@@ -333,17 +357,17 @@ namespace DBusExplorer
 			return s.ToString();
 		}
 
-		protected double ParseNumber(char[] json, ref int index)
+		protected double ParseNumber (char[] json, ref int index)
 		{
-			EatWhitespace(json, ref index);
+			EatWhitespace (json, ref index);
 
 			int lastIndex = GetLastIndexOfNumber(json, index);
 			int charLength = (lastIndex - index) + 1;
 			char[] numberCharArray = new char[charLength];
 
-			Array.Copy(json, index, numberCharArray, 0, charLength);
+			Array.Copy (json, index, numberCharArray, 0, charLength);
 			index = lastIndex + 1;
-			return Double.Parse(new string(numberCharArray), CultureInfo.InvariantCulture);
+			return Double.Parse (new string (numberCharArray), CultureInfo.InvariantCulture);
 		}
 
 		protected int GetLastIndexOfNumber(char[] json, int index)
@@ -360,9 +384,8 @@ namespace DBusExplorer
 		protected void EatWhitespace(char[] json, ref int index)
 		{
 			for (; index < json.Length; index++) {
-				if (" \t\n\r".IndexOf(json[index]) == -1) {
+				if (!char.IsWhiteSpace (json[index]))
 					break;
-				}
 			}
 		}
 
