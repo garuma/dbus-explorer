@@ -38,6 +38,12 @@ namespace DBusExplorer
 				prototype.Hide();
 			}
 			
+			public bool Enabled {
+				get {
+					return name.Visible && prototype.Visible;
+				}
+			}
+			
 			public Label Name {
 				get {
 					return name;	
@@ -47,12 +53,6 @@ namespace DBusExplorer
 			public Label Prototype {
 				get {
 					return prototype;	
-				}
-			}
-			
-			public bool HasParent {
-				get {
-					return name.Parent != null && prototype.Parent != null;	
 				}
 			}
 		}
@@ -83,7 +83,7 @@ namespace DBusExplorer
 			lang.Selectable = false;
 			lang.Layout.Alignment = Pango.Alignment.Left;
 			
-			LangTableChild child = new LangTableChild(lang, prototype);
+			LangTableChild child = new LangTableChild (lang, prototype);
 			
 			try {
 				langs.Add(langKey, child);
@@ -96,7 +96,7 @@ namespace DBusExplorer
 			LangTableChild temp;
 			if (!langs.TryGetValue(langKey, out temp))
 				return;
-			temp.Prototype.Markup = FormatPrototype(newPrototype);
+			temp.Prototype.Markup = FormatPrototype (newPrototype);
 		}
 		
 		public void ToggleLangage(string langKey)
@@ -105,10 +105,19 @@ namespace DBusExplorer
 			if (!langs.TryGetValue(langKey, out temp))
 				return;
 			
-			if (!temp.HasParent)
+			if (temp.Enabled)
 				temp.Hide();
 			else
 				temp.Show();
+		}
+		
+		public bool IsToggled (string langKey)
+		{
+			LangTableChild temp;
+			if (!langs.TryGetValue(langKey, out temp))
+				return false;
+			
+			return temp.Enabled;
 		}
 		
 		uint rowTrack = 0;
