@@ -105,6 +105,9 @@
     <Compile Include="gtk-gui\DBusExplorer.InformationView.cs" />
     <Compile Include="gtk-gui\DBusExplorer.GenerationDialog.cs" />
     <Compile Include="gtk-gui\DBusExplorer.MethodInvokeDialog.cs" />
+    <Compile Include="Caller\Json.cs" />
+    <Compile Include="gtk-gui\DBusExplorer.PropertyInvokeDialog.cs" />
+    <Compile Include="Widgets\PropertyInvokeDialog.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

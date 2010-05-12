@@ -16,5 +16,8 @@ Global
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = src\DBus-Explorer.csproj
+		Policies = $0
+		$0.StandardHeader = $1
+		$1.inheritsSet = MITX11License
 	EndGlobalSection
 EndGlobal
