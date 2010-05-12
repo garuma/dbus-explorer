@@ -85,12 +85,9 @@ namespace DBusExplorer
 			model.Foreach ((m, p, i) => {
 				bool oldValue = (bool)model.GetValue (i, 0);
 				
-				if (oldValue && !setSelect) {
-					model.SetValue (i, 0, false);
-					--selectedCount;
-				} else if (!oldValue && setSelect) {
-					model.SetValue (i, 0, true);
-					++selectedCount;
+				if (oldValue ^ setSelect) {
+					model.SetValue (i, 0, setSelect);
+					selectedCount += setSelect ? 1 : -1;
 				}
 			
 				return false;
