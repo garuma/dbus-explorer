@@ -29,7 +29,7 @@ namespace DBusExplorer
 			selectionTv.Model = model;
 			
 			SetupModel (referer);
-			SetupTreeview ();			
+			SetupTreeview ();
 		}
 		
 		void SetupModel (Interface referer)
@@ -40,6 +40,7 @@ namespace DBusExplorer
 			
 			selectedCount = model.IterNChildren ();
 			countLabel.Text = selectedCount.ToString ();
+			codeTextView.Buffer.Text = renderer (elements);
 		}
 		
 		void SetupTreeview ()
