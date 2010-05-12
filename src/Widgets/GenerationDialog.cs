@@ -82,16 +82,21 @@ namespace DBusExplorer
 		
 		void SelectChange (bool setSelect)
 		{
-			foreach (object[] row in model) {
-				CellRendererToggle crToggle = row[0] as CellRendererToggle;
-				if (crToggle == null)
-					continue;
-				if (crToggle.Active && !setSelect) {
-					crToggle.Active = false;
-				} else if (!crToggle.Active && setSelect) {
-					crToggle.Active = true;
+			model.Foreach ((m, p, i) => {
+				bool oldValue = (bool)model.GetValue (i, 0);
+				
+				if (oldValue && !setSelect) {
+					model.SetValue (i, 0, false);
+					--selectedCount;
+				} else if (!oldValue && setSelect) {
+					model.SetValue (i, 0, true);
+					++selectedCount;
 				}
-			}
+			
+				return false;
+			});
+			
+			countLabel.Text = selectedCount.ToString ();
 		}	
 		
 		protected virtual void OnClipboardCopyClicked (object sender, System.EventArgs e)
