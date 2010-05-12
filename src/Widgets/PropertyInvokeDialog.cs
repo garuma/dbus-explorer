@@ -34,16 +34,18 @@ namespace DBusExplorer
 	{
 		Window parent;
 		PropertyCaller caller;
+		DType propertyType;
 		
 		public PropertyInvokeDialog (Window parent, Bus bus, string busName, ObjectPath path, IElement element)
 			: base (element.Name, parent, DialogFlags.DestroyWithParent | DialogFlags.Modal)
 		{
 			this.Build ();
 			this.parent = parent;
-			this.getAlign.HideAll ();
+			this.setAlign.HideAll ();
 			this.WidthRequest = 250;
 			this.HeightRequest = 150;
 			this.propertyName.Text = element.Name;
+			this.propertyType = Mapper.DTypeFromString (element.Data.ReturnType);
 			
 			try {
 				this.caller = new PropertyCaller (bus, busName, path, element.Parent.Name, element.Name, element.Data);
@@ -58,8 +60,8 @@ namespace DBusExplorer
 			if (!getBtn.Active)
 				return;
 			
-			getAlign.HideAll ();
-			setAlign.ShowAll ();
+			setAlign.HideAll ();
+			getAlign.ShowAll ();
 		}
 		
 		protected virtual void OnSetBtnToggled (object sender, System.EventArgs e)
@@ -67,9 +69,21 @@ namespace DBusExplorer
 			if (!setBtn.Active)
 				return;
 			
-			setAlign.HideAll ();
-			getAlign.ShowAll ();
+			getAlign.HideAll ();
+			setAlign.ShowAll ();
 		}
+		
+		protected virtual void OnButtonExecuteClicked (object sender, System.EventArgs evt)
+		{
+			try {
+				object result = caller.Invoke (setBtn.Active ? new[] { Mapper.Convert (propertyType, setEntry.Text) } : null);
+				if (result != null)
+					getLbl.Text = result.ToString ();
+			} catch (Exception e) {
+				Logging.Error ("Error while calling property", e, parent);
+				Console.WriteLine (e.ToString ());
+			}
+		}		
 	}
 }
 

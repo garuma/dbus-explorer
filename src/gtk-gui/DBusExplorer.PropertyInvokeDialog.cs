@@ -266,6 +266,7 @@ namespace DBusExplorer
 			this.Show ();
 			this.getBtn.Toggled += new global::System.EventHandler (this.OnGetBtnToggled);
 			this.setBtn.Toggled += new global::System.EventHandler (this.OnSetBtnToggled);
+			this.buttonExecute.Clicked += new global::System.EventHandler (this.OnButtonExecuteClicked);
 		}
 	}
 }

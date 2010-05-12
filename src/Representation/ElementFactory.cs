@@ -90,6 +90,7 @@ namespace DBusExplorer
 			
 			Element elem = new Element (name, new ElementRepresentation (spec, temp), propertyPb, 3);
 			elem.Data = new InvocationData (type, Enumerable.Empty<Argument> (), true);
+			elem.Data.PropertyAcces = access;
 			
 			return elem;
 		}

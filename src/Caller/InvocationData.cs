@@ -53,6 +53,11 @@ namespace DBusExplorer
 			}
 		}
 		
+		public PropertyAccess PropertyAcces {
+			get;
+			set;
+		}
+		
 		public InvocationData(string returnType, IEnumerable<Argument> args)
 			: this (returnType, args, false)
 		{

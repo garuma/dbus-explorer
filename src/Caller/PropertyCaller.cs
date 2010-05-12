@@ -58,14 +58,32 @@ namespace DBusExplorer
 		protected override void CreateMember ()
 		{
 			PropertyAttributes attrs = PropertyAttributes.None;
+			Type returnType = GetReturnType (data.ReturnType);
 			
-			builder.DefineProperty (name, attrs,
-			                        GetReturnType (data.ReturnType), null);
+			PropertyBuilder pb = builder.DefineProperty (name, attrs, returnType, null);
+			MethodAttributes specialAttr =  MethodAttributes.Public | MethodAttributes.SpecialName 
+				| MethodAttributes.HideBySig | MethodAttributes.Abstract | MethodAttributes.Virtual;
+			
+			PropertyAccess acces = data.PropertyAcces;
+			
+			if (acces == PropertyAccess.Read || acces == PropertyAccess.ReadWrite) {
+				MethodBuilder getMeth = builder.DefineMethod ("get_" + name, specialAttr, returnType, Type.EmptyTypes);
+				pb.SetGetMethod (getMeth);
+			}
+			
+			if (acces == PropertyAccess.Write || acces == PropertyAccess.ReadWrite) {
+				MethodBuilder setMeth = builder.DefineMethod ("set_" + name, specialAttr, null, new[] { returnType });
+				pb.SetSetMethod (setMeth);
+			}
 			
 			Type proxyType = builder.CreateType ();
-			object obj = bus.GetObject (proxyType, busName, path);
+			object obj = bus.GetObject (proxyType, busName, path);			
+			
 			PropertyInfo pi = proxyType.GetProperty (name);
+			
 			callFunc = delegate (object o) {
+				if (pi == null)
+				   Console.WriteLine ("foo");
 				if (o == null) {
 					return pi.GetValue (obj, null);
 				} else {
@@ -84,7 +102,7 @@ namespace DBusExplorer
 		}
 		
 		protected override object InvokeInternal (object[] ps)
-		{
+		{			
 			return callFunc (ps != null && ps.Length > 0 ? ps[0] : null);
 		}
 	}
