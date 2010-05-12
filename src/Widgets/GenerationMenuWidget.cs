@@ -62,26 +62,23 @@ namespace DBusExplorer
 		{
 			if (referer.Data != null) {
 				MenuItem path = new MenuItem("Call " + referer.Name + "...");
+				ObjectPath p = new ObjectPath(referer.Parent.Parent.Path);
 				
-				//if (!referer.Data.IsProperty) {
-				path.Activated += delegate {
-					var p = new ObjectPath(referer.Parent.Parent.Path);
-					MethodInvokeDialog diag = new MethodInvokeDialog (parent, bus,
-					                                                  busName, p, referer);
-					
-					while (diag.Run () == (int)ResponseType.None);
-					diag.Destroy();
-				};
-				/*} else {
+				if (!referer.Data.IsProperty) {
 					path.Activated += delegate {
-						var p = new ObjectPath(referer.Parent.Parent.Path);
-						PropertyInvokeDialog diag = new PropertyInvokeDialog (bus, busName,
-						                                                      p, referer);
+						MethodInvokeDialog diag = new MethodInvokeDialog (parent, bus, busName, p, referer);
 						
 						while (diag.Run () == (int)ResponseType.None);
 						diag.Destroy();
 					};
-				}*/
+				} else {
+					path.Activated += delegate {
+						PropertyInvokeDialog diag = new PropertyInvokeDialog (parent, bus, busName, p, referer);
+						
+						while (diag.Run () == (int)ResponseType.None);
+						diag.Destroy();
+					};
+				}
 				
 				this.Append(path);
 				path.ShowAll();

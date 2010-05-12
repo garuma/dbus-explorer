@@ -49,6 +49,7 @@ namespace DBusExplorer
 			global::Stetic.Gui.Initialize (this);
 			// Widget DBusExplorer.MethodInvokeDialog
 			this.Name = "DBusExplorer.MethodInvokeDialog";
+			this.Title = global::Mono.Unix.Catalog.GetString ("Invoke method");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			this.Resizable = false;
 			this.AllowGrow = false;
@@ -76,7 +77,7 @@ namespace DBusExplorer
 			// Container child hbox2.Gtk.Box+BoxChild
 			this.label1 = new global::Gtk.Label ();
 			this.label1.Name = "label1";
-			this.label1.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Method name : </b>");
+			this.label1.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Method name: </b>");
 			this.label1.UseMarkup = true;
 			this.hbox2.Add (this.label1);
 			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.hbox2[this.label1]));
@@ -147,7 +148,7 @@ namespace DBusExplorer
 			// Container child hbox3.Gtk.Box+BoxChild
 			this.label3 = new global::Gtk.Label ();
 			this.label3.Name = "label3";
-			this.label3.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Return value :</b>");
+			this.label3.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Return value: </b>");
 			this.label3.UseMarkup = true;
 			this.hbox3.Add (this.label3);
 			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hbox3[this.label3]));

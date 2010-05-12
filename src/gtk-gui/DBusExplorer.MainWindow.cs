@@ -116,7 +116,7 @@ namespace DBusExplorer
 			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.Name = "DBusExplorer.MainWindow";
 			this.Title = global::Mono.Unix.Catalog.GetString ("D-Bus Explorer");
-			this.Icon = global::Gdk.Pixbuf.LoadFromResource ("DBusExplorer.data.dbus-explorer.png");
+			this.Icon = global::Gdk.Pixbuf.LoadFromResource ("dbus-explorer.png");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			this.AllowShrink = true;
 			this.DefaultHeight = 600;

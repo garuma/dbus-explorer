@@ -54,11 +54,9 @@ namespace DBusExplorer
 			
 			try {
 				BuildInterface (element);
-				caller = new MethodCaller(bus, busName, path, element.Parent.Name,
-				                          element.Name, element.Data);
+				caller = new MethodCaller(bus, busName, path, element.Parent.Name, element.Name, element.Data);
 			} catch (Exception e) {
 				Logging.Error ("Error while creating the invocation proxy", e, parent);
-				Console.WriteLine (e);
 				buttonExecute.Sensitive = false;
 			}
 			
