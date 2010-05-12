@@ -21,8 +21,8 @@
 		<method general="%{return} %{name}(%{args});">
 			<arguments accumulator=", " start="" end="" general="%{type} %{name}" />
 		</method>
-		<event general="event Action&lt;%{types}&gt; %{name};" >
-			<arguments accumulator=", " start="" end="" general="%{type}" />
+		<event general="event Action%{types} %{name};" >
+			<arguments accumulator=", " start="&lt;" end="&gt;" general="%{type}" />
 		</event>
 		<property read="%{type} %{name} { get; }" write="%{type} %{name} { set; }" readwrite="%{type} %{name} { get; set; }" />
 

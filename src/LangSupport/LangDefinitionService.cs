@@ -30,7 +30,7 @@ namespace DBusExplorer
 		static string GetDefaultPath ()
 		{
 			return Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData),
-			                     ".dbus-explorer");
+			                     "dbus-explorer");
 		}
 		
 		static void InitLangDirectory ()
@@ -49,7 +49,7 @@ namespace DBusExplorer
 			
 			StreamWriter sw = new StreamWriter (fileInfo.OpenWrite());
 			Type t = typeof (LangDefinitionService);
-			StreamReader sr = new StreamReader (t.Assembly.GetManifestResourceStream ("csharp.lang.xml"));
+			StreamReader sr = new StreamReader (t.Assembly.GetManifestResourceStream ("DBusExplorer.data.formatters.csharp.lang.xml"));
 			sw.Write (sr.ReadToEnd ());
 			
 			sw.Dispose ();

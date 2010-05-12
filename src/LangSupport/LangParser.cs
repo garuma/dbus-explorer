@@ -173,6 +173,9 @@ namespace DBusExplorer
 		{
 			StringBuilder temp = new StringBuilder(20);
 			return delegate (IEnumerable<Argument> args) {
+				if (!args.Any ())
+					return string.Empty;
+				
 				temp.Remove (0, temp.Length);
 				temp.Append(start);
 				args.Aggregate (temp, (acc, t) => { 
@@ -180,8 +183,8 @@ namespace DBusExplorer
 					acc.Append (accumulator);
 					return acc;
 				});
-				if (args.Any())
-					temp.Remove (temp.Length - accumulator.Length, accumulator.Length);
+				
+				temp.Remove (temp.Length - accumulator.Length, accumulator.Length);
 					
 				temp.Append (end);
 				
