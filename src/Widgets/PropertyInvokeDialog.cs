@@ -40,7 +40,9 @@ namespace DBusExplorer
 		{
 			this.Build ();
 			this.parent = parent;
-			this.setAlign.HideAll ();
+			this.getAlign.HideAll ();
+			this.WidthRequest = 250;
+			this.HeightRequest = 150;
 			this.propertyName.Text = element.Name;
 			
 			try {
@@ -56,8 +58,8 @@ namespace DBusExplorer
 			if (!getBtn.Active)
 				return;
 			
-			getAlign.ShowAll ();
-			setAlign.HideAll ();
+			getAlign.HideAll ();
+			setAlign.ShowAll ();
 		}
 		
 		protected virtual void OnSetBtnToggled (object sender, System.EventArgs e)
@@ -65,8 +67,8 @@ namespace DBusExplorer
 			if (!setBtn.Active)
 				return;
 			
-			setAlign.ShowAll ();
-			getAlign.HideAll ();
+			setAlign.HideAll ();
+			getAlign.ShowAll ();
 		}
 	}
 }

@@ -5,6 +5,7 @@
 // 
 
 using System;
+using System.Linq;
 using System.Text;
 using System.Collections.Generic;
 
@@ -76,18 +77,21 @@ namespace DBusExplorer
 		
 		public IElement FromPropertyDefinition(string name, string type, PropertyAccess access)
 		{
-		  string spec = Concat (access.ToString().ToLowerInvariant(),
+			string spec = Concat (access.ToString().ToLowerInvariant(),
 			                      " property ", name, " : ", type);
-		  Dictionary<string, LangProcesser> temp = new Dictionary<string,LangProcesser>();
-		  
-		  foreach (KeyValuePair<ILangDefinition, IParserVisitor<string>> visitor in visitors) {
-			temp.Add(visitor.Key.Name, delegate {
-				string realType = Parser.ParseDBusTypeExpression(type, visitor.Value);
-				return visitor.Key.PropertyFormat(name, realType, access); 
-			  });
+			Dictionary<string, LangProcesser> temp = new Dictionary<string,LangProcesser>();
+			
+			foreach (KeyValuePair<ILangDefinition, IParserVisitor<string>> visitor in visitors) {
+				temp.Add(visitor.Key.Name, delegate {
+					string realType = Parser.ParseDBusTypeExpression(type, visitor.Value);
+					return visitor.Key.PropertyFormat(name, realType, access); 
+				});
 			}
-		  
-		  return new Element(name, new ElementRepresentation(spec, temp), propertyPb, 3);
+			
+			Element elem = new Element (name, new ElementRepresentation (spec, temp), propertyPb, 3);
+			elem.Data = new InvocationData (type, Enumerable.Empty<Argument> (), true);
+			
+			return elem;
 		}
 		
 		string MakeArgumentList(IEnumerable<Argument> args, string separator, string format)
