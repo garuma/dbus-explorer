@@ -126,7 +126,6 @@ namespace DBusExplorer
 			} catch (Exception ex) {
 				result = "Error";
 				Logging.Error ("Error while invoking method", ex, parent);
-				Console.WriteLine (ex);
 			}
 			
 			resultLabel.Text = result != null ? result.ToString () : "nil";

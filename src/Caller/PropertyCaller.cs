@@ -82,8 +82,6 @@ namespace DBusExplorer
 			PropertyInfo pi = proxyType.GetProperty (name);
 			
 			callFunc = delegate (object o) {
-				if (pi == null)
-				   Console.WriteLine ("foo");
 				if (o == null) {
 					return pi.GetValue (obj, null);
 				} else {
