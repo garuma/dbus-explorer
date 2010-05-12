@@ -91,7 +91,7 @@ namespace DBusExplorer
 				this.Child.ShowAll ();
 			}
 			this.DefaultWidth = 400;
-			this.DefaultHeight = 125;
+			this.DefaultHeight = 127;
 			this.Show ();
 		}
 	}

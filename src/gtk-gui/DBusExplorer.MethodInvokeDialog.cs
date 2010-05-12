@@ -50,6 +50,7 @@ namespace DBusExplorer
 			// Widget DBusExplorer.MethodInvokeDialog
 			this.Name = "DBusExplorer.MethodInvokeDialog";
 			this.Title = global::Mono.Unix.Catalog.GetString ("Invoke method");
+			this.Icon = global::Gdk.Pixbuf.LoadFromResource ("DBusExplorer.data.method.png");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			this.Resizable = false;
 			this.AllowGrow = false;
