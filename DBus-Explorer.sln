@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBus-Explorer", "src\DBus-Explorer.csproj", "{8D1CA180-2DF8-4921-B9F6-A41ADEC3F812}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8D1CA180-2DF8-4921-B9F6-A41ADEC3F812}.Debug|x86.ActiveCfg = Debug|x86
+		{8D1CA180-2DF8-4921-B9F6-A41ADEC3F812}.Debug|x86.Build.0 = Debug|x86
+		{8D1CA180-2DF8-4921-B9F6-A41ADEC3F812}.Release|x86.ActiveCfg = Release|x86
+		{8D1CA180-2DF8-4921-B9F6-A41ADEC3F812}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = src\DBus-Explorer.csproj
+	EndGlobalSection
+EndGlobal

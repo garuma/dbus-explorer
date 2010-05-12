@@ -30,7 +30,7 @@ namespace DBusExplorer
 	{
 		TreeStore model;
 		BusPageWidget page;
-		static Gdk.Pixbuf empty = Gdk.Pixbuf.LoadFromResource("empty.png");
+		static Gdk.Pixbuf empty = Gdk.Pixbuf.LoadFromResource("DBusExplorer.data.empty.png");
 		public event EventHandler<ElementUpdatedEventArgs> ElementUpdated;
 		
 		public BusContentView(BusPageWidget page)

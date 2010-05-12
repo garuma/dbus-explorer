@@ -35,7 +35,7 @@ namespace DBusExplorer
 		
 			// Spinner
 			spinner = new ImageAnimation(
-				Gdk.Pixbuf.LoadFromResource("process-working.png"),
+				Gdk.Pixbuf.LoadFromResource("DBusExplorer.data.process-working.png"),
 				40, 32, 32, 32);
 			spinner.Active = false;
 			spinnerAlign.Add(spinner);

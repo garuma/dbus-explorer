@@ -117,7 +117,6 @@ namespace DBusExplorer
 			this.countLabel = new global::Gtk.Label ();
 			this.countLabel.Name = "countLabel";
 			this.countLabel.Xalign = 0f;
-			this.countLabel.LabelProp = global::Mono.Unix.Catalog.GetString ("label1");
 			this.alignment3.Add (this.countLabel);
 			this.hbox1.Add (this.alignment3);
 			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.alignment3]));
@@ -170,6 +169,7 @@ namespace DBusExplorer
 			this.GtkScrolledWindow1.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child GtkScrolledWindow1.Gtk.Container+ContainerChild
 			this.codeTextView = new global::Gtk.TextView ();
+			this.codeTextView.WidthRequest = 640;
 			this.codeTextView.HeightRequest = 200;
 			this.codeTextView.CanFocus = true;
 			this.codeTextView.Name = "codeTextView";
@@ -228,7 +228,7 @@ namespace DBusExplorer
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 680;
+			this.DefaultWidth = 693;
 			this.Show ();
 			this.selectAllButton.Clicked += new global::System.EventHandler (this.OnSelectAllButtonClicked);
 			this.unselectAllButton.Clicked += new global::System.EventHandler (this.OnUnselectAllButtonClicked);

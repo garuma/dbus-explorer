@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8D1CA180-2DF8-4921-B9F6-A41ADEC3F812}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>DBusExplorer</RootNamespace>
+    <AssemblyName>DBusExplorer.exe</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Mono.Posix" />
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="NDesk.DBus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099" />
+    <Reference Include="NDesk.DBus.GLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="gtk-gui\gui.stetic">
+      <LogicalName>gui.stetic</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="data\dbus-explorer.png" />
+    <EmbeddedResource Include="data\empty.png" />
+    <EmbeddedResource Include="data\event.png" />
+    <EmbeddedResource Include="data\method.png" />
+    <EmbeddedResource Include="data\process-working.png" />
+    <EmbeddedResource Include="data\property.png" />
+    <EmbeddedResource Include="data\formatters\csharp.lang.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="gtk-gui\generated.cs" />
+    <Compile Include="Base\AssemblyInfo.cs" />
+    <Compile Include="Base\Common.cs" />
+    <Compile Include="Base\CustomBusDialog.cs" />
+    <Compile Include="Base\DBusExplorator.cs" />
+    <Compile Include="Base\Logging.cs" />
+    <Compile Include="Base\Main.cs" />
+    <Compile Include="Base\MainWindow.cs" />
+    <Compile Include="Caller\BaseCaller.cs" />
+    <Compile Include="Caller\InvocationData.cs" />
+    <Compile Include="Caller\MethodCaller.cs" />
+    <Compile Include="Caller\PropertyCaller.cs" />
+    <Compile Include="Caller\ReflectionVisitor.cs" />
+    <Compile Include="Generator\CSharpCodeDomGenerator.cs" />
+    <Compile Include="Generator\IGenerator.cs" />
+    <Compile Include="LangSupport\ILangDefinition.cs" />
+    <Compile Include="LangSupport\LangDefinition.cs" />
+    <Compile Include="LangSupport\LangDefinitionPool.cs" />
+    <Compile Include="LangSupport\LangDefinitionService.cs" />
+    <Compile Include="LangSupport\LangParser.cs" />
+    <Compile Include="Parser\IParserVisitor.cs" />
+    <Compile Include="Parser\Mapper.cs" />
+    <Compile Include="Parser\Parser.cs" />
+    <Compile Include="Parser\ParserNg.cs" />
+    <Compile Include="Parser\TextVisitors\LangDefVisitor.cs" />
+    <Compile Include="Representation\Argument.cs" />
+    <Compile Include="Representation\Element.cs" />
+    <Compile Include="Representation\ElementFactory.cs" />
+    <Compile Include="Representation\ElementRepresentation.cs" />
+    <Compile Include="Representation\Enums.cs" />
+    <Compile Include="Representation\IElement.cs" />
+    <Compile Include="Representation\Interface.cs" />
+    <Compile Include="Representation\PathContainer.cs" />
+    <Compile Include="Widgets\BusContentView.cs" />
+    <Compile Include="Widgets\BusPageWidget.cs" />
+    <Compile Include="Widgets\GenerationDialog.cs" />
+    <Compile Include="Widgets\GenerationMenuWidget.cs" />
+    <Compile Include="Widgets\ImageAnimation.cs" />
+    <Compile Include="Widgets\InformationView.cs" />
+    <Compile Include="Widgets\LanguageWidget.cs" />
+    <Compile Include="Widgets\MethodInvokeDialog.cs" />
+    <Compile Include="Widgets\TabWidget.cs" />
+    <Compile Include="gtk-gui\DBusExplorer.MainWindow.cs" />
+    <Compile Include="gtk-gui\DBusExplorer.CustomBusDialog.cs" />
+    <Compile Include="gtk-gui\DBusExplorer.LanguageWidget.cs" />
+    <Compile Include="gtk-gui\DBusExplorer.BusPageWidget.cs" />
+    <Compile Include="gtk-gui\DBusExplorer.InformationView.cs" />
+    <Compile Include="gtk-gui\DBusExplorer.GenerationDialog.cs" />
+    <Compile Include="gtk-gui\DBusExplorer.MethodInvokeDialog.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

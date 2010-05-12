@@ -26,9 +26,9 @@ namespace DBusExplorer
 			}
 		}
 		
-		readonly static Gdk.Pixbuf methodPb   = Gdk.Pixbuf.LoadFromResource("method.png");
-		readonly static Gdk.Pixbuf signalPb   = Gdk.Pixbuf.LoadFromResource("event.png");
-		readonly static Gdk.Pixbuf propertyPb = Gdk.Pixbuf.LoadFromResource("property.png");
+		readonly static Gdk.Pixbuf methodPb   = Gdk.Pixbuf.LoadFromResource("DBusExplorer.data.method.png");
+		readonly static Gdk.Pixbuf signalPb   = Gdk.Pixbuf.LoadFromResource("DBusExplorer.data.event.png");
+		readonly static Gdk.Pixbuf propertyPb = Gdk.Pixbuf.LoadFromResource("DBusExplorer.data.property.png");
 		
 		public IElement FromMethodDefinition(string returnType, string name, IEnumerable<Argument> args)
 		{
