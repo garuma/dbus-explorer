@@ -180,7 +180,7 @@ namespace DBusExplorer
 			d.ShowAll();
 			if (d.Run() == (int)ResponseType.Ok) {
 				if (!string.IsNullOrEmpty(d.RequestedBus))
-					ReinitBus(new DBusExplorator(NDesk.DBus.Bus.Open(d.RequestedBus)));
+					ReinitBus(new DBusExplorator(DBus.Bus.Open(d.RequestedBus)));
 			}
 			d.Destroy();
 		}

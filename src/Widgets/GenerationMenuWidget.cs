@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 using Gtk;
 
-using NDesk.DBus;
+using DBus;
 
 namespace DBusExplorer
 {
