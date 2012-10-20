@@ -107,14 +107,14 @@ DATA_FILES = \
 
 RESOURCES = \
 	gtk-gui/gui.stetic \
-	data/event.png \
-	data/method.png \
-	data/property.png \
-	data/empty.png \
-	data/dbus-explorer.png \
-	data/process-working.png \
+	data/event.png,DBusExplorer.data.event.png \
+	data/method.png,DBusExplorer.data.method.png \
+	data/property.png,DBusExplorer.data.property.png \
+	data/empty.png,DBusExplorer.data.empty.png \
+	data/dbus-explorer.png,DBusExplorer.data.dbus-explorer.png \
+	data/process-working.png,DBusExplorer.data.process-working.png \
 	gtk-gui/objects.xml \
-	data/formatters/csharp.lang.xml 
+	data/formatters/csharp.lang.xml,DBusExplorer.data.formatters.csharp.lang.xml
 
 EXTRAS = \
 	dbus-explorer.in 
@@ -125,8 +125,8 @@ REFERENCES =  \
 	System.Core \
 	Mono.Posix \
 	System.Xml \
-	$(NDESK_DBUS_10_LIBS) \
-	$(NDESK_DBUS_GLIB_10_LIBS)
+	$(DBUS_SHARP_10_LIBS) \
+	$(DBUS_SHARP_GLIB_10_LIBS)
 
 DLL_REFERENCES = 
 

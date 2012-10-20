@@ -30,7 +30,7 @@ using System.Reflection.Emit;
 using System.Collections.Generic;
 using System.Linq;
 
-using NDesk.DBus;
+using DBus;
 
 namespace DBusExplorer
 {
