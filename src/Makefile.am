@@ -125,8 +125,8 @@ REFERENCES =  \
 	System.Core \
 	Mono.Posix \
 	System.Xml \
-	$(NDESK_DBUS_10_LIBS) \
-	$(NDESK_DBUS_GLIB_10_LIBS)
+	$(DBUS_SHARP_10_LIBS) \
+	$(DBUS_SHARP_GLIB_10_LIBS)
 
 DLL_REFERENCES = 
 

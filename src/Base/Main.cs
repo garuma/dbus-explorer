@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 using Gtk;
 
-using NDesk.DBus;
+using DBus;
 
 namespace DBusExplorer
 {

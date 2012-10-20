@@ -26,7 +26,7 @@
 
 using System;
 using Gtk;
-using NDesk.DBus;
+using DBus;
 using System.Collections.Generic;
 using System.Linq;
 

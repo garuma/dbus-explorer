@@ -9,7 +9,7 @@ using System.Text;
 using System.Xml;
 using System.Collections.Generic;
 
-using NDesk.DBus;
+using DBus;
 using org.freedesktop.DBus;
 
 namespace DBusExplorer

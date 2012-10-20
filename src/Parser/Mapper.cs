@@ -29,7 +29,7 @@ namespace DBusExplorer
 			fundamentalTypes.Add (DType.UInt32, typeof(uint));
 			fundamentalTypes.Add (DType.UInt64, typeof(ulong));
 			fundamentalTypes.Add (DType.Variant, typeof(object));
-			fundamentalTypes.Add (DType.ObjectPath, typeof (NDesk.DBus.ObjectPath));
+			fundamentalTypes.Add (DType.ObjectPath, typeof (DBus.ObjectPath));
 			fundamentalTypes.Add (DType.Signature, typeof (Signature));
 			fundamentalTypes.Add (DType.Void, typeof (void));
 		}
