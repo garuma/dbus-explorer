@@ -48,7 +48,21 @@ namespace DBusExplorer
 		{
 			ComboBox cb = ComboBox.NewText();
 		
-			foreach (string s in buses) {
+			var sortedBuses = new List<string>(buses);
+			sortedBuses.Sort(
+				(a, b) => {
+					if (!a.StartsWith(":") && !b.StartsWith(":")) {
+						return a.CompareTo(b);
+					}
+					if (a.StartsWith(":") && b.StartsWith(":")) {
+						return a.Substring(1).CompareTo(b.Substring(1));
+					}
+					if (a.StartsWith(":")) return 1;
+					if (b.StartsWith(":")) return -1;
+					return 0;
+				}
+			);
+			foreach (string s in sortedBuses) {
 				if (string.IsNullOrEmpty(s))
 					continue;
 				cb.AppendText(s);
